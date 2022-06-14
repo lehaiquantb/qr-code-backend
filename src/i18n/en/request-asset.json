@@ -1,0 +1,6 @@
+{
+    "message": {
+        "requestAssetNotFound": "Request Asset not exist",
+        "removeRequestAssetSuccess": "Remove Request Asset Success"
+    }
+}

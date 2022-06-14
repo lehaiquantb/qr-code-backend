@@ -1,0 +1,25 @@
+{
+    "fields": {
+        "userId": "userId",
+        "contractTypeId": "Contract Type Id",
+        "status": "Contract Status",
+        "startDate": "Date Start",
+        "endDate": "Date End",
+        "url": "URL"
+    },
+    "common": {
+        "error": {
+            "contract.notFound": "Contract not exist",
+            "startDate.conflict": "Date start must be after date end of last contract",
+            "endDate.conflict": "Date end can't be between of others contract",
+            "endDate.input": "Date end can't be smaller than start date",
+            "endDate.today": "Date end can't be smaller than today",
+            "active.conflict": "Can't have two contracts active at the same time",
+            "user.notFound": "User does not exist",
+            "contractType.notFound": "Contract type does not exist",
+            "contract.cantUpdate": "Unable to update this contract",
+            "contract.cantDelete": "Unable to delete this contract"
+        }
+    },
+    "delete.success": "Delete contract successfully"
+}

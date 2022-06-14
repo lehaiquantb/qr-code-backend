@@ -1,0 +1,22 @@
+{
+    "fields": {
+        "title": "Sự kiện",
+        "desc": "Mô tả",
+        "status": "Trạng thái",
+        "start": "Khai mạc",
+        "end": "Bế mạc",
+        "img": "Đường dẫn ảnh",
+        "userQuantity": "Người tham dự",
+        "budget": "Ngân sách",
+        "budgetFrom": "Ngân sách tối thiểu",
+        "budgetTo": "Ngân sách tối đa"
+    },
+
+    "message": {
+        "deleteSuccess": "Sự kiện đã bị xóa",
+        "endDate.input": "Ngày kết thúc không được bé hơn ngày bắt đầu của sự kiện",
+        "deleteError": {
+            "notExist": "Sự kiện này không tồn tại"
+        }
+    }
+}

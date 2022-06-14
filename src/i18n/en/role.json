@@ -1,0 +1,19 @@
+{
+    "fields": {
+        "name": "Name",
+        "permission": "Permission"
+    },
+    "common": {
+        "error": {
+            "name.exist": "Name has already exist",
+            "role.notFound": "Role not exist",
+            "role.cannotDelete": "Role can not delete"
+        }
+    },
+    "permission": {
+        "canRead": "Can read",
+        "canCreate": "Can create",
+        "canUpdate": "Can update",
+        "canDelete": "Can delete"
+    }
+}

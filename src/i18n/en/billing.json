@@ -1,0 +1,18 @@
+{
+    "fields": {
+        "name": "Name",
+        "description": "Description",
+        "url": "Link to image",
+        "payDate": "Pay Date",
+        "userId": "userId"            
+    },
+    "message": {
+        "error": {
+            "itemNotExist": "Billing does not exist"
+        },
+        "success": {
+            "delete": "The billing has been deleted successfully"
+        }
+        
+    }    
+}
