@@ -1,6 +1,3 @@
-import { ServiceTypeModule } from './modules/service-type/service-type.module';
-import { ServiceRequestModule } from './modules/service-request/service-request.module';
-import { ServiceModule } from './modules/service/service.module';
 import { RoleModule } from './modules/role/role.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
@@ -29,9 +26,6 @@ import { ConfigModule } from '@nestjs/config';
         AuthModule,
         RoleModule,
         UserModule,
-        ServiceModule,
-        ServiceRequestModule,
-        ServiceTypeModule,
     ],
     controllers: [AppController],
     providers: [],
