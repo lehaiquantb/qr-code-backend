@@ -19,7 +19,8 @@
         "drop:migration": "yarn run schema:drop && yarn run migration:run",
         "database": "yarn run schema:drop && yarn run seed:run",
         "wdio": "wdio run wdio.conf.js",
-        "download-file": "sh download.sh"
+        "download-file": "sh download.sh",
+        "prepare": "husky install"
     },
     "dependencies": {
         "@joi/date": "^2.1.0",
@@ -78,8 +79,8 @@
         "eslint": "7.7.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-prettier": "^3.4.0",
-        "husky": "^6.0.0",
-        "lint-staged": "^11.2.6",
+        "husky": "^8.0.1",
+        "lint-staged": "^13.0.1",
         "prettier": "^2.3.2",
         "swagger-ui-express": "^4.3.0",
         "ts-loader": "^9.2.6",
