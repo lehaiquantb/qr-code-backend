@@ -1,3 +1,4 @@
+import { ValidationException } from './../exceptions/validation.exception';
 import {
     Catch,
     ArgumentsHost,
@@ -124,6 +125,13 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
                 this.i18n,
             );
         } else if (exception instanceof BadRequestException) {
+            res = await handleBadRequestException(
+                exception,
+                request,
+                this.i18n,
+            );
+        } else if (exception instanceof ValidationException) {
+            debugger;
             res = await handleBadRequestException(
                 exception,
                 request,

@@ -18,7 +18,7 @@ import {
     ErrorResponse,
     SuccessResponse,
 } from '../../common/helpers/api.response';
-import { JoiValidationPipe } from '../../common/services/joi.validation.pipe';
+import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
 import { DatabaseService } from '../../common/services/database.service';
 import {
     CreateRoleDto,
@@ -50,6 +50,5 @@ export class RoleController {
         private readonly roleService: RoleService,
         private readonly i18n: I18nRequestScopeService,
         private readonly databaseService: DatabaseService,
-    ) { }
-
+    ) {}
 }

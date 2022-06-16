@@ -1,3 +1,4 @@
+import { ValidationException } from './common/exceptions/validation.exception';
 import { NODE_ENV } from './common/constants';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -9,6 +10,11 @@ import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
 import ConfigKey from '../src/common/config/config-key';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {
+    HttpStatus,
+    UnprocessableEntityException,
+    ValidationPipe,
+} from '@nestjs/common';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -30,6 +36,16 @@ async function bootstrap() {
     app.enableCors(corsOptions);
     // setup prefix of route
     app.setGlobalPrefix(configService.get(ConfigKey.BASE_PATH));
+
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true,
+            transform: true,
+            dismissDefaultMessages: true,
+            exceptionFactory: (errors) => new ValidationException(errors),
+        }),
+    );
+
     // setup max request size
     app.use(
         express.json({ limit: configService.get(ConfigKey.MAX_REQUEST_SIZE) }),
@@ -54,7 +70,7 @@ async function bootstrap() {
         const document = SwaggerModule.createDocument(app, config);
         SwaggerModule.setup('/api/swagger', app, document);
     }
-    
+
     await app.listen(configService.get(ConfigKey.PORT));
 }
 

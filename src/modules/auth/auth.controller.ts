@@ -26,7 +26,7 @@ import {
     GoogleLoginLinkDto,
     GoogleLoginLinkSchema,
 } from './dto/requests/google-login-link.dto';
-import { JoiValidationPipe } from '../../common/services/joi.validation.pipe';
+import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
 import { updateProfileSchema } from './dto/requests/update-profile.dto';
 import { UpdateProfileDto } from './dto/requests/update-profile.dto';
 import { DatabaseService } from '../../common/services/database.service';
@@ -152,7 +152,10 @@ export class AuthController {
     @Patch('profile')
     @UsePipes(new JoiValidationPipe(updateProfileSchema))
     @UseGuards(JwtGuard, AuthorizationGuard)
-    async updateProfile(@Request() req: IRequest, @Body() body: UpdateProfileDto) {
+    async updateProfile(
+        @Request() req: IRequest,
+        @Body() body: UpdateProfileDto,
+    ) {
         try {
             const profile = await this.authService.profile(req.loginUser?.id);
             if (!profile) {

@@ -37,7 +37,7 @@ import {
     UserListQueryStringDto,
     UserListQueryStringSchema,
 } from './dto/requests/list-user.dto';
-import { JoiValidationPipe } from '../../common/services/joi.validation.pipe';
+import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
 import {
     UserStatusDto,
     UserStatusSchema,
@@ -53,7 +53,7 @@ import {
     Permissions,
 } from 'src/common/guards/authorization.guard';
 import { ACTIONS, RESOURCES } from 'src/common/permissionConstants';
-import { RemoveEmptyQueryPipe } from 'src/common/services/removeEmptyQueryPipe';
+import { RemoveEmptyQueryPipe } from 'src/common/pipes/removeEmptyQueryPipe';
 import { HttpStatus } from '../common/common.constant';
 import { Role } from '../role/entity/role.entity';
 
@@ -208,7 +208,10 @@ export class UserController {
     }
 
     @Delete(':id')
-    async delete(@Request() req: IRequest, @Param('id', ParseIntPipe) id: number) {
+    async delete(
+        @Request() req: IRequest,
+        @Param('id', ParseIntPipe) id: number,
+    ) {
         try {
             const user = await this.usersService.getUserById(id);
             if (!user) {
