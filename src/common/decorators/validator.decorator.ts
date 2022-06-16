@@ -1,3 +1,4 @@
+import { Reflector } from '@nestjs/core';
 import type { ValidationOptions } from 'class-validator';
 import {
     IsPhoneNumber as isPhoneNumber,
@@ -5,6 +6,7 @@ import {
     ValidateIf,
 } from 'class-validator';
 import { isString } from 'lodash';
+import * as BaseJoi from 'joi';
 
 export function IsPassword(
     validationOptions?: ValidationOptions,
@@ -22,5 +24,13 @@ export function IsPassword(
                 },
             },
         });
+    };
+}
+
+export const METADATA_JOI_KEY = Symbol('METADATA_JOI_KEY');
+
+export function Joi(schema: BaseJoi.AnySchema): PropertyDecorator {
+    return (target, propertyName: string) => {
+        Reflect.defineMetadata(METADATA_JOI_KEY, schema, target, propertyName);
     };
 }

@@ -117,6 +117,7 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
             request: request.body,
             exception,
         });
+        debugger;
         if (exception instanceof InternalServerErrorException) {
             res = await handleInternalErrorException(
                 exception,
@@ -131,7 +132,6 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
                 this.i18n,
             );
         } else if (exception instanceof ValidationException) {
-            debugger;
             res = await handleBadRequestException(
                 exception,
                 request,

@@ -1,3 +1,4 @@
+import { JoiValidationPipe } from './common/pipes/joi.validation.pipe';
 import { ValidationException } from './common/exceptions/validation.exception';
 import { NODE_ENV } from './common/constants';
 import { NestFactory } from '@nestjs/core';
@@ -37,14 +38,16 @@ async function bootstrap() {
     // setup prefix of route
     app.setGlobalPrefix(configService.get(ConfigKey.BASE_PATH));
 
-    app.useGlobalPipes(
-        new ValidationPipe({
-            whitelist: true,
-            transform: true,
-            dismissDefaultMessages: true,
-            exceptionFactory: (errors) => new ValidationException(errors),
-        }),
-    );
+    // app.useGlobalPipes(
+    //     new ValidationPipe({
+    //         whitelist: true,
+    //         transform: false,
+    //         dismissDefaultMessages: true,
+    //         exceptionFactory: (errors) => new ValidationException(errors),
+    //     }),
+    // );
+
+    app.useGlobalPipes(new JoiValidationPipe());
 
     // setup max request size
     app.use(
