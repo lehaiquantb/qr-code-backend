@@ -12,8 +12,6 @@ import {
     InternalServerErrorException,
     Query,
     ParseIntPipe,
-    UseInterceptors,
-    UploadedFile,
     Request,
     UnauthorizedException,
 } from '@nestjs/common';
@@ -29,7 +27,6 @@ import {
     UpdateUserSchema,
 } from './dto/requests/update-user.dto';
 import { JwtGuard } from '../../common/guards/jwt.guard';
-import { DEFAULT_LIMIT_FOR_PAGINATION } from '../../common/constants';
 import { UserList } from './dto/response/api-response.dto';
 import { DatabaseService } from '../../common/services/database.service';
 import { User } from './entity/user.entity';
@@ -38,21 +35,13 @@ import {
     UserListQueryStringSchema,
 } from './dto/requests/list-user.dto';
 import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
-import {
-    UserStatusDto,
-    UserStatusSchema,
-} from './dto/requests/common-user.dto';
-import { AllowUpdateStatus, excel, UserRole } from './user.constant';
+
+import { UserRole } from './user.constant';
 import {
     ErrorResponse,
     SuccessResponse,
 } from '../../common/helpers/api.response';
-import { FileInterceptor } from '@nestjs/platform-express';
-import {
-    AuthorizationGuard,
-    Permissions,
-} from 'src/common/guards/authorization.guard';
-import { ACTIONS, RESOURCES } from 'src/common/permissionConstants';
+import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { RemoveEmptyQueryPipe } from 'src/common/pipes/removeEmptyQueryPipe';
 import { HttpStatus } from '../common/common.constant';
 import { Role } from '../role/entity/role.entity';

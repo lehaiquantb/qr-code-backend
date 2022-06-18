@@ -8,14 +8,6 @@ import {
     PHONE_NUMBER_REGEX,
     DATE_FORMAT,
     INPUT_PHONE_MAX_LENGTH,
-    MAX_BANK_ACCOUNT_LENGTH,
-    MIN_BANK_ACCOUNT_LENGTH,
-    MAX_TAX_CODE_LENGTH,
-    MAX_SOCIAL_INSURANCE_LENGTH,
-    MIN_TAX_CODE_LENGTH,
-    MIN_SOCIAL_INSURANCE_LENGTH,
-    MAX_CITIZEN_ID_LENGTH,
-    MIN_CITIZEN_ID_LENGTH,
 } from '../../../../common/constants';
 import { UserGender } from '../../../user/user.constant';
 
@@ -46,7 +38,7 @@ export const updateProfileSchema = Joi.object({
     gender: Joi.string()
         .valid(...Object.values(UserGender))
         .required()
-        .label('auth.fields.gender')
+        .label('auth.fields.gender'),
 });
 
 export class UpdateProfileDto {

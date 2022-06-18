@@ -1,18 +1,11 @@
 import { JwtPayload } from 'jsonwebtoken';
 import { LoginUser } from './../../../common/base/base.interface';
-import {
-    ForbiddenException,
-    Injectable,
-    InternalServerErrorException,
-    UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { generateHashToken } from '../../../common/helpers/common.function';
 import { I18nRequestScopeService } from 'nestjs-i18n';
-import { IGoogleLoginLinkQuery } from '../auth.interface';
-import { GoogleLoginLinkParameters } from '../auth.constant';
 import { UpdateProfileDto } from '../dto/requests/update-profile.dto';
 import { DatabaseService } from 'src/common/services/database.service';
 import { ConfigService } from '@nestjs/config';

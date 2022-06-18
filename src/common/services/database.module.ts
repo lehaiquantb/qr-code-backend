@@ -1,7 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { FileLogger } from 'typeorm';
-import { CommonModule } from '../../modules/common/common.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import ConfigKey from '../config/config-key';
 import { DatabaseConfig } from 'database/config';

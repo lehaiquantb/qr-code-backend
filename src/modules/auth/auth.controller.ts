@@ -4,7 +4,6 @@ import {
     Controller,
     Get,
     InternalServerErrorException,
-    Query,
     Post,
     Req,
     Request,
@@ -18,14 +17,7 @@ import { AuthService, usersAttributes } from './services/auth.service';
 import { JwtGuard } from '../../common/guards/jwt.guard';
 import { I18nRequestScopeService } from 'nestjs-i18n';
 import { UserStatus } from '../user/user.constant';
-import {
-    GoogleLoginDto,
-    GoogleLoginSchema,
-} from './dto/requests/google-login.dto';
-import {
-    GoogleLoginLinkDto,
-    GoogleLoginLinkSchema,
-} from './dto/requests/google-login-link.dto';
+
 import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
 import { updateProfileSchema } from './dto/requests/update-profile.dto';
 import { UpdateProfileDto } from './dto/requests/update-profile.dto';
@@ -35,13 +27,11 @@ import {
     ErrorResponse,
     SuccessResponse,
 } from '../../common/helpers/api.response';
-import { User } from '../user/entity/user.entity';
 import {
     AuthorizationGuard,
     Permissions,
 } from 'src/common/guards/authorization.guard';
 import { ACTIONS, RESOURCES } from 'src/common/permissionConstants';
-import { IPermisson } from '../role/role.interface';
 import { HttpStatus } from '../common/common.constant';
 
 @Controller({

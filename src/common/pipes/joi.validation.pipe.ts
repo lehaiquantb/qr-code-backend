@@ -1,10 +1,8 @@
-import { TestDto } from './../../app.controller';
 import {
     ArgumentMetadata,
     BadRequestException,
     Injectable,
     PipeTransform,
-    Scope,
 } from '@nestjs/common';
 import { ObjectSchema, ValidationResult, ValidationError } from 'joi';
 import { plainToInstance } from 'class-transformer';

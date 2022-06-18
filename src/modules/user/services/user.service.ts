@@ -1,4 +1,3 @@
-import { Role } from '../../role/entity/role.entity';
 import {
     DEFAULT_FIRST_PAGE,
     DEFAULT_LIMIT_FOR_PAGINATION,
@@ -20,16 +19,12 @@ import { EntityManager, In, Like, Brackets } from 'typeorm';
 
 import { User } from 'src/modules/user/entity/user.entity';
 import { CreateUserDto } from '../dto/requests/create-user.dto';
-import { userListAttributes, UserRole, UserStatus } from '../user.constant';
+import { userListAttributes, UserStatus } from '../user.constant';
 import { UserListQueryStringDto } from '../dto/requests/list-user.dto';
 import { UserList } from '../dto/response/api-response.dto';
 import { UserResponseDto } from '../dto/response/user-response.dto';
 import { UpdateUserDto } from '../dto/requests/update-user.dto';
 import { UserStatusDto } from '../dto/requests/common-user.dto';
-import xlsx from 'xlsx';
-import { getConnection } from 'typeorm';
-import { makeFileUrl } from 'src/common/helpers/common.function';
-import { IUserUpload } from '../user.interface';
 
 const userDetailAttributes: (keyof User)[] = [
     'id',
@@ -154,7 +149,7 @@ export class UserService {
                 ...user,
                 status: UserStatus.ACTIVE,
                 email: user.email.toLocaleLowerCase(),
-                tenantId
+                tenantId,
             };
             if (user?.password) {
                 newUser.password = bcrypt.hashSync(

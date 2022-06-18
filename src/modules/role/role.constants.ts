@@ -27,7 +27,7 @@ export enum ModuleName {
     REQUEST_ABSENCE = 'requestAbsence',
     PERMISSION = 'permission',
     TEAM = 'team',
-    CONTRACT_TYPE = 'contractType'
+    CONTRACT_TYPE = 'contractType',
 }
 
 const BasicPermission = {

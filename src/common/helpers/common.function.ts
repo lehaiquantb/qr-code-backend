@@ -1,10 +1,4 @@
 import { camelCase, isArray, isPlainObject, mapKeys, snakeCase } from 'lodash';
-import { ConfigService } from '@nestjs/config';
-import { App } from '@slack/bolt';
-import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { AppModule } from 'src/app.module';
-import ConfigKey from '../config/config-key';
 export function generateHashToken(userId: number): string {
     const random = Math.floor(Math.random() * (10000 - 1000) + 1000);
     return `${userId}-${Date.now()}-${random}`;

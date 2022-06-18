@@ -3,7 +3,6 @@ import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
-    CreateDateColumn,
     BeforeInsert,
     BeforeUpdate,
     JoinColumn,
@@ -59,7 +58,7 @@ export class User extends BaseEntity {
     })
     status: UserStatus;
 
-    @ManyToOne(() => User, user => user.id)
+    @ManyToOne(() => User, (user) => user.id)
     @JoinColumn({
         name: 'tenantId',
     })

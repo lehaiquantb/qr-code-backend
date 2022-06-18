@@ -1,5 +1,4 @@
 import { JoiValidationPipe } from './common/pipes/joi.validation.pipe';
-import { ValidationException } from './common/exceptions/validation.exception';
 import { NODE_ENV } from './common/constants';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -11,11 +10,6 @@ import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
 import ConfigKey from '../src/common/config/config-key';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import {
-    HttpStatus,
-    UnprocessableEntityException,
-    ValidationPipe,
-} from '@nestjs/common';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);

@@ -9,7 +9,6 @@ export class UserList extends CommonListResponse<UserResponseDto> {
     items: UserResponseDto[];
 }
 
-
 export class UserListResult extends ApiResponse<UserList> {
     data: UserList;
 }

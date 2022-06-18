@@ -1,11 +1,5 @@
-import { Reflector } from '@nestjs/core';
 import type { ValidationOptions } from 'class-validator';
-import {
-    IsPhoneNumber as isPhoneNumber,
-    registerDecorator,
-    ValidateIf,
-} from 'class-validator';
-import { isString } from 'lodash';
+import { registerDecorator } from 'class-validator';
 import * as BaseJoi from 'joi';
 
 export function IsPassword(

@@ -1,19 +1,10 @@
 import * as BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 import {
-    TEXTAREA_MAX_LENGTH,
     INPUT_TEXT_MAX_LENGTH,
     BIRTHDAY_MIN_DATE,
     PHONE_NUMBER_REGEX,
     INPUT_PHONE_MAX_LENGTH,
-    MAX_CITIZEN_ID_LENGTH,
-    MIN_CITIZEN_ID_LENGTH,
-    MAX_BANK_ACCOUNT_LENGTH,
-    MIN_BANK_ACCOUNT_LENGTH,
-    MAX_TAX_CODE_LENGTH,
-    MIN_TAX_CODE_LENGTH,
-    MAX_SOCIAL_INSURANCE_LENGTH,
-    MIN_SOCIAL_INSURANCE_LENGTH,
 } from '../../common/constants';
 const Joi = BaseJoi.extend(JoiDate);
 

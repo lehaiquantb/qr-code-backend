@@ -8,7 +8,6 @@ import {
     SetMetadata,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { intersection } from 'lodash';
 
 export const Permissions = (permissions: string[]) =>
     SetMetadata('permissions', permissions);

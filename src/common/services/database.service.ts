@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import _ from 'lodash';
 import { EntityManager, EntityTarget, Not } from 'typeorm';
-import { USER_ACTION, HTTP_METHOTDS } from '../constants';
 
 @Injectable()
 export class DatabaseService {
