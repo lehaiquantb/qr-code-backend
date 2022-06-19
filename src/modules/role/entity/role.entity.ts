@@ -1,11 +1,23 @@
+import { RolePermission } from './role-permission.entity';
+import { TABLE_NAME } from './../../../../database/migrations/constant';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
+import { UserRole } from './user-role.entity';
 
-@Entity({ name: 'role' })
+@Entity({ name: TABLE_NAME.Role })
 export class Role extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @Column({ length: 255, nullable: false })
+    name: string;
 
     @Column({ length: 255, nullable: false })
-    code: string;
+    description: string;
+
+    @OneToMany(() => UserRole, (userRole) => userRole.role)
+    userRoles!: UserRole[];
+
+    @OneToMany(
+        () => RolePermission,
+        (rolePermission) => rolePermission.permission,
+    )
+    rolePermissions!: RolePermission[];
 }

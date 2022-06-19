@@ -1,5 +1,3 @@
-import { JwtPayload } from 'jsonwebtoken';
-import { LoginUser } from './../../../common/base/base.interface';
 import { Injectable } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { InjectEntityManager } from '@nestjs/typeorm';
@@ -20,9 +18,7 @@ export const usersAttributes: (keyof User)[] = [
     'phoneNumber',
     'birthday',
     'gender',
-    'role',
     'status',
-    'tenant',
 ];
 const userDetailAttributes: (keyof User)[] = [
     'id',
@@ -31,7 +27,6 @@ const userDetailAttributes: (keyof User)[] = [
     'phoneNumber',
     'birthday',
     'gender',
-    'role',
     'status',
     'createdAt',
     'createdBy',
@@ -66,22 +61,22 @@ export class AuthService {
             expiresIn: accessTokenExpiredIn,
         } as JwtSignOptions;
 
-        const payloadAccessToken = {
-            id: user.id,
-            email: user.email,
-            role: user.role,
-            expiresIn: accessTokenExpiredIn,
-            tenantId: user.tenantId,
-        } as LoginUser & JwtPayload;
+        // const payloadAccessToken = {
+        //     id: user.id,
+        //     email: user.email,
+        //     role: user.role,
+        //     expiresIn: accessTokenExpiredIn,
+        //     tenantId: user.tenantId,
+        // } as LoginUser & JwtPayload;
 
-        const accessToken = this.jwtService.sign(
-            payloadAccessToken,
-            accessTokenOptions,
-        );
-        return {
-            token: accessToken,
-            expiresIn: accessTokenExpiredIn,
-        };
+        // const accessToken = this.jwtService.sign(
+        //     payloadAccessToken,
+        //     accessTokenOptions,
+        // );
+        // return {
+        //     token: accessToken,
+        //     expiresIn: accessTokenExpiredIn,
+        // };
     }
     /**
      *
@@ -104,10 +99,8 @@ export class AuthService {
         const payloadRefreshToken = {
             id: user.id,
             email: user.email,
-            role: user.role,
             expiresIn: refreshTokenExpiredIn,
             hashToken,
-            tenantId: user.tenantId,
         };
         const refreshToken = this.jwtService.sign(
             payloadRefreshToken,

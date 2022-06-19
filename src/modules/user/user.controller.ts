@@ -133,8 +133,9 @@ export class UserController {
                 if (req.loginUser.role.code == UserRole.ADMIN) {
                     newUser = await this.usersService.createUser(data, 0);
                 } else if (
-                    req.loginUser.role.code == UserRole.TENANT &&
-                    role.code == UserRole.USER
+                    req.loginUser.role.code == UserRole.TENANT
+                    // &&
+                    // role.code == UserRole.USER
                 ) {
                     newUser = await this.usersService.createUser(
                         data,

@@ -33,7 +33,6 @@ const userDetailAttributes: (keyof User)[] = [
     'phoneNumber',
     'birthday',
     'gender',
-    'role',
     'status',
     'createdAt',
     'createdBy',

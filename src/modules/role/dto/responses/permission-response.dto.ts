@@ -1,6 +1,6 @@
-import { IPermission } from '../../role.interface';
+// import { IPermission } from '../../role.interface';
 
 export class PermissionResponseDto {
     module: string;
-    permission: IPermission;
+    // permission: IPermission;
 }

@@ -1,22 +1,11 @@
-import { Role } from '../../role/entity/role.entity';
-import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    BeforeInsert,
-    BeforeUpdate,
-    JoinColumn,
-    ManyToOne,
-} from 'typeorm';
+import { Entity, Column, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
 import { UserStatus, UserGender } from '../user.constant';
 
 import * as bcrypt from 'bcrypt';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
+import { UserRole } from 'src/modules/role/entity/user-role.entity';
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
     @Column({ nullable: false })
     roleId: number;
 
@@ -45,12 +34,6 @@ export class User extends BaseEntity {
     })
     gender: UserGender;
 
-    @ManyToOne(() => Role)
-    @JoinColumn({
-        name: 'roleId',
-    })
-    role: Role;
-
     @Column({
         type: 'enum',
         enum: UserStatus,
@@ -58,11 +41,8 @@ export class User extends BaseEntity {
     })
     status: UserStatus;
 
-    @ManyToOne(() => User, (user) => user.id)
-    @JoinColumn({
-        name: 'tenantId',
-    })
-    tenant: User;
+    @OneToMany(() => UserRole, (userRole) => userRole.user)
+    userRoles!: UserRole[];
 
     @BeforeInsert()
     @BeforeUpdate()
