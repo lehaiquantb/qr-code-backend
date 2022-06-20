@@ -1,4 +1,4 @@
-import { createColumns } from './../constant';
+import { createColumns } from '../constant';
 import { UserGender, UserStatus } from '../../src/modules/user/user.constant';
 import {
     MigrationInterface,

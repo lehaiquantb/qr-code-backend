@@ -139,16 +139,12 @@ export class UserService {
         }
     }
 
-    async createUser(
-        user: CreateUserDto,
-        tenantId: number,
-    ): Promise<UserResponseDto> {
+    async createUser(user: CreateUserDto): Promise<UserResponseDto> {
         try {
             const newUser = {
                 ...user,
                 status: UserStatus.ACTIVE,
                 email: user.email.toLocaleLowerCase(),
-                tenantId,
             };
             if (user?.password) {
                 newUser.password = bcrypt.hashSync(
