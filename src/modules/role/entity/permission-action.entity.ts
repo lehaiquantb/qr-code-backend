@@ -1,4 +1,4 @@
-import { TABLE_NAME } from '../../../../database/migrations/constant';
+import { TABLE_NAME } from '../../../../database/constant';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Entity, Column, OneToMany } from 'typeorm';
 import { Permission } from './permission.entity';

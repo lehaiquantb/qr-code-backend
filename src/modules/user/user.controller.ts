@@ -131,16 +131,13 @@ export class UserController {
             } else {
                 const role = await Role.findOne(data.roleId);
                 if (req.loginUser.role.code == UserRole.ADMIN) {
-                    newUser = await this.usersService.createUser(data, 0);
+                    newUser = await this.usersService.createUser(data);
                 } else if (
                     req.loginUser.role.code == UserRole.TENANT
                     // &&
                     // role.code == UserRole.USER
                 ) {
-                    newUser = await this.usersService.createUser(
-                        data,
-                        req.loginUser.id,
-                    );
+                    newUser = await this.usersService.createUser(data);
                 } else {
                     throw new UnauthorizedException();
                 }

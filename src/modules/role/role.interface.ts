@@ -71,3 +71,19 @@
 //     [ModuleName.REQUEST_ABSENCE]: IRequestAbsencePermission;
 //     [ModuleName.TEAM]: ITeamPermission;
 // }
+
+export enum ResourceName {
+    USER = 'user',
+    PRODUCT = 'product',
+}
+
+export enum ActionName {
+    READ = 'read',
+    CREATE = 'create',
+    UPDATE = 'update',
+    DELETE = 'delete',
+    LOGIN = 'login',
+    READ_ALL = 'readAll',
+    MANAGE_ALL = 'manageAll',
+    UPDATE_STATUS = 'updateStatus',
+}

@@ -1,11 +1,7 @@
-import {
-    ModuleName,
-    PermissionDefault,
-} from '../../src/modules/role/role.constants';
 import { UserRole } from '../../src/modules/user/user.constant';
 import { In, MigrationInterface, QueryRunner } from 'typeorm';
 import { forEach } from 'lodash';
-import { TABLE_NAME } from '../migrations/constant';
+import { TABLE_NAME } from '../constant';
 
 export class SeedingRole1720963593399 implements MigrationInterface {
     tableName = TABLE_NAME.Role;

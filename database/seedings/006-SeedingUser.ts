@@ -3,7 +3,7 @@ import { UserStatus } from '../../src/modules/user/user.constant';
 import { In, MigrationInterface, QueryRunner } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
-import { TABLE_NAME } from '../migrations/constant';
+import { TABLE_NAME } from '../constant';
 import { Role } from 'src/modules/role/entity/role.entity';
 dotenv.config();
 export class SeedingUser1720963593400 implements MigrationInterface {
@@ -30,7 +30,6 @@ export class SeedingUser1720963593400 implements MigrationInterface {
                 email: 'quan@gmail.com',
                 password: bcrypt.hashSync('123456', bcrypt.genSaltSync(10)),
                 status: UserStatus.ACTIVE,
-                tenantId: 1,
             };
             const items = [
                 {

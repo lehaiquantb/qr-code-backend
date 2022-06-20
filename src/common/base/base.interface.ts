@@ -10,7 +10,6 @@ export interface LoginUser {
         code: UserRole;
     };
     expiresIn: number;
-    tenantId: number;
 }
 
 export interface IRequest extends Request {

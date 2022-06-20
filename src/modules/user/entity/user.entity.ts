@@ -6,12 +6,6 @@ import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { UserRole } from 'src/modules/role/entity/user-role.entity';
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
-    @Column({ nullable: false })
-    roleId: number;
-
-    @Column({ nullable: true })
-    tenantId: number;
-
     @Column({ length: 255, nullable: false })
     email: string;
 

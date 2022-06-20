@@ -1,4 +1,4 @@
-import { TABLE_NAME } from './../../../../database/migrations/constant';
+import { TABLE_NAME } from '../../../../database/constant';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from 'src/modules/user/entity/user.entity';
