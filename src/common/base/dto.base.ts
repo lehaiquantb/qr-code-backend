@@ -1,4 +1,4 @@
-import { METADATA_JOI_KEY } from './../decorators/validator.decorator';
+import { METADATA_JOI_KEY } from '../decorators/validator.decorator';
 import BaseJoi from 'joi';
 
 export abstract class BaseDto {

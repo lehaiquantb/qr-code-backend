@@ -1,10 +1,11 @@
+import { TABLE_NAME } from './../../../../database/constant';
 import { Entity, Column, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
 import { UserStatus, UserGender } from '../user.constant';
 
 import * as bcrypt from 'bcrypt';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
-@Entity({ name: 'user' })
+@Entity({ name: TABLE_NAME.User })
 export class UserEntity extends BaseEntity {
     @Column({ length: 255, nullable: false })
     email: string;

@@ -1,4 +1,4 @@
-import { UserRole } from './../../modules/user/user.constant';
+import { UserRole } from '../../modules/user/user.constant';
 import { Request } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 

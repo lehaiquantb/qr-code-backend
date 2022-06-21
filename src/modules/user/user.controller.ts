@@ -1,5 +1,5 @@
 import { UserResponseDto } from './dto/response/user-response.dto';
-import { IRequest } from './../../common/base/base.interface';
+import { IRequest } from '~common';
 import {
     Controller,
     Get,
@@ -45,15 +45,18 @@ import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { RemoveEmptyQueryPipe } from 'src/common/pipes/removeEmptyQueryPipe';
 import { HttpStatus } from '../common/common.constant';
 import { RoleEntity } from '../role/entity/role.entity';
+import { BaseController } from '~common';
 
 @Controller('user')
 @UseGuards(JwtGuard, AuthorizationGuard)
-export class UserController {
+export class UserController extends BaseController {
     constructor(
         private readonly usersService: UserService,
         private readonly i18n: I18nRequestScopeService,
         private readonly databaseService: DatabaseService,
-    ) {}
+    ) {
+        super();
+    }
 
     @Get(':id')
     async getUser(@Param('id', ParseIntPipe) id: number) {

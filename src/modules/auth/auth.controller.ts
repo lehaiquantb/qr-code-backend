@@ -1,4 +1,4 @@
-import { IRequest } from './../../common/base/base.interface';
+import { IRequest } from '~common';
 import {
     Body,
     Controller,

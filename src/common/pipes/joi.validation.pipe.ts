@@ -13,7 +13,8 @@ export class JoiValidationPipe implements PipeTransform {
 
     transform(value: any, metadata: ArgumentMetadata) {
         const metatype = metadata?.metatype;
-        debugger;
+        console.log(value);
+
         if (metatype && !this.schema) {
             const entity = plainToInstance(metatype, value);
             this.schema = entity?.getJoiSchema();

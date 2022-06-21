@@ -1,4 +1,4 @@
-import { IRequest } from './../base/base.interface';
+import { IRequest } from '~common';
 import { UserRole } from './../../modules/user/user.constant';
 import {
     Injectable,

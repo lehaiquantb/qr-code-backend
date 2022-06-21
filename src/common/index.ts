@@ -1,5 +1,4 @@
-export * from './base/base.dto';
-export * from './base/base.interface';
+export * from './base/index';
 export * from './config/config-key';
 export * from './config/validation-schema';
 export * from './constants';
