@@ -23,6 +23,8 @@ export class AppController {
 
     @Get('/test-validator')
     testValidator(@Body() body: TestDto) {
+        console.log(body);
+
         return body;
     }
 }

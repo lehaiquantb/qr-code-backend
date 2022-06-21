@@ -43,7 +43,7 @@ import {
 } from '../../common/helpers/api.response';
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { RemoveEmptyQueryPipe } from 'src/common/pipes/removeEmptyQueryPipe';
-import { HttpStatus } from '../common/common.constant';
+import { HttpStatus } from '~common';
 import { RoleEntity } from '../role/entity/role.entity';
 import { BaseController } from '~common';
 

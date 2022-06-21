@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { HttpStatus } from 'src/modules/common/common.constant';
+import { HttpStatus } from '~common';
 
 const DEFAULT_SUCCESS_MESSAGE = 'success';
 @Injectable()

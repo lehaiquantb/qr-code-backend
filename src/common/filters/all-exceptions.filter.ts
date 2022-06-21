@@ -14,7 +14,7 @@ import { I18nRequestScopeService } from 'nestjs-i18n';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { uniqueId } from 'lodash';
 import { ValidationErrorItem } from 'joi';
-import { HttpStatus } from 'src/modules/common/common.constant';
+import { HttpStatus } from '~common';
 
 const translateErrorValidator = async (
     errors: ValidationErrorItem[],
@@ -117,7 +117,6 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
             request: request.body,
             exception,
         });
-        debugger;
         if (exception instanceof InternalServerErrorException) {
             res = await handleInternalErrorException(
                 exception,

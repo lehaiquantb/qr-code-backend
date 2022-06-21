@@ -32,7 +32,7 @@ import {
     Permissions,
 } from 'src/common/guards/authorization.guard';
 import { ACTIONS, RESOURCES } from 'src/common/permissionConstants';
-import { HttpStatus } from '../common/common.constant';
+import { HttpStatus } from '~common';
 @Controller({
     path: 'auth',
 })
