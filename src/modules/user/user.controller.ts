@@ -29,7 +29,7 @@ import {
 import { JwtGuard } from '../../common/guards/jwt.guard';
 import { UserList } from './dto/response/api-response.dto';
 import { DatabaseService } from '../../common/services/database.service';
-import { User } from './entity/user.entity';
+import { UserEntity } from './entity/user.entity';
 import {
     UserListQueryStringDto,
     UserListQueryStringSchema,
@@ -44,7 +44,7 @@ import {
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { RemoveEmptyQueryPipe } from 'src/common/pipes/removeEmptyQueryPipe';
 import { HttpStatus } from '../common/common.constant';
-import { Role } from '../role/entity/role.entity';
+import { RoleEntity } from '../role/entity/role.entity';
 
 @Controller('user')
 @UseGuards(JwtGuard, AuthorizationGuard)
@@ -98,8 +98,16 @@ export class UserController {
     ) {
         try {
             const promises = [
-                this.databaseService.checkItemExist(User, 'email', data.email),
-                this.databaseService.checkItemExist(Role, 'id', data.roleId),
+                this.databaseService.checkItemExist(
+                    UserEntity,
+                    'email',
+                    data.email,
+                ),
+                this.databaseService.checkItemExist(
+                    RoleEntity,
+                    'id',
+                    data.roleId,
+                ),
             ];
 
             const [userExist, roleExist] = await Promise.all(promises);
@@ -129,7 +137,7 @@ export class UserController {
                     },
                 ]);
             } else {
-                const role = await Role.findOne(data.roleId);
+                const role = await RoleEntity.findOne(data.roleId);
                 if (req.loginUser.role.code == UserRole.ADMIN) {
                     newUser = await this.usersService.createUser(data);
                 } else if (
@@ -169,7 +177,11 @@ export class UserController {
                 );
             }
             const promises = [
-                this.databaseService.checkItemExist(Role, 'id', data.roleId),
+                this.databaseService.checkItemExist(
+                    RoleEntity,
+                    'id',
+                    data.roleId,
+                ),
             ];
             const [role] = await Promise.all(promises);
 

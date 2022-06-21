@@ -1,13 +1,13 @@
 import { ApiResponse } from '../../../../common/helpers/api.response';
 
-import { User } from '../../../user/entity/user.entity';
+import { UserEntity } from '../../../user/entity/user.entity';
 
 export interface ITokenInfo {
     token: string;
     expiresIn: number;
 }
 export class UserWithToken {
-    profile: User;
+    profile: UserEntity;
     accessToken: ITokenInfo;
     refreshToken: ITokenInfo;
 }
@@ -26,8 +26,8 @@ export class UpdateProfileResult extends ApiResponse<Record<string, unknown>> {
     data: Record<string, unknown>;
 }
 
-export class UserProfileResult extends ApiResponse<User> {
-    data: User;
+export class UserProfileResult extends ApiResponse<UserEntity> {
+    data: UserEntity;
 }
 
 export class UserLogoutResult extends ApiResponse<boolean> {

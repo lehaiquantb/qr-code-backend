@@ -3,9 +3,9 @@ import { UserStatus, UserGender } from '../user.constant';
 
 import * as bcrypt from 'bcrypt';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
-import { UserRole } from 'src/modules/role/entity/user-role.entity';
+import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
 @Entity({ name: 'user' })
-export class User extends BaseEntity {
+export class UserEntity extends BaseEntity {
     @Column({ length: 255, nullable: false })
     email: string;
 
@@ -35,8 +35,8 @@ export class User extends BaseEntity {
     })
     status: UserStatus;
 
-    @OneToMany(() => UserRole, (userRole) => userRole.user)
-    userRoles!: UserRole[];
+    @OneToMany(() => UserRoleEntity, (userRole) => userRole.user)
+    userRoles!: UserRoleEntity[];
 
     @BeforeInsert()
     @BeforeUpdate()

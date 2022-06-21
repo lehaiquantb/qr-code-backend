@@ -13,8 +13,49 @@
     "baseUrl": "./",
     "skipLibCheck": true,
     "paths": {
-      "~plugins/*": ["src/plugins/*"]
+      "~plugins/*": [
+        "src/plugins/*"
+      ],
+      "~base/*": [
+        "src/common/base/*"
+      ],
+      "~config/*": [
+        "src/common/config/*"
+      ],
+      "~decorators/*": [
+        "src/common/decorators/*"
+      ],
+      "~exceptions/*": [
+        "src/common/exceptions/*"
+      ],
+      "~filters/*": [
+        "src/common/filters/*"
+      ],
+      "~guards/*": [
+        "src/common/guards/*"
+      ],
+      "~helpers/*": [
+        "src/common/helpers/*"
+      ],
+      "~pipes/*": [
+        "src/common/pipes/*"
+      ],
+      "~common": [
+        "src/common"
+      ],
+      "~auth/*": [
+        "src/modules/auth/*"
+      ],
+      "~role/*": [
+        "src/modules/role/*"
+      ],
+      "~user/*": [
+        "src/modules/user/*"
+      ]
     },
     "incremental": true
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ],
 }

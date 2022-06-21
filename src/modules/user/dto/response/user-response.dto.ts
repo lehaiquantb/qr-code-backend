@@ -1,5 +1,5 @@
 import { UserGender, UserStatus } from '../../user.constant';
-import { Role } from 'src/modules/role/entity/role.entity';
+import { RoleEntity } from 'src/modules/role/entity/role.entity';
 
 export class UserResponseDto {
     id: number;
@@ -8,7 +8,7 @@ export class UserResponseDto {
     birthday?: Date;
     phoneNumber?: string;
     gender?: UserGender;
-    role?: Role;
+    role?: RoleEntity;
     status?: UserStatus;
     createdAt?: Date;
     updatedAt?: Date;

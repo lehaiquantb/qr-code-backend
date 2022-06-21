@@ -9,7 +9,6 @@ import { JwtService } from '@nestjs/jwt';
 import { extractToken } from '../helpers/common.function';
 import { ConfigService } from '@nestjs/config';
 import ConfigKey from '../config/config-key';
-
 @Injectable()
 export class JwtGuard implements CanActivate {
     constructor(

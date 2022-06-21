@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 
 import { EntityManager } from 'typeorm';
-import { Role } from '../entity/role.entity';
+import { RoleEntity } from '../entity/role.entity';
 
-const roleAttributes: (keyof Role)[] = ['id'];
+const roleAttributes: (keyof RoleEntity)[] = ['id'];
 @Injectable()
 export class RoleService {
     constructor(

@@ -1,12 +1,12 @@
-import { RolePermission } from './role-permission.entity';
+import { RolePermissionEntity } from './role-permission.entity';
 import { TABLE_NAME } from '../../../../database/constant';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Entity, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
-import { PermissionResource } from './permission-resource.entity';
-import { PermissionAction } from './permission-action.entity';
+import { PermissionResourceEntity } from './permission-resource.entity';
+import { PermissionActionEntity } from './permission-action.entity';
 
 @Entity({ name: TABLE_NAME.Permission })
-export class Permission extends BaseEntity {
+export class PermissionEntity extends BaseEntity {
     @Column({ nullable: false })
     permissionActionId: number;
 
@@ -14,22 +14,22 @@ export class Permission extends BaseEntity {
     permissionResourceId: number;
 
     @ManyToOne(
-        () => PermissionResource,
+        () => PermissionResourceEntity,
         (permissionResource) => permissionResource.permissions,
     )
     @JoinColumn({ name: 'permissionResourceId' })
-    public permissionResource!: PermissionResource;
+    public permissionResource!: PermissionResourceEntity;
 
     @ManyToOne(
-        () => PermissionAction,
+        () => PermissionActionEntity,
         (permissionAction) => permissionAction.permissions,
     )
     @JoinColumn({ name: 'permissionActionId' })
-    public permissionAction!: PermissionAction;
+    public permissionAction!: PermissionActionEntity;
 
     @OneToMany(
-        () => RolePermission,
+        () => RolePermissionEntity,
         (rolePermission) => rolePermission.permission,
     )
-    public rolePermissions!: RolePermission[];
+    public rolePermissions!: RolePermissionEntity[];
 }

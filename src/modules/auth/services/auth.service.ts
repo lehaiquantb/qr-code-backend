@@ -8,10 +8,10 @@ import { UpdateProfileDto } from '../dto/requests/update-profile.dto';
 import { DatabaseService } from 'src/common/services/database.service';
 import { ConfigService } from '@nestjs/config';
 import ConfigKey from '../../../../src/common/config/config-key';
-import { User } from 'src/modules/user/entity/user.entity';
-import { UserToken } from '../entity/user-token.entity';
+import { UserEntity } from 'src/modules/user/entity/user.entity';
+import { UserTokenEntity } from '../entity/user-token.entity';
 
-export const usersAttributes: (keyof User)[] = [
+export const usersAttributes: (keyof UserEntity)[] = [
     'id',
     'email',
     'fullName',
@@ -20,7 +20,7 @@ export const usersAttributes: (keyof User)[] = [
     'gender',
     'status',
 ];
-const userDetailAttributes: (keyof User)[] = [
+const userDetailAttributes: (keyof UserEntity)[] = [
     'id',
     'email',
     'fullName',
@@ -49,7 +49,7 @@ export class AuthService {
      * @param user
      * @return accessToken & accessTokenExpiredIn
      */
-    private generateAccessToken(user: User) {
+    private generateAccessToken(user: UserEntity) {
         const accessTokenExpiredIn = this.configService.get(
             ConfigKey.TOKEN_EXPIRED_IN,
         );
@@ -84,7 +84,7 @@ export class AuthService {
      * @param hashToken
      * @return refreshToken && refreshTokenExpiredIn
      */
-    private generateRefreshToken(user: User, hashToken: string) {
+    private generateRefreshToken(user: UserEntity, hashToken: string) {
         const refreshTokenExpiredIn = this.configService.get(
             ConfigKey.REFRESH_TOKEN_EXPIRED_IN,
         );
@@ -118,14 +118,14 @@ export class AuthService {
      * @returns {user, accessToken, refreshToken}
      */
 
-    public async login(user: User) {
+    public async login(user: UserEntity) {
         try {
             const accessToken = this.generateAccessToken(user);
             const hashToken = generateHashToken(user.id);
             const refreshToken = this.generateRefreshToken(user, hashToken);
             await this.dbManager.transaction(async (transactionManager) => {
                 // add refresh token to user_tokens table.
-                await transactionManager.save(UserToken, {
+                await transactionManager.save(UserTokenEntity, {
                     user,
                     token: refreshToken.token,
                     hashToken,
@@ -144,7 +144,7 @@ export class AuthService {
 
     public async findById(id: number) {
         try {
-            const user = await this.dbManager.findOne(User, {
+            const user = await this.dbManager.findOne(UserEntity, {
                 select: userDetailAttributes,
                 relations: ['role'],
                 where: { id },
@@ -157,7 +157,7 @@ export class AuthService {
 
     public async findUserByEmail(email: string, attributes = usersAttributes) {
         try {
-            const user = await this.dbManager.findOne(User, {
+            const user = await this.dbManager.findOne(UserEntity, {
                 select: attributes,
                 where: { email },
                 relations: ['role', 'tenant'],
@@ -174,7 +174,7 @@ export class AuthService {
 
     public async updateProfile(body: UpdateProfileDto, id: number) {
         try {
-            const result = await this.dbManager.update(User, id, body);
+            const result = await this.dbManager.update(UserEntity, id, body);
             return result;
         } catch (error) {
             throw error;
@@ -182,7 +182,7 @@ export class AuthService {
     }
 
     public async findTokensById(id: number) {
-        return this.dbManager.find(UserToken, {
+        return this.dbManager.find(UserTokenEntity, {
             select: ['token'],
             where: {
                 userId: id,
@@ -190,26 +190,26 @@ export class AuthService {
         });
     }
 
-    public async logout(user: User): Promise<boolean> {
+    public async logout(user: UserEntity): Promise<boolean> {
         try {
             // delete old refresh token
-            await this.dbManager.delete(UserToken, { user });
+            await this.dbManager.delete(UserTokenEntity, { user });
             return true;
         } catch (error) {
             throw error;
         }
     }
 
-    public async refreshToken(user: User) {
+    public async refreshToken(user: UserEntity) {
         try {
             const accessToken = this.generateAccessToken(user);
             const hashToken = generateHashToken(user.id);
             const refreshToken = this.generateRefreshToken(user, hashToken);
             await this.dbManager.transaction(async (transactionManager) => {
                 // delete old refresh token
-                await this.dbManager.delete(UserToken, { user });
+                await this.dbManager.delete(UserTokenEntity, { user });
                 // add refresh token to user_tokens table.
-                await transactionManager.save(UserToken, {
+                await transactionManager.save(UserTokenEntity, {
                     user,
                     token: refreshToken.token,
                     hashToken,
@@ -233,7 +233,7 @@ export class AuthService {
                 ),
             });
             const res = await this.databaseService.checkItemExist(
-                UserToken,
+                UserTokenEntity,
                 'hashToken',
                 data.hashToken,
             );

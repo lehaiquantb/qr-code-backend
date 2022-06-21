@@ -1,16 +1,17 @@
+import { TABLE_NAME } from './../../../../database/constant';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { User } from '../../user/entity/user.entity';
+import { UserEntity } from '../../user/entity/user.entity';
 import { UserTokenType } from '../auth.constant';
 
-@Entity({ name: 'user_token' })
-export class UserToken extends BaseEntity {
+@Entity({ name: TABLE_NAME.User_Token })
+export class UserTokenEntity extends BaseEntity {
     @Column()
     userId: number;
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => UserEntity)
     @JoinColumn({ name: 'userId' })
-    user?: User;
+    user?: UserEntity;
 
     // hash token value to find faster
     @Column({ length: 2000 })

@@ -17,7 +17,7 @@ import { Request } from 'express';
 import * as bcrypt from 'bcrypt';
 import { EntityManager, In, Like, Brackets } from 'typeorm';
 
-import { User } from 'src/modules/user/entity/user.entity';
+import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { CreateUserDto } from '../dto/requests/create-user.dto';
 import { userListAttributes, UserStatus } from '../user.constant';
 import { UserListQueryStringDto } from '../dto/requests/list-user.dto';
@@ -26,7 +26,7 @@ import { UserResponseDto } from '../dto/response/user-response.dto';
 import { UpdateUserDto } from '../dto/requests/update-user.dto';
 import { UserStatusDto } from '../dto/requests/common-user.dto';
 
-const userDetailAttributes: (keyof User)[] = [
+const userDetailAttributes: (keyof UserEntity)[] = [
     'id',
     'email',
     'fullName',
@@ -94,7 +94,7 @@ export class UserService {
             } = query;
 
             const _queryBuilder = this.dbManager
-                .createQueryBuilder(User, 'users')
+                .createQueryBuilder(UserEntity, 'users')
                 .where((queryBuilder) => {
                     this.generateQueryBuilder(queryBuilder, {
                         keyword,
@@ -128,7 +128,7 @@ export class UserService {
 
     async getUserById(id: number): Promise<UserResponseDto> {
         try {
-            const user = await this.dbManager.findOne(User, {
+            const user = await this.dbManager.findOne(UserEntity, {
                 relations: ['role'],
                 where: { id },
             });
@@ -153,7 +153,7 @@ export class UserService {
                 );
             }
             const insertedUser = await this.dbManager
-                .getRepository(User)
+                .getRepository(UserEntity)
                 .insert(newUser);
             const userId = insertedUser?.identifiers[0]?.id;
             if (userId) {
@@ -175,7 +175,7 @@ export class UserService {
                 ...user,
             };
 
-            await this.dbManager.update(User, id, currentUser);
+            await this.dbManager.update(UserEntity, id, currentUser);
 
             const savedUser = await this.getUserById(id);
 
@@ -190,7 +190,7 @@ export class UserService {
             const timeNow = new Date();
             await Promise.all([
                 this.dbManager.update(
-                    User,
+                    UserEntity,
                     { id },
                     {
                         deletedAt: timeNow,
@@ -208,7 +208,9 @@ export class UserService {
         data: UserStatusDto,
     ): Promise<UserResponseDto> {
         try {
-            await this.dbManager.update(User, id, { status: data.status });
+            await this.dbManager.update(UserEntity, id, {
+                status: data.status,
+            });
 
             const savedUser = await this.getUserById(id);
 

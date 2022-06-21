@@ -1,23 +1,23 @@
-import { RolePermission } from './role-permission.entity';
+import { RolePermissionEntity } from './role-permission.entity';
 import { TABLE_NAME } from '../../../../database/constant';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Entity, Column, OneToMany } from 'typeorm';
-import { UserRole } from './user-role.entity';
+import { UserRoleEntity } from './user-role.entity';
 
 @Entity({ name: TABLE_NAME.Role })
-export class Role extends BaseEntity {
+export class RoleEntity extends BaseEntity {
     @Column({ length: 255, nullable: false })
     name: string;
 
     @Column({ length: 255, nullable: false })
     description: string;
 
-    @OneToMany(() => UserRole, (userRole) => userRole.role)
-    userRoles!: UserRole[];
+    @OneToMany(() => UserRoleEntity, (userRole) => userRole.role)
+    userRoles!: UserRoleEntity[];
 
     @OneToMany(
-        () => RolePermission,
+        () => RolePermissionEntity,
         (rolePermission) => rolePermission.permission,
     )
-    rolePermissions!: RolePermission[];
+    rolePermissions!: RolePermissionEntity[];
 }
