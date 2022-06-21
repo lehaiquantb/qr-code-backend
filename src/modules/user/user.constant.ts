@@ -5,7 +5,7 @@ import {
     BIRTHDAY_MIN_DATE,
     PHONE_NUMBER_REGEX,
     INPUT_PHONE_MAX_LENGTH,
-} from '../../common/constants';
+} from '../../common/constants/constants';
 const Joi = BaseJoi.extend(JoiDate);
 
 export enum UserRole {

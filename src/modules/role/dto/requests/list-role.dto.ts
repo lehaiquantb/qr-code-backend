@@ -4,7 +4,7 @@ import {
     MIN_PAGE,
     MIN_PAGE_SIZE,
     ORDER_DIRECTION,
-} from 'src/common/constants';
+} from 'src/common/constants/constants';
 
 export const RoleListQueryStringSchema = Joi.object().keys({
     page: Joi.number().optional().min(MIN_PAGE),

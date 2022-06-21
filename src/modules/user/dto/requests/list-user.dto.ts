@@ -1,7 +1,7 @@
-import { INPUT_TEXT_MAX_LENGTH } from '../../../../common/constants';
+import { INPUT_TEXT_MAX_LENGTH } from '../../../../common/constants/constants';
 
 import { UserGender, UserStatus } from '../../user.constant';
-import { ORDER_DIRECTION } from 'src/common/constants';
+import { ORDER_DIRECTION } from 'src/common/constants/constants';
 import * as Joi from 'joi';
 
 export const UserListQueryStringSchema = Joi.object().keys({

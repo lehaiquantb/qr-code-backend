@@ -4,7 +4,7 @@ import {
     DEFAULT_ORDER_BY,
     DEFAULT_ORDER_DIRECTION,
     TYPE_ORM_ORDER_DIRECTION,
-} from '../../../common/constants';
+} from '../../../common/constants/constants';
 import {
     Inject,
     Injectable,
