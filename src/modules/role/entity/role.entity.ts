@@ -4,7 +4,9 @@ import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Entity, Column, OneToMany } from 'typeorm';
 import { UserRoleEntity } from './user-role.entity';
 
-@Entity({ name: TABLE_NAME.Role })
+const NAME = TABLE_NAME.ROLE;
+
+@Entity({ name: NAME })
 export class RoleEntity extends BaseEntity {
     @Column({ length: 255, nullable: false })
     name: string;

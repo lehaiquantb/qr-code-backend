@@ -5,9 +5,13 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
     BaseEntity as TypeOrmBaseEntity,
+    SelectQueryBuilder,
 } from 'typeorm';
 
-export class BaseEntity extends TypeOrmBaseEntity {
+interface IEntity {
+    builder: any;
+}
+export abstract class BaseEntity extends TypeOrmBaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -28,4 +32,12 @@ export class BaseEntity extends TypeOrmBaseEntity {
 
     @Column({ nullable: true })
     deletedBy: number;
+
+    static tableName(): string {
+        return this.getRepository().metadata.tableName;
+    }
+
+    static queryBuilder(): SelectQueryBuilder<TypeOrmBaseEntity> {
+        return this.createQueryBuilder(this.tableName());
+    }
 }

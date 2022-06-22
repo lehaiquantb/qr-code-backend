@@ -10,8 +10,6 @@ import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
 import ConfigKey from '../src/common/config/config-key';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
-import { ValidationException } from '~common';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -36,14 +34,14 @@ async function bootstrap() {
 
     app.useGlobalPipes(new JoiValidationPipe());
 
-    app.useGlobalPipes(
-        new ValidationPipe({
-            whitelist: true,
-            transform: false,
-            dismissDefaultMessages: true,
-            exceptionFactory: (errors) => new ValidationException(errors),
-        }),
-    );
+    // app.useGlobalPipes(
+    //     new ValidationPipe({
+    //         whitelist: true,
+    //         transform: false,
+    //         dismissDefaultMessages: true,
+    //         exceptionFactory: (errors) => new ValidationException(errors),
+    //     }),
+    // );
 
     // setup max request size
     app.use(
@@ -67,7 +65,13 @@ async function bootstrap() {
             .addTag('example')
             .build();
         const document = SwaggerModule.createDocument(app, config);
-        SwaggerModule.setup('/api/swagger', app, document);
+        const SWAGGER_PATH = '/swagger';
+        SwaggerModule.setup(SWAGGER_PATH, app, document);
+        console.log(
+            `[Swagger UI is available at http://localhost:${configService.get(
+                ConfigKey.PORT,
+            )}${SWAGGER_PATH}]`,
+        );
     }
 
     await app.listen(configService.get(ConfigKey.PORT));

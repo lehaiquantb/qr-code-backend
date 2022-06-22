@@ -52,7 +52,7 @@
       "~user/*": [
         "src/modules/user/*"
       ],
-      "~database/*":[
+      "~database/*": [
         "database/*"
       ]
     },

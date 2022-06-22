@@ -2,8 +2,8 @@ import { TABLE_NAME } from '../../../../database/constant';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Entity, Column, OneToMany } from 'typeorm';
 import { PermissionEntity } from './permission.entity';
-
-@Entity({ name: TABLE_NAME.Permission_Action })
+const NAME = TABLE_NAME.PERMISSION_ACTION;
+@Entity({ name: NAME })
 export class PermissionActionEntity extends BaseEntity {
     @Column({ length: 255, nullable: false })
     action: string;

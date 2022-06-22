@@ -5,7 +5,9 @@ import { Entity, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 import { PermissionResourceEntity } from './permission-resource.entity';
 import { PermissionActionEntity } from './permission-action.entity';
 
-@Entity({ name: TABLE_NAME.Permission })
+const NAME = TABLE_NAME.PERMISSION;
+
+@Entity({ name: NAME })
 export class PermissionEntity extends BaseEntity {
     @Column({ nullable: false })
     permissionActionId: number;

@@ -1,3 +1,4 @@
+import { UserRepository } from './user.repository';
 import { UserResponseDto } from './dto/response/user-response.dto';
 import { IRequest } from '~common';
 import {
@@ -54,8 +55,15 @@ export class UserController extends BaseController {
         private readonly usersService: UserService,
         private readonly i18n: I18nRequestScopeService,
         private readonly databaseService: DatabaseService,
+        private userRepository: UserRepository,
     ) {
         super();
+    }
+
+    @Get('/test')
+    async test() {
+        const user = await UserEntity.queryBuilder();
+        return new SuccessResponse(user);
     }
 
     @Get(':id')

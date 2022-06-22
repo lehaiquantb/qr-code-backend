@@ -1,14 +1,14 @@
 import { TableColumnOptions } from 'typeorm';
 
 export enum TABLE_NAME {
-    User = 'user',
-    Role = 'role',
-    User_Token = 'user_token',
-    User_Role = 'user_role',
-    Role_Permission = 'role_permission',
-    Permission = 'permission',
-    Permission_Action = 'permission_action',
-    Permission_Resource = 'permission_resource',
+    USER = 'user',
+    ROLE = 'role',
+    USER_TOKEN = 'user_token',
+    USER_ROLE = 'user_role',
+    ROLE_PERMISSION = 'role_permission',
+    PERMISSION = 'permission',
+    PERMISSION_ACTION = 'permission_action',
+    PERMISSION_RESOURCE = 'permission_resource',
 }
 
 export const createColumns = function (

@@ -1,16 +1,20 @@
-import { Body, Controller, Get } from '@nestjs/common';
-import { Joi } from './common/decorators';
-import * as BaseJoi from 'joi';
-import { BaseDto, IsPassword } from '~common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { JoiValidate } from '~common';
+import Joi from 'joi';
+import { BaseDto } from '~common';
+import { ApiProperty } from '@nestjs/swagger';
+import { UserEntity } from '~user/entity/user.entity';
+
 export class TestDto extends BaseDto {
     // if use ValidationPipe, this required all property use decorator in class-validator because ValidationPipe effect to transform value of JoiValidationPipe
     // @IsPassword({ message: 'Password must be a string' })
     name: string;
 
-    @IsPassword()
+    @ApiProperty()
     hello: string;
 
-    @Joi(BaseJoi.number().negative())
+    @ApiProperty()
+    @JoiValidate(Joi.number().negative())
     kkk: number;
 }
 
@@ -21,10 +25,9 @@ export class AppController {
         return 'pong';
     }
 
-    @Get('/test-validator')
+    @Post('/test-validator')
     testValidator(@Body() body: TestDto) {
-        console.log(body);
-
+        console.log(UserEntity.tableName());
         return body;
     }
 }

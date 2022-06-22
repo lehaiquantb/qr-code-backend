@@ -5,7 +5,10 @@ import { UserStatus, UserGender } from '../user.constant';
 import * as bcrypt from 'bcrypt';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
-@Entity({ name: TABLE_NAME.User })
+const NAME = TABLE_NAME.USER;
+
+type Property<T> = T;
+@Entity({ name: NAME })
 export class UserEntity extends BaseEntity {
     @Column({ length: 255, nullable: false })
     email: string;

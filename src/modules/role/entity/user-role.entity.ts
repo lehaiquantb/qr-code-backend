@@ -4,7 +4,9 @@ import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { RoleEntity } from './role.entity';
 
-@Entity({ name: TABLE_NAME.User_Role })
+const NAME = TABLE_NAME.USER_ROLE;
+
+@Entity({ name: NAME })
 export class UserRoleEntity extends BaseEntity {
     @Column({ nullable: false })
     userId: number;

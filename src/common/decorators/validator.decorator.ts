@@ -23,7 +23,7 @@ export function IsPassword(
 
 export const METADATA_JOI_KEY = Symbol('METADATA_JOI_KEY');
 
-export function Joi(schema: BaseJoi.AnySchema): PropertyDecorator {
+export function JoiValidate(schema: BaseJoi.AnySchema): PropertyDecorator {
     return (target, propertyName: string) => {
         Reflect.defineMetadata(METADATA_JOI_KEY, schema, target, propertyName);
     };

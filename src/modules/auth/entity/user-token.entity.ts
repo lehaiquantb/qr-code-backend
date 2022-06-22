@@ -4,7 +4,9 @@ import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { UserEntity } from '../../user/entity/user.entity';
 import { UserTokenType } from '../auth.constant';
 
-@Entity({ name: TABLE_NAME.User_Token })
+const NAME = TABLE_NAME.USER_TOKEN;
+
+@Entity({ name: NAME })
 export class UserTokenEntity extends BaseEntity {
     @Column()
     userId: number;
