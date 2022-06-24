@@ -14,3 +14,4 @@ export * from './pipes/joi.validation.pipe';
 export * from './pipes/removeEmptyQueryPipe';
 export * from './interceptors/transform.interceptor';
 export * from './constants/index';
+export * from './types';

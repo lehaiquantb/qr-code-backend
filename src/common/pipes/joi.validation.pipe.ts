@@ -5,7 +5,6 @@ import {
     PipeTransform,
 } from '@nestjs/common';
 import { ObjectSchema, ValidationResult, ValidationError } from 'joi';
-import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class JoiValidationPipe implements PipeTransform {
@@ -13,20 +12,20 @@ export class JoiValidationPipe implements PipeTransform {
 
     transform(value: any, metadata: ArgumentMetadata) {
         const metatype = metadata?.metatype;
-        console.log(value);
-
         if (metatype && !this.schema) {
-            const entity = plainToInstance(metatype, value);
-            this.schema = entity?.getJoiSchema();
+            this.schema = (metatype as any)?.getJoiSchema();
         }
 
         if (this.schema) {
-            const { error } = this.schema.validate(value, {
+            const validationResult = this.schema.validate(value, {
                 abortEarly: false,
             }) as ValidationResult;
-            if (error) {
-                const { details } = error as ValidationError;
+
+            if (validationResult.error) {
+                const { details } = validationResult.error as ValidationError;
                 throw new BadRequestException({ errors: details });
+            } else {
+                return validationResult.value;
             }
         }
 

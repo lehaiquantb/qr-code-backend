@@ -6,5 +6,6 @@ import { EntityRepository } from 'typeorm';
 export class UserRepository extends BaseRepository<UserEntity> {
     constructor() {
         super();
+        // this.createQueryBuilder('user').leftJoin()
     }
 }

@@ -1,10 +1,17 @@
 {
-  "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
-  "compilerOptions": {
-    "watchAssets": true,
-    "assets": [
-      "i18n/**/*"
-    ]
-  }
+    "collection": "@nestjs/schematics",
+    "sourceRoot": "src",
+    "compilerOptions": {
+        "watchAssets": true,
+        "assets": ["i18n/**/*"],
+        "plugins": [
+            {
+                "name": "@nestjs/swagger",
+                "options": {
+                    "classValidatorShim": false,
+                    "introspectComments": true
+                }
+            }
+        ]
+    }
 }

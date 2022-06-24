@@ -5,7 +5,6 @@ import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { RoleEntity } from './role.entity';
 
 const NAME = TABLE_NAME.USER_ROLE;
-
 @Entity({ name: NAME })
 export class UserRoleEntity extends BaseEntity {
     @Column({ nullable: false })

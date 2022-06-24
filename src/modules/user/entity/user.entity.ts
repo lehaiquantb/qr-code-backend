@@ -5,6 +5,7 @@ import { UserStatus, UserGender } from '../user.constant';
 import * as bcrypt from 'bcrypt';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
+import { KeyOfType } from '~common';
 const NAME = TABLE_NAME.USER;
 
 type Property<T> = T;
@@ -57,3 +58,6 @@ export class UserEntity extends BaseEntity {
         return bcrypt.compare(password, this.password);
     }
 }
+
+type Abc = KeyOfType<UserEntity, BaseEntity>;
+type Re = Required<UserEntity>;
