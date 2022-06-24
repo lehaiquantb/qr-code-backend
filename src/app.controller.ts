@@ -1,6 +1,12 @@
 import { UserGender } from './modules/user/user.constant';
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { JoiObject, JoiOptional, JoiValidate } from '~common';
+import {
+    JoiEnum,
+    JoiObject,
+    JoiOptional,
+    JoiRequired,
+    JoiValidate,
+} from '~common';
 import Joi from 'joi';
 import { BaseDto } from '~common';
 import { ApiProperty } from '@nestjs/swagger';
@@ -19,14 +25,12 @@ export class TestDto extends BaseDto {
     // @IsPassword({ message: 'Password must be a string' })
     name: string;
 
-    @ApiProperty()
     @JoiOptional(Joi.number())
     hello: string;
 
     @JoiValidate(Joi.number().default(1))
     kkk: number;
 
-    @ApiProperty({ type: ItemDto, isArray: true })
     @JoiValidate(
         Joi.array()
             .items(ItemDto.getJoiSchema().required())
@@ -34,10 +38,11 @@ export class TestDto extends BaseDto {
     )
     items: ItemDto[];
 
-    @JoiObject(ItemDto)
+    @JoiObject(ItemDto, Joi.object().required())
+    @JoiRequired()
     item2s: ItemDto;
 
-    @JoiValidate(Joi.string().valid(...Object.values(UserGender)))
+    @JoiEnum(UserGender, Joi.string().required())
     gender: UserGender;
 
     // @JoiValidate(Joi.object(MyObject.getJoiSchema()))

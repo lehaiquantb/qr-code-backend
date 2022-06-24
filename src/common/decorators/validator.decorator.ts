@@ -1,4 +1,4 @@
-import { BaseDto } from '~common';
+import { BaseDto, convertEnumToValues } from '~common';
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger';
 import { applyDecorators } from '@nestjs/common';
 import type { ValidationOptions } from 'class-validator';
@@ -59,22 +59,45 @@ export function JoiRequired(schema?: Joi.AnySchema): PropertyDecorator {
         : JoiValidate(Joi.required(), { required: true });
 }
 
-export function JoiArray<T extends BaseDto>(dtoClass: T): PropertyDecorator {
+export function JoiArray<T extends BaseDto>(
+    dtoClass: T,
+    schema?: Joi.ArraySchema,
+): PropertyDecorator {
+    const joiSchema = Joi.array()
+        .items((dtoClass as any)?.getJoiSchema())
+        .concat(schema);
     const decorators = [
-        JoiValidate(Joi.array().items((dtoClass as any)?.getJoiSchema())),
+        JoiValidate(joiSchema),
         ApiProperty({ isArray: true, type: dtoClass }),
     ];
     return applyDecorators(...decorators);
 }
 
-export function JoiObject<T extends BaseDto>(dtoClass: T): PropertyDecorator {
+export function JoiObject<T extends BaseDto>(
+    dtoClass: T,
+    schema?: Joi.ObjectSchema,
+): PropertyDecorator {
+    let joiSchema = Joi.object((dtoClass as any)?.getJoiObject());
+    if (schema) joiSchema = joiSchema.concat(schema);
     const decorators = [
-        JoiValidate(Joi.object((dtoClass as any)?.getJoiObject())),
+        JoiValidate(joiSchema),
         ApiProperty({ isArray: false, type: dtoClass }),
     ];
     return applyDecorators(...decorators);
 }
 
-// export function JoiEnum(enum: any): PropertyDecorator {
-//     return schema ? JoiValidate(schema.required(),{required:true}) : JoiValidate(Joi.required(),{required:true});
-// }
+export function JoiEnum(
+    joyEnum: any,
+    schema?: Joi.AnySchema,
+): PropertyDecorator {
+    let joiSchema = Joi.any();
+    if (schema) joiSchema = joiSchema.concat(schema);
+    joiSchema = joiSchema.valid(...Object.values(joyEnum));
+    const validValues = convertEnumToValues(joyEnum);
+
+    const decorators = [
+        JoiValidate(joiSchema),
+        ApiProperty({ enum: validValues }),
+    ];
+    return applyDecorators(...decorators);
+}

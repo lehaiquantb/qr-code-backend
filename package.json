@@ -91,6 +91,7 @@
         "ts-loader": "^9.2.6",
         "ts-node": "^10.4.0",
         "tsconfig-paths": "^3.12.0",
+        "typeorm-seeding": "https://github.com/lehaiquantb/typeorm-seeding.git",
         "typescript": "^4.3.5"
     }
 }
