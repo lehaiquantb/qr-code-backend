@@ -9,10 +9,15 @@ import { TABLE_NAME } from '../constant';
 import { createEntity, factoryExcute } from '~database/factories';
 dotenv.config();
 export class SeedingUser1720963593420 implements MigrationInterface {
-
     public async up(queryRunner: QueryRunner): Promise<void> {
-        const userEntity = await factoryExcute(UserEntity, { id: 2 });
-        await factoryExcute(UserTokenEntity, { user: userEntity });
+        const promises = [
+            factoryExcute(UserEntity, { id: 1 }),
+            factoryExcute(UserEntity, { id: 2 }),
+            factoryExcute(UserEntity, { id: 3 }),
+            factoryExcute(UserEntity, { id: 4 }),
+            factoryExcute(UserEntity, { id: 5 })
+        ];
+        await Promise.all(promises);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {}

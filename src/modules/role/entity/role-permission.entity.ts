@@ -4,7 +4,7 @@ import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { PermissionEntity } from './permission.entity';
 
-const NAME = TABLE_NAME.PERMISSION_ACTION;
+const NAME = TABLE_NAME.ROLE_PERMISSION;
 
 @Entity({ name: NAME })
 export class RolePermissionEntity extends BaseEntity {

@@ -1,3 +1,8 @@
+import { UserRoleEntity } from './../../src/modules/role/entity/user-role.entity';
+import { RolePermissionEntity } from './../../src/modules/role/entity/role-permission.entity';
+import { RoleEntity } from './../../src/modules/role/entity/role.entity';
+import { PermissionEntity } from './../../src/modules/role/entity/permission.entity';
+import { PermissionResourceEntity } from './../../src/modules/role/entity/permission-resource.entity';
 import { PermissionActionEntity } from './../../src/modules/role/entity/permission-action.entity';
 import { TABLE_NAME } from './../constant';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
@@ -20,6 +25,11 @@ import DatabaseConfig from '~database/config';
 import userFactory from './user.factory';
 import userTokenFactory from './user_token.factory';
 import permissionActionFactory from './permission_action.factory';
+import permissionResourceFactory from './permission_resource.factory';
+import permissionFactory from './permission.factory';
+import roleFactory from './role.factory';
+import rolePermissionFactory from './role_permission.factory';
+import userRoleFactory from './user_role.factory';
 
 interface Factory<T extends BaseEntity> {
     tableName: string;
@@ -63,6 +73,11 @@ let factories: { [key: string]: FactoryDefine<any> } = {
     [UserEntity.name]: userFactory,
     [UserTokenEntity.name]: userTokenFactory,
     [PermissionActionEntity.name]: permissionActionFactory,
+    [PermissionResourceEntity.name]: permissionResourceFactory,
+    [PermissionEntity.name]: permissionFactory,
+    [RoleEntity.name]: roleFactory,
+    [RolePermissionEntity.name]: rolePermissionFactory,
+    [UserRoleEntity.name]: userRoleFactory,
 };
 export function test() {
     glob(`**/*.factory.ts`, {}, (err, files) => {

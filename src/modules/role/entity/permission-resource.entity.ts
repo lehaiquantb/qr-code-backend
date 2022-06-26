@@ -3,8 +3,7 @@ import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Entity, Column, OneToMany } from 'typeorm';
 import { PermissionEntity } from './permission.entity';
 
-const NAME = TABLE_NAME.PERMISSION_ACTION;
-
+const NAME = TABLE_NAME.PERMISSION_RESOURCE;
 @Entity({ name: NAME })
 export class PermissionResourceEntity extends BaseEntity {
     @Column({ length: 255, nullable: false })
