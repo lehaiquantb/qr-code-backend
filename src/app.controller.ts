@@ -1,16 +1,10 @@
-import { UserGender } from './modules/user/user.constant';
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import {
-    JoiEnum,
-    JoiObject,
-    JoiOptional,
-    JoiRequired,
-    JoiValidate,
-} from '~common';
+import { JoiOptional, JoiValidate } from '~common';
 import Joi from 'joi';
 import { BaseDto } from '~common';
 import { ApiProperty } from '@nestjs/swagger';
-// import { Is} from 'class-validator'
+
+import { test } from '~database/factories';
 class ItemDto extends BaseDto {
     @ApiProperty()
     @JoiValidate(Joi.string().required())
@@ -23,27 +17,28 @@ class MyObject extends BaseDto {
 export class TestDto extends BaseDto {
     // if use ValidationPipe, this required all property use decorator in class-validator because ValidationPipe effect to transform value of JoiValidationPipe
     // @IsPassword({ message: 'Password must be a string' })
+    @JoiOptional()
     name: string;
 
-    @JoiOptional(Joi.number())
-    hello: string;
+    // @JoiOptional(Joi.number())
+    // hello: string;
 
-    @JoiValidate(Joi.number().default(1))
-    kkk: number;
+    // @JoiValidate(Joi.number().default(1))
+    // kkk: number;
 
-    @JoiValidate(
-        Joi.array()
-            .items(ItemDto.getJoiSchema().required())
-            .default([{ name: 'ad' }]),
-    )
-    items: ItemDto[];
+    // @JoiValidate(
+    //     Joi.array()
+    //         .items(ItemDto.getJoiSchema().required())
+    //         .default([{ name: 'ad' }]),
+    // )
+    // items: ItemDto[];
 
-    @JoiObject(ItemDto, Joi.object().required())
-    @JoiRequired()
-    item2s: ItemDto;
+    // @JoiObject(ItemDto, Joi.object().required())
+    // @JoiRequired()
+    // item2s: ItemDto;
 
-    @JoiEnum(UserGender, Joi.string().required())
-    gender: UserGender;
+    // @JoiEnum(UserGender, Joi.string().required())
+    // gender: UserGender;
 
     // @JoiValidate(Joi.object(MyObject.getJoiSchema()))
     // myObject: MyObject
@@ -63,7 +58,7 @@ export class AppController {
     @Post('/test-validator')
     testValidator(@Body() body: TestDto) {
         // const schema = Joi.number().negative().optional()
-        // debugger
+        test();
         return body;
     }
 }
