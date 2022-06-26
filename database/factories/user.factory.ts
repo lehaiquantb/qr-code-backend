@@ -9,14 +9,6 @@ const userFactory: FactoryDefine<UserEntity> = async () => {
     user.email = faker.internet.email();
     user.password = faker.internet.password();
     user.status = UserStatus.ACTIVE;
-
-    // const userToken = new UserTokenEntity();
-    // await repo.insert(user);
-    // userToken.user = user;
-    // userToken.hashToken = faker.internet.password();
-    // userToken.type = UserTokenType.REFRESH_TOKEN;
-    // userToken.token = faker.internet.password();
-    // await repoUserToken.insert(userToken);
     return user;
 };
 

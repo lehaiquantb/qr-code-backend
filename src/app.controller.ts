@@ -4,7 +4,6 @@ import Joi from 'joi';
 import { BaseDto } from '~common';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { test } from '~database/factories';
 class ItemDto extends BaseDto {
     @ApiProperty()
     @JoiValidate(Joi.string().required())
@@ -58,7 +57,7 @@ export class AppController {
     @Post('/test-validator')
     testValidator(@Body() body: TestDto) {
         // const schema = Joi.number().negative().optional()
-        test();
+        // test();
         return body;
     }
 }

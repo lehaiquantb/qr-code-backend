@@ -1,18 +1,25 @@
+import { PermissionActionEntity } from './../../src/modules/role/entity/permission-action.entity';
 import { TABLE_NAME } from './../constant';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { UserTokenType } from './../../src/modules/auth/auth.constant';
 import { UserTokenEntity } from './../../src/modules/auth/entity/user-token.entity';
 import { UserStatus } from './../../src/modules/user/user.constant';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
-import { QueryRunner, Repository, getRepository, ObjectType, getConnection } from 'typeorm';
+import {
+    QueryRunner,
+    Repository,
+    getRepository,
+    ObjectType,
+    getConnection,
+    createConnection,
+} from 'typeorm';
 import { Faker, faker } from '@faker-js/faker';
 import glob from 'glob';
 import path from 'path';
-
-import { DataSource } from "typeorm"
 import DatabaseConfig from '~database/config';
-
-
+import userFactory from './user.factory';
+import userTokenFactory from './user_token.factory';
+import permissionActionFactory from './permission_action.factory';
 
 interface Factory<T extends BaseEntity> {
     tableName: string;
@@ -27,8 +34,11 @@ interface Factory<T extends BaseEntity> {
 //         defineFunction: require('./user.factory'),
 //     },
 // ];
+type Params<T> = { [key in keyof Partial<T>]: Required<T>[key] };
 
-export type FactoryDefine<T extends BaseEntity> =  () => Promise<T>;
+export type FactoryDefine<T extends BaseEntity> = (
+    params?: Params<T>,
+) => Promise<T>;
 
 export async function createEntity(queryRunner: QueryRunner) {
     const repo = queryRunner.manager.getRepository('user');
@@ -49,7 +59,11 @@ export async function createEntity(queryRunner: QueryRunner) {
     return user;
 }
 
-let factories: { [key: string]: FactoryDefine<any> } = {};
+let factories: { [key: string]: FactoryDefine<any> } = {
+    [UserEntity.name]: userFactory,
+    [UserTokenEntity.name]: userTokenFactory,
+    [PermissionActionEntity.name]: permissionActionFactory,
+};
 export function test() {
     glob(`**/*.factory.ts`, {}, (err, files) => {
         console.log(files);
@@ -57,41 +71,40 @@ export function test() {
             path.relative('../database/factories/', file),
         );
 
-        
-
         for (const file of files) {
             const factory = import(`../../${file.slice(0, -3)}`);
             factory.then((res) => {
                 const tableName = res?.default()?.tableName;
-                factories[tableName] = res?.default
+                factories[tableName] = res?.default;
             });
         }
     });
 }
 
 // test();
-
 export async function factoryExcute<T extends BaseEntity>(
     entity: ObjectType<T>,
+    params?: Params<T>,
 ): Promise<T> {
-    // console.log(factories);
-    // (entity as any).useConnection(getConnection('seed'))
     // const a = new (entity as any)();
-    // console.log((entity as any).tableName('seed'));
-    console.log( getConnection('seed').manager.getRepository(UserTokenEntity).metadata.tableName);
-    
-    // const tableName = a.tableName;
-    // const u = new UserTokenEntity();
-    // console.log(a.tableName);
-    // console.log(UserTokenEntity.tableName);
-    
-    // const factory = factories[tableName];
-    // const enti = await factory();
-    
-    // const repo = getConnection('seed').getRepository(tableName)
-    // await repo.insert(enti);
-    // await repo.insert(entity);
-    return null;
+    const repo = getConnection('seed').manager.getRepository(entity);
+
+    if (params) {
+        const result = await repo.findOne({ where: params });
+        if (result) {
+            return result;
+        }
+    }
+
+    const entityName = entity.name;
+
+    const factory = factories[entityName];
+    const e = await factory(params);
+
+    for (const key in params) {
+        e[key] = params[key];
+    }
+
+    await repo.insert(e);
+    return e;
 }
-
-

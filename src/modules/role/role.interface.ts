@@ -72,12 +72,12 @@
 //     [ModuleName.TEAM]: ITeamPermission;
 // }
 
-export enum ResourceName {
+export enum PERMISSION_RESOURCE {
     USER = 'user',
     PRODUCT = 'product',
 }
 
-export enum ActionName {
+export enum PERMISSION_ACTION {
     READ = 'read',
     CREATE = 'create',
     UPDATE = 'update',

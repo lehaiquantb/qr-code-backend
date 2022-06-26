@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import ConfigKey from '../config/config-key';
 import { DatabaseConfig } from 'database/config';
 import { NODE_ENV } from 'src/common/constants/constants';
+import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
 @Global()
 @Module({
@@ -17,7 +18,7 @@ import { NODE_ENV } from 'src/common/constants/constants';
                     (item) => item.type === ConfigKey.DB_TYPE,
                 );
                 const { database, port, username, password, host, socketPath } =
-                    mysqlDatabase;
+                    mysqlDatabase as MysqlConnectionOptions;
                 const isDevelopment =
                     configService.get(ConfigKey.NODE_ENV) ===
                     NODE_ENV.DEVELOPMENT;
