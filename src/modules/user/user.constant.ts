@@ -1,3 +1,4 @@
+import { EMAIL_REGEX } from './../../common/constants';
 import * as BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 import {
@@ -50,6 +51,17 @@ export const userFields = {
         .optional()
         .label('user.fields.gender'),
     roleId: Joi.number().required().label('user.fields.role'),
+    email: Joi.string()
+        .regex(EMAIL_REGEX)
+        .max(INPUT_TEXT_MAX_LENGTH)
+        .required()
+        .label('user.fields.email'),
+    password: Joi.string()
+        .allow(null)
+        .min(8)
+        .max(INPUT_TEXT_MAX_LENGTH)
+        .optional()
+        .label('user.fields.password'),
 };
 
 export const AllowUpdateStatus = {

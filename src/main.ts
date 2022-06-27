@@ -1,4 +1,3 @@
-import { JoiValidationPipe } from './common/pipes/joi.validation.pipe';
 import { NODE_ENV } from './common/constants';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -32,7 +31,7 @@ async function bootstrap() {
     // setup prefix of route
     app.setGlobalPrefix(configService.get(ConfigKey.BASE_PATH));
 
-    app.useGlobalPipes(new JoiValidationPipe());
+    // app.useGlobalPipes(new JoiValidationPipe());
 
     // app.useGlobalPipes(
     //     new ValidationPipe({

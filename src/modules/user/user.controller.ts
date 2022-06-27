@@ -18,10 +18,7 @@ import {
 } from '@nestjs/common';
 
 import { UserService } from './services/user.service';
-import {
-    CreateUserDto,
-    CreateUserSchema,
-} from './dto/requests/create-user.dto';
+import { CreateUserDto } from './dto/requests/create-user.dto';
 import {
     UpdateUserDto,
     UpdateUserSchema,
@@ -101,10 +98,7 @@ export class UserController extends BaseController {
     }
 
     @Post()
-    async create(
-        @Request() req: IRequest,
-        @Body(new JoiValidationPipe(CreateUserSchema)) data: CreateUserDto,
-    ) {
+    async create(@Request() req: IRequest, @Body() data: CreateUserDto) {
         try {
             const promises = [
                 this.databaseService.checkItemExist(

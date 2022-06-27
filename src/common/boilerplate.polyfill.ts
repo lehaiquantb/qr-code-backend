@@ -15,6 +15,12 @@ import type { BaseEntity } from './entites/BaseEntity';
 // import { VIRTUAL_COLUMN_KEY } from './decorators';
 import type { KeyOfType } from './types';
 
+// declare module 'joi' {
+//     interface AnySchema<TSchema = any> extends SchemaInternals {
+//         label(name: number | string): this;
+//     }
+// }
+
 function groupRows<T>(
     rawResults: T[],
     alias: Alias,

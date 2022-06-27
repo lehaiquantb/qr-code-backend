@@ -63,6 +63,7 @@ export class UserService {
                 }),
             );
         }
+
         if (statuses && statuses.length > 0) {
             queryBuilder.andWhere({
                 status: In(statuses),

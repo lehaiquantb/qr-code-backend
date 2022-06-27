@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { JoiOptional, JoiValidate, BaseController } from '~common';
+import { JoiValidate, BaseController } from '~common';
 import Joi from 'joi';
 import { BaseDto } from '~common';
 import { ApiProperty } from '@nestjs/swagger';
 
 class ItemDto extends BaseDto {
     @ApiProperty()
-    @JoiValidate(Joi.string().required())
+    @JoiValidate(Joi.string().required().label(23))
     name: string;
 }
 
@@ -16,7 +16,6 @@ class MyObject extends BaseDto {
 export class TestDto extends BaseDto {
     // if use ValidationPipe, this required all property use decorator in class-validator because ValidationPipe effect to transform value of JoiValidationPipe
     // @IsPassword({ message: 'Password must be a string' })
-    @JoiOptional()
     name: string;
 
     // @JoiOptional(Joi.number())
@@ -58,6 +57,7 @@ export class AppController extends BaseController {
     testValidator(@Body() body: TestDto) {
         // const schema = Joi.number().negative().optional()
         // test();
+        console.log(body);
         return body;
     }
 }
