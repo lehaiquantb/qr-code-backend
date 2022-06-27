@@ -13,10 +13,13 @@ import { UserStatus } from './../../src/modules/user/user.constant';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { FactoryDefine } from '.';
 
-const rolePermissionFactory: FactoryDefine<RolePermissionEntity> = async () => {
+const rolePermissionFactory: FactoryDefine<RolePermissionEntity> = async (
+    params,
+) => {
     const e = new RolePermissionEntity();
-    e.permission = await factoryExcute(PermissionEntity);
-    e.role = await factoryExcute(RoleEntity);
+    e.permission =
+        params?.permission ?? (await factoryExcute(PermissionEntity));
+    e.role = params?.role ?? (await factoryExcute(RoleEntity));
     return e;
 };
 

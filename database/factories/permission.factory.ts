@@ -11,14 +11,18 @@ import { UserStatus } from './../../src/modules/user/user.constant';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { FactoryDefine } from '.';
 
-const permissionFactory: FactoryDefine<PermissionEntity> = async () => {
+const permissionFactory: FactoryDefine<PermissionEntity> = async (params) => {
     const e = new PermissionEntity();
-    e.permissionAction = await factoryExcute(PermissionActionEntity, {
-        action: PERMISSION_ACTION.MANAGE_ALL,
-    });
-    e.permissionResource = await factoryExcute(PermissionResourceEntity, {
-        resource: PERMISSION_RESOURCE.USER,
-    });
+    e.permissionAction =
+        params?.permissionAction ??
+        (await factoryExcute(PermissionActionEntity, {
+            action: PERMISSION_ACTION.MANAGE_ALL,
+        }));
+    e.permissionResource =
+        params?.permissionResource ??
+        (await factoryExcute(PermissionResourceEntity, {
+            resource: PERMISSION_RESOURCE.USER,
+        }));
     return e;
 };
 

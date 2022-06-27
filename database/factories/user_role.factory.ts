@@ -6,10 +6,10 @@ import { UserStatus } from './../../src/modules/user/user.constant';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { FactoryDefine } from '.';
 
-const userRoleFactory: FactoryDefine<UserRoleEntity> = async () => {
+const userRoleFactory: FactoryDefine<UserRoleEntity> = async (params) => {
     const e = new UserRoleEntity();
-    e.user = await factoryExcute(UserEntity);
-    e.role = await factoryExcute(RoleEntity);
+    e.user = params?.user ?? (await factoryExcute(UserEntity));
+    e.role = params?.role ?? (await factoryExcute(RoleEntity));
     return e;
 };
 

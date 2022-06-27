@@ -11,10 +11,6 @@ const userTokenFactory: FactoryDefine<UserTokenEntity> = async (params?) => {
     entity.hashToken =  faker.internet.password();
     entity.type = UserTokenType.REFRESH_TOKEN;
     entity.token =  faker.internet.password();
-
-    for (const key in params) {
-        entity[key] = params[key];
-    }
     
     return entity;
 }
