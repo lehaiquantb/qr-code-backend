@@ -11,7 +11,7 @@ import { JwtGuard } from '../../common/guards/jwt.guard';
 import { AuthController } from './auth.controller';
 import { CommonModule } from '../common/common.module';
 import { RefreshTokenMiddleware } from './auth.middleware';
-import { I18nModule } from 'nestjs-i18n';
+import { I18nModule } from '../../common/services/i18n.service';
 import ConfigKey from '../../../src/common/config/config-key';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseService } from 'src/common/services/database.service';

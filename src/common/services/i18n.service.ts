@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import {
     I18nModule as NestI18nModule,
-    I18nJsonParser,
+    I18nJsonLoader,
     AcceptLanguageResolver,
 } from 'nestjs-i18n';
 import * as path from 'path';
@@ -18,11 +18,11 @@ import * as path from 'path';
     imports: [
         NestI18nModule.forRoot({
             fallbackLanguage: 'en',
-            parserOptions: {
+            loaderOptions: {
                 path: path.join('dist/i18n/'),
                 watch: true,
             },
-            parser: I18nJsonParser,
+            loader: I18nJsonLoader,
             resolvers: [AcceptLanguageResolver],
         }),
     ],

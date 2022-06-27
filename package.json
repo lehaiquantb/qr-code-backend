@@ -52,7 +52,7 @@
         "moment": "^2.29.1",
         "mysql2": "^2.3.3",
         "nest-winston": "^1.6.2",
-        "nestjs-i18n": "^8.2.2",
+        "nestjs-i18n": "^9.1.1",
         "rimraf": "^3.0.2",
         "rxjs": "^7.2.0",
         "selenium-webdriver": "^4.1.0",

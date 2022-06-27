@@ -227,10 +227,9 @@ export class UserController extends BaseController {
                 );
             }
 
-            const [message] = await Promise.all([
-                this.i18n.translate('user.delete.success'),
-                this.usersService.deleteUser(id, req?.loginUser?.id),
-            ]);
+            await this.usersService.deleteUser(id, req?.loginUser?.id);
+
+            const message = this.i18n.translate('user.delete.success');
 
             return new SuccessResponse({ id }, message);
         } catch (error) {

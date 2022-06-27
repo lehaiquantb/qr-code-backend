@@ -49,13 +49,11 @@ export class TestDto extends BaseDto {
 export class AppController extends BaseController {
     @Get('/ping')
     pingAlive() {
-        return this.i18n.t('user.common.error.user.notFound');
+        return this.translate('user.common.error.user.notFound');
     }
 
     @Post('/test-validator')
     testValidator(@Body() body: TestDto) {
-        // const schema = Joi.number().negative().optional()
-        // test();
         console.log(body);
         return body;
     }
