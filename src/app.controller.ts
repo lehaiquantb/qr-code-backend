@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { JoiOptional, JoiValidate } from '~common';
+import { JoiOptional, JoiValidate, BaseController } from '~common';
 import Joi from 'joi';
 import { BaseDto } from '~common';
 import { ApiProperty } from '@nestjs/swagger';
@@ -48,10 +48,10 @@ export class TestDto extends BaseDto {
 }
 
 @Controller('/')
-export class AppController {
+export class AppController extends BaseController {
     @Get('/ping')
     pingAlive() {
-        return 'pong';
+        return this.i18n.translate('role.common.error.role.notFound');
     }
 
     @Post('/test-validator')

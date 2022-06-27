@@ -17,7 +17,7 @@
         "seed:run": "yarn typeorm migration:run -c seed",
         "schema:drop": "yarn typeorm schema:drop",
         "drop:migration": "yarn schema:drop && yarn migration:run",
-        "database": "yarn run schema:drop && yarn run seed:run",
+        "database": "yarn run drop:migration && yarn run seed:run",
         "lint": "eslint \"{src,apps,libs}/**/*.ts\" --fix",
         "format": "prettier --write \"src/**/*.ts\"",
         "wdio": "wdio run wdio.conf.js",

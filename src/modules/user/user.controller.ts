@@ -16,7 +16,6 @@ import {
     Request,
     UnauthorizedException,
 } from '@nestjs/common';
-import { I18nRequestScopeService } from 'nestjs-i18n';
 
 import { UserService } from './services/user.service';
 import {
@@ -53,9 +52,8 @@ import { BaseController } from '~common';
 export class UserController extends BaseController {
     constructor(
         private readonly usersService: UserService,
-        private readonly i18n: I18nRequestScopeService,
         private readonly databaseService: DatabaseService,
-        private userRepository: UserRepository,
+        private readonly userRepository: UserRepository,
     ) {
         super();
     }

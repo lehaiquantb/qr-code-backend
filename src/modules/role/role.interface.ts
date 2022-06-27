@@ -87,3 +87,8 @@ export enum PERMISSION_ACTION {
     MANAGE_ALL = 'manageAll',
     UPDATE_STATUS = 'updateStatus',
 }
+
+export enum DEFAULT_ROLE {
+    ADMIN = 'admin',
+    MEMBER = 'member',
+}
