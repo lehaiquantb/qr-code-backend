@@ -12,6 +12,7 @@
     "outDir": "dist",
     "baseUrl": "./",
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "paths": {
       "~plugins/*": [
         "src/plugins/*"

@@ -3,10 +3,9 @@ import { JoiValidate, BaseController } from '~common';
 import Joi from 'joi';
 import { BaseDto } from '~common';
 import { ApiProperty } from '@nestjs/swagger';
-
 class ItemDto extends BaseDto {
     @ApiProperty()
-    @JoiValidate(Joi.string().required().label(23))
+    @JoiValidate(Joi.string().required().label('name'))
     name: string;
 }
 
@@ -50,7 +49,7 @@ export class TestDto extends BaseDto {
 export class AppController extends BaseController {
     @Get('/ping')
     pingAlive() {
-        return this.i18n.translate('role.common.error.role.notFound');
+        return this.i18n.t('user.common.error.user.notFound');
     }
 
     @Post('/test-validator')

@@ -1,3 +1,4 @@
+import { I18Key } from './../i18n/index';
 /* eslint-disable @typescript-eslint/naming-convention */
 import 'source-map-support/register';
 
@@ -14,12 +15,12 @@ import type { BaseEntity } from './entites/BaseEntity';
 // import type { PageOptionsDto } from './common/dto/page-options.dto';
 // import { VIRTUAL_COLUMN_KEY } from './decorators';
 import type { KeyOfType } from './types';
-
-// declare module 'joi' {
-//     interface AnySchema<TSchema = any> extends SchemaInternals {
-//         label(name: number | string): this;
-//     }
-// }
+import Joi from 'joi';
+declare module 'joi' {
+    interface AnySchema<TSchema = any> extends Joi.SchemaInternals {
+        label(name: I18Key): this;
+    }
+}
 
 function groupRows<T>(
     rawResults: T[],
