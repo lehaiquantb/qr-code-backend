@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HttpStatus } from '~common';
-
+import { translate, I18Key } from '~i18n';
 const DEFAULT_SUCCESS_MESSAGE = 'success';
 @Injectable()
 export class ApiResponse<T> {
@@ -39,8 +39,8 @@ export class ErrorResponse {
     ) {
         return {
             code,
-            message,
             errors,
+            message: translate(message as I18Key),
         };
     }
 }

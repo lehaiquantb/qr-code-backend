@@ -1,4 +1,4 @@
-import { IRequest } from '~common';
+import { BaseController, IRequest } from '~common';
 import {
     Body,
     Controller,
@@ -11,11 +11,10 @@ import {
     UsePipes,
     Patch,
 } from '@nestjs/common';
-import { LoginDto, LoginSchema } from './dto/requests/login.dto';
+import { LoginDto } from './dto/requests/login.dto';
 
 import { AuthService, usersAttributes } from './services/auth.service';
 import { JwtGuard } from '../../common/guards/jwt.guard';
-import { I18nRequestScopeService } from 'nestjs-i18n';
 import { UserStatus } from '../user/user.constant';
 
 import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
@@ -27,24 +26,20 @@ import {
     ErrorResponse,
     SuccessResponse,
 } from '../../common/helpers/api.response';
-import {
-    AuthorizationGuard,
-    Permissions,
-} from 'src/common/guards/authorization.guard';
-import { ACTIONS, RESOURCES } from 'src/common/permissionConstants';
+import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { HttpStatus } from '~common';
 @Controller({
     path: 'auth',
 })
-export class AuthController {
+export class AuthController extends BaseController {
     constructor(
         private readonly authService: AuthService,
-        private readonly i18n: I18nRequestScopeService,
         private readonly databaseService: DatabaseService,
-    ) {}
+    ) {
+        super();
+    }
 
     @Post('login')
-    @UsePipes(new JoiValidationPipe(LoginSchema))
     async login(@Body() data: LoginDto) {
         try {
             const user = await this.authService.findUserByEmail(data.email, [
@@ -53,9 +48,7 @@ export class AuthController {
             ]);
             // check if user exists?
             if (!user) {
-                const message = await this.i18n.translate(
-                    'auth.errors.user.notFound',
-                );
+                const message = this.translate('auth.errors.user.notFound');
                 return new ErrorResponse(HttpStatus.BAD_REQUEST, message, []);
             }
             // check if user is active?
@@ -96,7 +89,6 @@ export class AuthController {
 
     @Post('refresh-token')
     @UseGuards(JwtGuard, AuthorizationGuard)
-    @Permissions([`${RESOURCES.USER}_${ACTIONS.LOGIN}`])
     async refreshToken(@Req() req) {
         try {
             const loginUser = req.loginUser;

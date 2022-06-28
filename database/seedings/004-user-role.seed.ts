@@ -3,7 +3,7 @@ import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
 import { RoleEntity } from './../../src/modules/role/entity/role.entity';
 import { PermissionResourceEntity } from './../../src/modules/role/entity/permission-resource.entity';
 import {
-    DEFAULT_ROLE,
+    ROLE_TYPE,
     PERMISSION_ACTION,
     PERMISSION_RESOURCE,
 } from './../../src/modules/role/role.interface';
@@ -17,20 +17,20 @@ export class UserRole_1720963593422 implements MigrationInterface {
             factoryExcute(UserRoleEntity, {
                 user: await factoryExcute(UserEntity, { id: 1 }),
                 role: await factoryExcute(RoleEntity, {
-                    name: DEFAULT_ROLE.ADMIN,
+                    name: ROLE_TYPE.ADMIN,
                 }),
             }),
             factoryExcute(UserRoleEntity, {
                 user: await factoryExcute(UserEntity, { id: 1 }),
                 role: await factoryExcute(RoleEntity, {
-                    name: DEFAULT_ROLE.MEMBER,
+                    name: ROLE_TYPE.MEMBER,
                 }),
             }),
 
             factoryExcute(UserRoleEntity, {
                 user: await factoryExcute(UserEntity, { id: 2 }),
                 role: await factoryExcute(RoleEntity, {
-                    name: DEFAULT_ROLE.MEMBER,
+                    name: ROLE_TYPE.MEMBER,
                 }),
             }),
         ];

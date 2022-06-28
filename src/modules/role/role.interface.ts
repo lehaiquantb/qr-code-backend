@@ -88,7 +88,7 @@ export enum PERMISSION_ACTION {
     UPDATE_STATUS = 'updateStatus',
 }
 
-export enum DEFAULT_ROLE {
+export enum ROLE_TYPE {
     ADMIN = 'admin',
     MEMBER = 'member',
 }

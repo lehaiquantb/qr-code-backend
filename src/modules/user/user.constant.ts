@@ -9,12 +9,6 @@ import {
 } from '../../common/constants/constants';
 const Joi = BaseJoi.extend(JoiDate);
 
-export enum UserRole {
-    USER = 'member',
-    ADMIN = 'admin',
-    TENANT = 'tenant',
-}
-
 export enum UserGender {
     MALE = 'male',
     FEMALE = 'female',

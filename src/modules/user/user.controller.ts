@@ -1,6 +1,10 @@
+import {
+    PERMISSION_ACTION,
+    PERMISSION_RESOURCE,
+} from './../role/role.interface';
 import { UserRepository } from './user.repository';
 import { UserResponseDto } from './dto/response/user-response.dto';
-import { IRequest } from '~common';
+import { Auth, IRequest } from '~common';
 import {
     Controller,
     Get,
@@ -9,12 +13,10 @@ import {
     Patch,
     Param,
     Delete,
-    UseGuards,
     InternalServerErrorException,
     Query,
     ParseIntPipe,
     Request,
-    UnauthorizedException,
 } from '@nestjs/common';
 
 import { UserService } from './services/user.service';
@@ -23,7 +25,6 @@ import {
     UpdateUserDto,
     UpdateUserSchema,
 } from './dto/requests/update-user.dto';
-import { JwtGuard } from '../../common/guards/jwt.guard';
 import { UserList } from './dto/response/api-response.dto';
 import { DatabaseService } from '../../common/services/database.service';
 import { UserEntity } from './entity/user.entity';
@@ -33,19 +34,16 @@ import {
 } from './dto/requests/list-user.dto';
 import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
 
-import { UserRole } from './user.constant';
 import {
     ErrorResponse,
     SuccessResponse,
 } from '../../common/helpers/api.response';
-import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { RemoveEmptyQueryPipe } from 'src/common/pipes/removeEmptyQueryPipe';
 import { HttpStatus } from '~common';
 import { RoleEntity } from '../role/entity/role.entity';
 import { BaseController } from '~common';
 
 @Controller('user')
-@UseGuards(JwtGuard, AuthorizationGuard)
 export class UserController extends BaseController {
     constructor(
         private readonly usersService: UserService,
@@ -56,6 +54,7 @@ export class UserController extends BaseController {
     }
 
     @Get('/test')
+    @Auth([`${PERMISSION_ACTION.CREATE}_${PERMISSION_RESOURCE.USER}`])
     async test() {
         const user = await UserEntity.queryBuilder();
         return new SuccessResponse(user);
@@ -140,18 +139,18 @@ export class UserController extends BaseController {
                     },
                 ]);
             } else {
-                const role = await RoleEntity.findOne(data.roleId);
-                if (req.loginUser.role.code == UserRole.ADMIN) {
-                    newUser = await this.usersService.createUser(data);
-                } else if (
-                    req.loginUser.role.code == UserRole.TENANT
-                    // &&
-                    // role.code == UserRole.USER
-                ) {
-                    newUser = await this.usersService.createUser(data);
-                } else {
-                    throw new UnauthorizedException();
-                }
+                // const role = await RoleEntity.findOne(data.roleId);
+                // if (req.loginUser.role.code == UserRole.ADMIN) {
+                //     newUser = await this.usersService.createUser(data);
+                // } else if (
+                //     req.loginUser.role.code == UserRole.TENANT
+                //     // &&
+                //     // role.code == UserRole.USER
+                // ) {
+                //     newUser = await this.usersService.createUser(data);
+                // } else {
+                //     throw new UnauthorizedException();
+                // }
             }
 
             return new SuccessResponse(newUser);

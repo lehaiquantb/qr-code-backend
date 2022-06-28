@@ -1,7 +1,7 @@
 import { RoleEntity } from './../../src/modules/role/entity/role.entity';
 import { PermissionResourceEntity } from './../../src/modules/role/entity/permission-resource.entity';
 import {
-    DEFAULT_ROLE,
+    ROLE_TYPE,
     PERMISSION_ACTION,
     PERMISSION_RESOURCE,
 } from './../../src/modules/role/role.interface';
@@ -13,11 +13,11 @@ export class Role_1720963593422 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         const promises = [
             factoryExcute(RoleEntity, {
-                name: DEFAULT_ROLE.ADMIN,
+                name: ROLE_TYPE.ADMIN,
                 description: 'Administrator role for system',
             }),
             factoryExcute(RoleEntity, {
-                name: DEFAULT_ROLE.MEMBER,
+                name: ROLE_TYPE.MEMBER,
                 description: 'Member role',
             }),
         ];

@@ -4,7 +4,7 @@ import { applyDecorators } from '@nestjs/common';
 import type { ValidationOptions } from 'class-validator';
 import { registerDecorator } from 'class-validator';
 import * as Joi from 'joi';
-
+import { METADATA_KEY } from '~common';
 export function IsPassword(
     validationOptions?: ValidationOptions,
 ): PropertyDecorator {
@@ -25,7 +25,7 @@ export function IsPassword(
 }
 
 type JoiValidateOptions = ApiPropertyOptions;
-export const METADATA_JOI_KEY = Symbol('METADATA_JOI_KEY');
+
 export type JoiObjectSchema = { [key: string]: Joi.AnySchema };
 
 export function JoiValidate(
@@ -35,13 +35,13 @@ export function JoiValidate(
     const apiProperty = ApiProperty(options);
     const JoiDecorator: PropertyDecorator = (target, propertyName: string) => {
         const joiObject: JoiObjectSchema =
-            Reflect.getMetadata(METADATA_JOI_KEY, target) ?? {};
+            Reflect.getMetadata(METADATA_KEY.JOI, target) ?? {};
         if (joiObject[propertyName]) {
             joiObject[propertyName] = joiObject[propertyName].concat(schema);
         } else {
             joiObject[propertyName] = schema;
         }
-        Reflect.defineMetadata(METADATA_JOI_KEY, joiObject, target);
+        Reflect.defineMetadata(METADATA_KEY.JOI, joiObject, target);
     };
 
     return applyDecorators(...[JoiDecorator, apiProperty]);

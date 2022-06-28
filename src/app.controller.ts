@@ -1,3 +1,4 @@
+import { I18Key } from './i18n/index';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { JoiValidate, BaseController } from '~common';
 import Joi from 'joi';
@@ -49,7 +50,7 @@ export class TestDto extends BaseDto {
 export class AppController extends BaseController {
     @Get('/ping')
     pingAlive() {
-        return this.translate('user.common.error.user.notFound');
+        return this.translate('sasdasd' as I18Key);
     }
 
     @Post('/test-validator')

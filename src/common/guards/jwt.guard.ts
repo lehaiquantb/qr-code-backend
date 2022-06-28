@@ -9,15 +9,26 @@ import { JwtService } from '@nestjs/jwt';
 import { extractToken } from '../helpers/common.function';
 import { ConfigService } from '@nestjs/config';
 import ConfigKey from '../config/config-key';
+import { Reflector } from '@nestjs/core';
+import { METADATA_KEY } from '../constants';
+import { AuthOptions } from '~decorators/common.decorator';
 @Injectable()
 export class JwtGuard implements CanActivate {
     constructor(
         private readonly configService: ConfigService,
         private jwtService: JwtService,
+        private reflector: Reflector,
     ) {}
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
-        const token = extractToken(request.headers.authorization || '');
+
+        const authOptions = this.reflector.get<AuthOptions>(
+            METADATA_KEY.AUTH_OPTIONS,
+            context.getHandler(),
+        );
+        if (authOptions.isPublic) return true;
+
+        const token = extractToken(request.headers.authorization ?? '');
         if (!token) {
             throw new UnauthorizedException();
         }

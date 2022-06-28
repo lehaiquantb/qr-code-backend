@@ -1,4 +1,4 @@
-import { METADATA_JOI_KEY } from '../decorators/validator.decorator';
+import { METADATA_KEY } from '~common';
 import BaseJoi from 'joi';
 interface Base<T> {
     new (): T;
@@ -14,6 +14,6 @@ export class BaseDto {
     }
 
     static getJoiObject() {
-        return Reflect.getMetadata(METADATA_JOI_KEY, this.prototype) ?? {};
+        return Reflect.getMetadata(METADATA_KEY.JOI, this.prototype) ?? {};
     }
 }

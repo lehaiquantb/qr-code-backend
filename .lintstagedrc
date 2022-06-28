@@ -2,9 +2,5 @@
     "src/**/*.{js,json,scss,ts}": [
         "eslint --fix",
         "prettier --write"
-    ],
-    "database/**/*.{js,json,scss,ts}": [
-        "eslint --fix",
-        "prettier --write"
     ]
 }

@@ -120,3 +120,9 @@ export const TIMEZONE_HEADER = 'x-timezone';
 export const TIMEZONE_DEFAULT = '+07:00';
 export const TIMEZONE_NAME_HEADER = 'x-timezone-name';
 export const TIMEZONE_NAME_DEFAULT = 'Asia/Bangkok';
+export const METADATA_KEY = {
+    JOI: Symbol('_joi_'),
+    ROLES: Symbol('_roles_'),
+    PERMISSIONS: Symbol('_permissions_'),
+    AUTH_OPTIONS: Symbol('_auth_options_'),
+};
