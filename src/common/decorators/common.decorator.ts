@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
-export type Permission = `${PERMISSION_ACTION}_${PERMISSION_RESOURCE}`;
+export type Permission = `${PERMISSION_ACTION}_${PERMISSION_RESOURCE}` | string;
 export type AuthOptions = { isPublic?: boolean };
 export function Auth(
     permissions?: Permission[],

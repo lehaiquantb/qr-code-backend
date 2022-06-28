@@ -6,7 +6,7 @@ import { BaseDto } from '~common';
 import { ApiProperty } from '@nestjs/swagger';
 class ItemDto extends BaseDto {
     @ApiProperty()
-    @JoiValidate(Joi.string().required().label('name'))
+    @JoiValidate(Joi.string().required().label('dsa'))
     name: string;
 }
 
