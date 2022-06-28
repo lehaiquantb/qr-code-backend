@@ -3,6 +3,7 @@ import { JoiValidate, BaseController } from '~common';
 import Joi from 'joi';
 import { BaseDto } from '~common';
 import { ApiProperty } from '@nestjs/swagger';
+import { UserEntity } from '~user/entity/user.entity';
 class ItemDto extends BaseDto {
     @ApiProperty()
     @JoiValidate(Joi.string().required().label('dsa'))
@@ -59,6 +60,13 @@ export class AppController extends BaseController {
     @Post('/test-validator')
     testValidator(@Body() body: TestDto) {
         console.log(body);
-        return body;
+        const user = UserEntity.builder('user')
+            .filterByEmail('Pierce_Paucek@hotmail.com')
+            .getOne();
+
+        // const user = UserRoleEntity.builder('user_role')
+        //     .where('user_id = :user_id', { user_id: 1 })
+        //     .getOne();
+        return user;
     }
 }

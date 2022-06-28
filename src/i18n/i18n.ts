@@ -28,6 +28,5 @@ export function translate(
     key: I18Key,
     options?: i18n.TranslateOptions,
 ): string {
-    const exist = !!i18n.lookup(key);
-    return exist ? i18n.t(key, options) : key;
+    return !!i18n.lookup(key) ? i18n.t(key, options) : key;
 }

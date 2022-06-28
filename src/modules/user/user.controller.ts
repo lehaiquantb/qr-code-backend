@@ -1,10 +1,6 @@
-import {
-    PERMISSION_ACTION,
-    PERMISSION_RESOURCE,
-} from './../role/role.interface';
 import { UserRepository } from './user.repository';
 import { UserResponseDto } from './dto/response/user-response.dto';
-import { Auth, IRequest } from '~common';
+import { IRequest } from '~common';
 import {
     Controller,
     Get,
@@ -56,10 +52,13 @@ export class UserController extends BaseController {
     }
 
     @Get('/test')
-    @Auth([`${PERMISSION_ACTION.CREATE}_${PERMISSION_RESOURCE.USER}`])
+    // @Auth([`${PERMISSION_ACTION.CREATE}_${PERMISSION_RESOURCE.USER}`])
     async test() {
-        const user = await UserEntity.queryBuilder();
-        return new SuccessResponse(user);
+        const u = await this.userRepository
+            .builder('user')
+            .filterByEmail('Pierce_Paucek@hotmail.com')
+            .getOne();
+        return u;
     }
 
     @Get(':id')

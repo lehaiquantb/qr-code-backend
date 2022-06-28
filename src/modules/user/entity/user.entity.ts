@@ -6,9 +6,8 @@ import * as bcrypt from 'bcrypt';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
 import { KeyOfType } from '~common';
+import { UserQueryBuilder } from '~user/user.builder';
 const NAME = TABLE_NAME.USER;
-
-type Property<T> = T;
 @Entity({ name: NAME })
 export class UserEntity extends BaseEntity {
     @Column({ length: 255, nullable: false })
@@ -57,7 +56,13 @@ export class UserEntity extends BaseEntity {
     async validatePassword(password: string): Promise<boolean> {
         return bcrypt.compare(password, this.password);
     }
+
+    static builder(alias: string) {
+        return new UserQueryBuilder(UserEntity.createQueryBuilder(alias));
+    }
 }
+
+// UserEntity.userBuilder().filterByEmail('email')
 
 type Abc = KeyOfType<UserEntity, BaseEntity>;
 type Re = Required<UserEntity>;
