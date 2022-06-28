@@ -1,3 +1,5 @@
+import { UserRepository } from './modules/user/user.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoleModule } from './modules/role/role.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
@@ -26,6 +28,7 @@ import { ConfigModule } from '@nestjs/config';
         AuthModule,
         RoleModule,
         UserModule,
+        TypeOrmModule.forFeature([UserRepository]),
     ],
     controllers: [AppController],
     providers: [],

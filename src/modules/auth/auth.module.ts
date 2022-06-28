@@ -13,6 +13,8 @@ import { RefreshTokenMiddleware } from './auth.middleware';
 import ConfigKey from '../../../src/common/config/config-key';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseService } from 'src/common/services/database.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserRepository } from '~user/user.repository';
 
 @Global()
 @Module({
@@ -28,6 +30,7 @@ import { DatabaseService } from 'src/common/services/database.service';
                 },
             }),
         }),
+        TypeOrmModule.forFeature([UserRepository]),
     ],
     providers: [AuthService, JwtGuard, DatabaseService],
     controllers: [AuthController],

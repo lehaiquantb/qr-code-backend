@@ -1,4 +1,5 @@
-import { BaseController, IRequest } from '~common';
+import { UserRepository } from './../user/user.repository';
+import { BaseController, columnsWithAlias, IRequest } from '~common';
 import {
     Body,
     Controller,
@@ -20,7 +21,6 @@ import { UserStatus } from '../user/user.constant';
 import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
 import { updateProfileSchema } from './dto/requests/update-profile.dto';
 import { UpdateProfileDto } from './dto/requests/update-profile.dto';
-import { DatabaseService } from '../../common/services/database.service';
 import { extractToken } from '../../common/helpers/common.function';
 import {
     ErrorResponse,
@@ -36,7 +36,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class AuthController extends BaseController {
     constructor(
         private readonly authService: AuthService,
-        private readonly databaseService: DatabaseService,
+        private readonly userRepository: UserRepository,
     ) {
         super();
     }
@@ -44,14 +44,19 @@ export class AuthController extends BaseController {
     @Post('login')
     async login(@Body() data: LoginDto) {
         try {
-            const user = await this.authService.findUserByEmail(data.email, [
-                ...usersAttributes,
-                'password',
-            ]);
+            const user = await this.userRepository
+                .builder('user')
+                .filterByEmail(data.email)
+                .select(columnsWithAlias('user', usersAttributes))
+                .getOne();
             // check if user exists?
+            console.log(user);
 
             if (!user) {
-                return new ErrorResponse(HttpStatus.BAD_REQUEST, 'hello');
+                return new ErrorResponse(
+                    HttpStatus.BAD_REQUEST,
+                    'auth.errors.user.notFound',
+                );
             }
             // check if user is active?
             if (user.status !== UserStatus.ACTIVE) {
@@ -66,12 +71,9 @@ export class AuthController extends BaseController {
                     data.password,
                 );
                 if (!isCorrectPassword) {
-                    const message = await this.i18n.translate(
-                        'auth.errors.user.invalidPwd',
-                    );
                     return new ErrorResponse(
                         HttpStatus.BAD_REQUEST,
-                        message,
+                        'auth.errors.user.invalidPwd',
                         [],
                     );
                 }

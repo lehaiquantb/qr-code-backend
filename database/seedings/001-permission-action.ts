@@ -2,7 +2,6 @@ import { PERMISSION_ACTION } from './../../src/modules/role/role.interface';
 import { PermissionActionEntity } from './../../src/modules/role/entity/permission-action.entity';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { UserTokenEntity } from './../../src/modules/auth/entity/user-token.entity';
-import { UserRole } from '../../src/modules/user/user.constant';
 import { UserStatus } from '../../src/modules/user/user.constant';
 import { In, MigrationInterface, QueryRunner } from 'typeorm';
 import * as bcrypt from 'bcrypt';

@@ -5,7 +5,7 @@ import { UserStatus, UserGender } from '../user.constant';
 import * as bcrypt from 'bcrypt';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
-import { KeyOfType } from '~common';
+import { genPassword, KeyOfType } from '~common';
 import { UserQueryBuilder } from '~user/user.builder';
 const NAME = TABLE_NAME.USER;
 @Entity({ name: NAME })
@@ -46,10 +46,7 @@ export class UserEntity extends BaseEntity {
     @BeforeUpdate()
     hashPassword() {
         if (this.password) {
-            this.password = bcrypt.hashSync(
-                this.password,
-                bcrypt.genSaltSync(10),
-            );
+            this.password = genPassword(this.password);
         }
     }
 
@@ -61,8 +58,6 @@ export class UserEntity extends BaseEntity {
         return new UserQueryBuilder(UserEntity.createQueryBuilder(alias));
     }
 }
-
-// UserEntity.userBuilder().filterByEmail('email')
 
 type Abc = KeyOfType<UserEntity, BaseEntity>;
 type Re = Required<UserEntity>;

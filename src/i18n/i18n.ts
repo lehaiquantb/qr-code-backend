@@ -6,12 +6,14 @@ i18n.fallbacks = true;
 i18n.translations = { en, vi };
 
 i18n.locale = 'en';
-/**
+/**.0
  * Builds up valid keypaths for translations.
  * Update to your default locale of choice if not English.
  */
-type DefaultLocale = typeof en;
-export type I18Key = RecursiveKeyOf<DefaultLocale> | string;
+export type DefaultLocale = typeof en;
+
+/*eslint-disable-next-line @typescript-eslint/ban-types*/
+export type I18Key = RecursiveKeyOf<DefaultLocale> | String;
 
 type RecursiveKeyOf<TObj extends Record<string, any>> = {
     [TKey in keyof TObj & string]: TObj[TKey] extends Record<string, any>

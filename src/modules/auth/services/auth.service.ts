@@ -1,15 +1,17 @@
+import { JwtPayload } from 'jsonwebtoken';
+import { UserRepository } from './../../user/user.repository';
 import { Injectable } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { generateHashToken } from '../../../common/helpers/common.function';
-import { I18nRequestScopeService } from 'nestjs-i18n';
 import { UpdateProfileDto } from '../dto/requests/update-profile.dto';
 import { DatabaseService } from 'src/common/services/database.service';
-import { ConfigService } from '@nestjs/config';
 import ConfigKey from '../../../../src/common/config/config-key';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { UserTokenEntity } from '../entity/user-token.entity';
+import { BaseService } from '~base/service.base';
+import { LoginUser } from '~common';
 
 export const usersAttributes: (keyof UserEntity)[] = [
     'id',
@@ -35,15 +37,16 @@ const userDetailAttributes: (keyof UserEntity)[] = [
 ];
 
 @Injectable()
-export class AuthService {
+export class AuthService extends BaseService {
     constructor(
         @InjectEntityManager()
         private readonly dbManager: EntityManager,
         private readonly jwtService: JwtService,
-        private readonly configService: ConfigService,
-        private readonly i18n: I18nRequestScopeService,
         private readonly databaseService: DatabaseService,
-    ) {}
+        private readonly userRepository: UserRepository,
+    ) {
+        super();
+    }
     /**
      *
      * @param user
@@ -61,22 +64,21 @@ export class AuthService {
             expiresIn: accessTokenExpiredIn,
         } as JwtSignOptions;
 
-        // const payloadAccessToken = {
-        //     id: user.id,
-        //     email: user.email,
-        //     role: user.role,
-        //     expiresIn: accessTokenExpiredIn,
-        //     tenantId: user.tenantId,
-        // } as LoginUser & JwtPayload;
+        const payloadAccessToken = {
+            id: user.id,
+            email: user.email,
+            // role: user.role,
+            expiresIn: accessTokenExpiredIn,
+        } as LoginUser & JwtPayload;
 
-        // const accessToken = this.jwtService.sign(
-        //     payloadAccessToken,
-        //     accessTokenOptions,
-        // );
-        // return {
-        //     token: accessToken,
-        //     expiresIn: accessTokenExpiredIn,
-        // };
+        const accessToken = this.jwtService.sign(
+            payloadAccessToken,
+            accessTokenOptions,
+        );
+        return {
+            token: accessToken,
+            expiresIn: accessTokenExpiredIn,
+        };
     }
     /**
      *
