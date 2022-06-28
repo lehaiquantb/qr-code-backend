@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
-import { JoiValidate } from '~common';
+import { BaseDto, JoiValidate } from '~common';
 
-export class LoginDto {
+export class LoginDto extends BaseDto {
     @JoiValidate(Joi.string().email().required().label('auth.fields.email'))
     readonly email: string;
 

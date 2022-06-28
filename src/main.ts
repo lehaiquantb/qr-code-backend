@@ -9,6 +9,7 @@ import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
 import ConfigKey from '../src/common/config/config-key';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { JoiValidationPipe } from '~common';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -31,7 +32,7 @@ async function bootstrap() {
     // setup prefix of route
     app.setGlobalPrefix(configService.get(ConfigKey.BASE_PATH));
 
-    // app.useGlobalPipes(new JoiValidationPipe());
+    app.useGlobalPipes(new JoiValidationPipe());
 
     // app.useGlobalPipes(
     //     new ValidationPipe({

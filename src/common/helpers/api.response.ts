@@ -34,13 +34,17 @@ export class SuccessResponse {
 export class ErrorResponse {
     constructor(
         code = HttpStatus.INTERNAL_SERVER_ERROR,
-        message = '',
+        message: I18Key = '',
         errors: IErrorResponse[] = [],
     ) {
         return {
             code,
             errors,
-            message: translate(message as I18Key),
+            message: translate(message),
         };
     }
+}
+
+export function notFoundResponse() {
+    return new ErrorResponse(HttpStatus.NOT_FOUND, 'notFound');
 }

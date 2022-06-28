@@ -160,7 +160,6 @@ export class AuthService {
             const user = await this.dbManager.findOne(UserEntity, {
                 select: attributes,
                 where: { email },
-                relations: ['role', 'tenant'],
             });
             return user;
         } catch (error) {

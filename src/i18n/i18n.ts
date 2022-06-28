@@ -11,7 +11,7 @@ i18n.locale = 'en';
  * Update to your default locale of choice if not English.
  */
 type DefaultLocale = typeof en;
-export type I18Key = RecursiveKeyOf<DefaultLocale>;
+export type I18Key = RecursiveKeyOf<DefaultLocale> | string;
 
 type RecursiveKeyOf<TObj extends Record<string, any>> = {
     [TKey in keyof TObj & string]: TObj[TKey] extends Record<string, any>
@@ -28,5 +28,6 @@ export function translate(
     key: I18Key,
     options?: i18n.TranslateOptions,
 ): string {
-    return key ? i18n.t(key, options) : '';
+    const exist = !!i18n.lookup(key);
+    return exist ? i18n.t(key, options) : key;
 }

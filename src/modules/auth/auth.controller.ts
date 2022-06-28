@@ -28,6 +28,8 @@ import {
 } from '../../common/helpers/api.response';
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { HttpStatus } from '~common';
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('auth')
 @Controller({
     path: 'auth',
 })
@@ -47,9 +49,9 @@ export class AuthController extends BaseController {
                 'password',
             ]);
             // check if user exists?
+
             if (!user) {
-                const message = this.translate('auth.errors.user.notFound');
-                return new ErrorResponse(HttpStatus.BAD_REQUEST, message, []);
+                return new ErrorResponse(HttpStatus.BAD_REQUEST, 'hello');
             }
             // check if user is active?
             if (user.status !== UserStatus.ACTIVE) {

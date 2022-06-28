@@ -42,8 +42,10 @@ import { RemoveEmptyQueryPipe } from 'src/common/pipes/removeEmptyQueryPipe';
 import { HttpStatus } from '~common';
 import { RoleEntity } from '../role/entity/role.entity';
 import { BaseController } from '~common';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
+@ApiTags('user')
 export class UserController extends BaseController {
     constructor(
         private readonly usersService: UserService,

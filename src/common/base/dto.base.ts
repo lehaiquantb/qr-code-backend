@@ -1,8 +1,6 @@
 import { METADATA_KEY } from '~common';
 import BaseJoi from 'joi';
-interface Base<T> {
-    new (): T;
-}
+
 export class BaseDto {
     constructor() {
         console.log('');

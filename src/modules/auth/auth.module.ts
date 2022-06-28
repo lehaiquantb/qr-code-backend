@@ -9,9 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './services/auth.service';
 import { JwtGuard } from '../../common/guards/jwt.guard';
 import { AuthController } from './auth.controller';
-import { CommonModule } from '../common/common.module';
 import { RefreshTokenMiddleware } from './auth.middleware';
-import { I18nModule } from '../../common/services/i18n.service';
 import ConfigKey from '../../../src/common/config/config-key';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseService } from 'src/common/services/database.service';
@@ -30,8 +28,6 @@ import { DatabaseService } from 'src/common/services/database.service';
                 },
             }),
         }),
-        CommonModule,
-        I18nModule,
     ],
     providers: [AuthService, JwtGuard, DatabaseService],
     controllers: [AuthController],

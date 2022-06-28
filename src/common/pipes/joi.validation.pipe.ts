@@ -12,7 +12,7 @@ export class JoiValidationPipe implements PipeTransform {
 
     transform(value: any, metadata: ArgumentMetadata) {
         const metatype = metadata?.metatype;
-        if (metatype && !this.schema) {
+        if (metatype && !this.schema && (metatype as any)?.getJoiSchema) {
             this.schema = (metatype as any)?.getJoiSchema();
         }
 
