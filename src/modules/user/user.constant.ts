@@ -7,6 +7,7 @@ import {
     PHONE_NUMBER_REGEX,
     INPUT_PHONE_MAX_LENGTH,
 } from '../../common/constants/constants';
+import { UserEntity } from './entity/user.entity';
 const Joi = BaseJoi.extend(JoiDate);
 
 export enum UserGender {
@@ -76,4 +77,18 @@ export const userListAttributes = [
     'users.role',
     'users.createdAt',
     'users.status',
+];
+
+export const userDetailAttributes: (keyof UserEntity)[] = [
+    'id',
+    'email',
+    'fullName',
+    'phoneNumber',
+    'birthday',
+    'gender',
+    'status',
+    'createdAt',
+    'createdBy',
+    'updatedAt',
+    'updatedBy',
 ];

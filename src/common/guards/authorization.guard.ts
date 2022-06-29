@@ -1,20 +1,21 @@
+import { PermissionType } from './../decorators/common.decorator';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { METADATA_KEY } from '~common';
+import { METADATA_KEY, IRequest } from '~common';
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
     constructor(private reflector: Reflector) {}
 
     canActivate(context: ExecutionContext): boolean {
-        const permissions = this.reflector.get<string[]>(
+        const permissions = this.reflector.get<PermissionType[]>(
             METADATA_KEY.PERMISSIONS,
             context.getHandler(),
         );
         if (!permissions || permissions?.length === 0) {
             return true;
         }
-        // const request = context.switchToHttp().getRequest();
-        // const user = request.loginUser;
+        const request = context.switchToHttp().getRequest() as IRequest;
+        const user = request?.authUser;
 
         // const userPermissions = [];
         // // return array of string resource_action

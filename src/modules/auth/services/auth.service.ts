@@ -13,20 +13,7 @@ import { UserTokenEntity } from '../entity/user-token.entity';
 import { BaseService } from '~base/service.base';
 import { LoginUser } from '~common';
 import { usersAttributes } from '~auth/auth.constant';
-
-const userDetailAttributes: (keyof UserEntity)[] = [
-    'id',
-    'email',
-    'fullName',
-    'phoneNumber',
-    'birthday',
-    'gender',
-    'status',
-    'createdAt',
-    'createdBy',
-    'updatedAt',
-    'updatedBy',
-];
+import { userDetailAttributes } from '~user/user.constant';
 
 @Injectable()
 export class AuthService extends BaseService {
@@ -59,7 +46,8 @@ export class AuthService extends BaseService {
         const payloadAccessToken = {
             id: user.id,
             email: user.email,
-            // role: user.role,
+            resourceWithPermissions: user.resourceWithPermissions,
+            roles: user.roles,
             expiresIn: accessTokenExpiredIn,
         } as LoginUser & JwtPayload;
 
@@ -93,6 +81,8 @@ export class AuthService extends BaseService {
         const payloadRefreshToken = {
             id: user.id,
             email: user.email,
+            resourceWithPermissions: user.resourceWithPermissions,
+            roles: user.roles,
             expiresIn: refreshTokenExpiredIn,
             hashToken,
         };
@@ -140,7 +130,6 @@ export class AuthService extends BaseService {
         try {
             const user = await this.dbManager.findOne(UserEntity, {
                 select: userDetailAttributes,
-                relations: ['role'],
                 where: { id },
             });
             return user;

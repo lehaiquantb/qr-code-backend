@@ -1,4 +1,4 @@
-import { METADATA_KEY } from '~common';
+import { METADATA_KEY, IRequest } from '~common';
 import {
     PERMISSION_ACTION,
     PERMISSION_RESOURCE,
@@ -15,15 +15,18 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
-export type Permission = `${PERMISSION_ACTION}_${PERMISSION_RESOURCE}` | string;
+/*eslint-disable-next-line @typescript-eslint/ban-types*/
+export type PermissionType =
+    | `${PERMISSION_ACTION}_${PERMISSION_RESOURCE}`
+    | string;
 export type AuthOptions = { isPublic?: boolean };
 export function Auth(
-    permissions?: Permission[],
+    permissions?: PermissionType[],
     options?: AuthOptions,
 ): MethodDecorator {
     return applyDecorators(
-        SetMetadata(METADATA_KEY.PERMISSIONS, permissions),
-        SetMetadata(METADATA_KEY.AUTH_OPTIONS, options),
+        SetMetadata(METADATA_KEY.PERMISSIONS, permissions ?? []),
+        SetMetadata(METADATA_KEY.AUTH_OPTIONS, options ?? {}),
         UseGuards(JwtGuard, AuthorizationGuard),
         ApiBearerAuth(),
         UseInterceptors(),
@@ -33,13 +36,9 @@ export function Auth(
 
 export function AuthUser() {
     return createParamDecorator((_data: unknown, context: ExecutionContext) => {
-        const request = context.switchToHttp().getRequest();
+        const request = context.switchToHttp().getRequest() as IRequest;
 
-        const user = request.loginUser;
-
-        if (user?.[Symbol.for('isPublic')]) {
-            return;
-        }
+        const user = request?.authUser;
 
         return user;
     })();

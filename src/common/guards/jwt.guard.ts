@@ -12,6 +12,7 @@ import ConfigKey from '../config/config-key';
 import { Reflector } from '@nestjs/core';
 import { METADATA_KEY } from '../constants';
 import { AuthOptions } from '~decorators/common.decorator';
+import { IAuthUser } from '~base/interface.base';
 @Injectable()
 export class JwtGuard implements CanActivate {
     constructor(
@@ -26,18 +27,20 @@ export class JwtGuard implements CanActivate {
             METADATA_KEY.AUTH_OPTIONS,
             context.getHandler(),
         );
-        if (authOptions.isPublic) return true;
+        if (authOptions?.isPublic) return true;
 
         const token = extractToken(request.headers.authorization ?? '');
         if (!token) {
             throw new UnauthorizedException();
         }
 
-        request.loginUser = await this.validateToken(
+        const authUser = (await this.validateToken(
             token,
             request.authorizationType === UserTokenType.REFRESH_TOKEN,
-        );
-        console.log(request.loginUser);
+        )) as IAuthUser;
+
+        request.authUser = authUser;
+
         return true;
     }
 

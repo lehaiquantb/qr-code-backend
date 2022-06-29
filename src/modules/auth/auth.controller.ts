@@ -1,5 +1,5 @@
 import { UserRepository } from './../user/user.repository';
-import { BaseController, IRequest } from '~common';
+import { Auth, AuthUser, BaseController, IAuthUser, IRequest } from '~common';
 import {
     Body,
     Controller,
@@ -114,15 +114,17 @@ export class AuthController extends BaseController {
     }
 
     @Get('profile')
-    @UseGuards(JwtGuard, AuthorizationGuard)
-    async profile(@Request() req: IRequest) {
+    @Auth()
+    async profile(@Request() req: IRequest, @AuthUser() user: IAuthUser) {
         try {
-            const profile = await this.authService.profile(req.loginUser?.id);
+            console.log(user);
+
+            const profile = await this.authService.profile(req.authUser?.id);
             if (!profile) {
-                const message = await this.i18n.translate(
+                return new ErrorResponse(
+                    HttpStatus.BAD_REQUEST,
                     'auth.errors.user.notFound',
                 );
-                return new ErrorResponse(HttpStatus.BAD_REQUEST, message, []);
             }
             return new SuccessResponse(profile);
         } catch (error) {
@@ -138,7 +140,7 @@ export class AuthController extends BaseController {
         @Body() body: UpdateProfileDto,
     ) {
         try {
-            const profile = await this.authService.profile(req.loginUser?.id);
+            const profile = await this.authService.profile(req.authUser?.id);
             if (!profile) {
                 const message = await this.i18n.translate(
                     'auth.errors.user.notFound',
@@ -147,7 +149,7 @@ export class AuthController extends BaseController {
             }
             const result = await this.authService.updateProfile(
                 body,
-                req.loginUser?.id,
+                req.authUser?.id,
             );
             return new SuccessResponse(
                 result as unknown as Record<string, unknown>,

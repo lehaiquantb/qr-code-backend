@@ -227,7 +227,7 @@ export class UserController extends BaseController {
                 );
             }
 
-            await this.usersService.deleteUser(id, req?.loginUser?.id);
+            await this.usersService.deleteUser(id, req?.authUser?.id);
 
             const message = this.i18n.translate('user.delete.success');
 
