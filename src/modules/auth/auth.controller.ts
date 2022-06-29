@@ -114,11 +114,9 @@ export class AuthController extends BaseController {
     }
 
     @Get('profile')
-    @Auth()
+    @Auth(['read_user'])
     async profile(@Request() req: IRequest, @AuthUser() user: IAuthUser) {
         try {
-            console.log(user);
-
             const profile = await this.authService.profile(req.authUser?.id);
             if (!profile) {
                 return new ErrorResponse(

@@ -1,3 +1,4 @@
+/*eslint-disable @typescript-eslint/ban-types*/
 import { METADATA_KEY, IRequest } from '~common';
 import {
     PERMISSION_ACTION,
@@ -15,10 +16,9 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
-/*eslint-disable-next-line @typescript-eslint/ban-types*/
 export type PermissionType =
     | `${PERMISSION_ACTION}_${PERMISSION_RESOURCE}`
-    | string;
+    | String;
 export type AuthOptions = { isPublic?: boolean };
 export function Auth(
     permissions?: PermissionType[],

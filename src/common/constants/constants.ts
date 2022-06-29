@@ -1,5 +1,3 @@
-import Joi from 'joi';
-
 export enum LANGUAGES {
     EN = 'en',
     VI = 'vi',
@@ -18,17 +16,6 @@ export enum ORDER_DIRECTION {
 }
 export type TYPE_ORM_ORDER_DIRECTION = 'ASC' | 'DESC';
 
-export enum USER_ACTION {
-    POST = 'create',
-    PATCH = 'update',
-    DELETE = 'delete',
-}
-
-export enum HTTP_METHOTDS {
-    POST = 'post',
-    PATCH = 'patch',
-    DELETE = 'delete',
-}
 export enum DATE_FORMAT {
     YYYY_MM_DD_HYPHEN = 'YYYY-MM-DD',
 }
@@ -90,20 +77,6 @@ export const MAX_LENGTH_MONTH = 12;
 export const MIN_LENGTH_MONTH = 1;
 export const URL_REGEX =
     /^https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}/;
-
-enum USER_STATUS {
-    WAITING_FOR_APPROVAL = 'waiting_for_approval',
-    INACTIVE = 'inactive',
-    ACTIVE = 'active',
-}
-export const queryDropdownSchema = Joi.object().keys({
-    page: Joi.number().allow(null).min(0).max(MAX_PAGE).optional(),
-    limit: Joi.number().allow(null).min(0).max(MAX_PAGE_SIZE).optional(),
-    status: Joi.array()
-        .items(Joi.string().valid(...Object.values(USER_STATUS)))
-        .optional(),
-    withDeleted: Joi.string().allow(null, '').valid('true', 'false').optional(),
-});
 
 export enum LOG_LEVEL {
     DEBUG = 'debug',

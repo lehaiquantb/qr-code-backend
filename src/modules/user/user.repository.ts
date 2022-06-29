@@ -96,7 +96,7 @@ export class UserRepository extends BaseRepository<UserEntity> {
             }
         }
 
-        user.resourceWithPermissions = temp;
+        user.resourceWithActions = temp;
 
         return user;
     }

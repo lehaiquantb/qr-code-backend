@@ -1,4 +1,3 @@
-import { JwtPayload } from 'jsonwebtoken';
 import { UserRepository } from './../../user/user.repository';
 import { Injectable } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
@@ -11,7 +10,7 @@ import ConfigKey from '../../../../src/common/config/config-key';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { UserTokenEntity } from '../entity/user-token.entity';
 import { BaseService } from '~base/service.base';
-import { LoginUser } from '~common';
+import { IAuthUser } from '~common';
 import { usersAttributes } from '~auth/auth.constant';
 import { userDetailAttributes } from '~user/user.constant';
 
@@ -46,10 +45,10 @@ export class AuthService extends BaseService {
         const payloadAccessToken = {
             id: user.id,
             email: user.email,
-            resourceWithPermissions: user.resourceWithPermissions,
+            resourceWithActions: user.resourceWithActions,
             roles: user.roles,
             expiresIn: accessTokenExpiredIn,
-        } as LoginUser & JwtPayload;
+        } as IAuthUser;
 
         const accessToken = this.jwtService.sign(
             payloadAccessToken,
@@ -81,7 +80,7 @@ export class AuthService extends BaseService {
         const payloadRefreshToken = {
             id: user.id,
             email: user.email,
-            resourceWithPermissions: user.resourceWithPermissions,
+            resourceWithActions: user.resourceWithActions,
             roles: user.roles,
             expiresIn: refreshTokenExpiredIn,
             hashToken,

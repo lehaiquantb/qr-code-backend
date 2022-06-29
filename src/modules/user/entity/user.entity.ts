@@ -5,7 +5,7 @@ import { UserStatus, UserGender } from '../user.constant';
 import * as bcrypt from 'bcrypt';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
-import { genPassword, KeyOfType } from '~common';
+import { genPassword, KeyOfType, ResourceWithActions } from '~common';
 import { UserQueryBuilder } from '~user/user.builder';
 const NAME = TABLE_NAME.USER;
 @Entity({ name: NAME })
@@ -59,7 +59,7 @@ export class UserEntity extends BaseEntity {
     }
 
     roles: Record<string, any>[] = [];
-    resourceWithPermissions: Record<string, string[]> = {};
+    resourceWithActions: ResourceWithActions = {};
 }
 
 type Abc = KeyOfType<UserEntity, BaseEntity>;
