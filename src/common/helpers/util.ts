@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import _ from 'lodash';
 
 export function convertEnumToValues(enumType: any): any[] {
     type EnumValueType = [`${typeof enumType}`];
@@ -19,6 +20,12 @@ export function randomEnum<T>(anEnum: T): T[keyof T] {
     return randomEnumValue;
 }
 
-export function columnsWithAlias(alias: string, columns: string[]): string[] {
-    return columns.map((c) => `${alias}.${c}`);
+export function columnsWithAlias(
+    tables: { alias: string; columns: string[] }[],
+): string[] {
+    return _.concat(
+        ...tables.map((table) =>
+            table.columns.map((column) => `${table.alias}.${column}`),
+        ),
+    );
 }

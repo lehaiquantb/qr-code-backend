@@ -12,16 +12,8 @@ import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { UserTokenEntity } from '../entity/user-token.entity';
 import { BaseService } from '~base/service.base';
 import { LoginUser } from '~common';
+import { usersAttributes } from '~auth/auth.constant';
 
-export const usersAttributes: (keyof UserEntity)[] = [
-    'id',
-    'email',
-    'fullName',
-    'phoneNumber',
-    'birthday',
-    'gender',
-    'status',
-];
 const userDetailAttributes: (keyof UserEntity)[] = [
     'id',
     'email',

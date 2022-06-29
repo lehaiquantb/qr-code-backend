@@ -11,5 +11,9 @@ export abstract class BaseRepository<T extends BaseEntity>
     extends TypeormRepository<T>
     implements IRepository<T>
 {
+    constructor() {
+        super();
+    }
+
     abstract builder(alias: string): SelectQueryBuilder<T>;
 }

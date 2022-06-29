@@ -57,6 +57,9 @@ export class UserEntity extends BaseEntity {
     static builder(alias: string) {
         return new UserQueryBuilder(UserEntity.createQueryBuilder(alias));
     }
+
+    roles: Record<string, any>[] = [];
+    resourceWithPermissions: Record<string, string[]> = {};
 }
 
 type Abc = KeyOfType<UserEntity, BaseEntity>;

@@ -1,11 +1,11 @@
 import { UserRepository } from './modules/user/user.repository';
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { JoiValidate, BaseController, columnsWithAlias } from '~common';
+import { JoiValidate, BaseController } from '~common';
 import Joi from 'joi';
 import { BaseDto } from '~common';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '~user/entity/user.entity';
-import { usersAttributes } from '~auth/services/auth.service';
+import { AuthService } from '~auth/services/auth.service';
 class ItemDto extends BaseDto {
     @ApiProperty()
     @JoiValidate(Joi.string().required().label('dsa'))
@@ -50,19 +50,16 @@ export class TestDto extends BaseDto {
 
 @Controller('/')
 export class AppController extends BaseController {
-    constructor(readonly userRepository: UserRepository) {
+    constructor(
+        readonly userRepository: UserRepository,
+        readonly authService: AuthService,
+    ) {
         super();
     }
 
     @Get('/ping')
-    pingAlive() {
-        return this.userRepository
-            .builder('user')
-            .filterByEmail('quanlh@gmail.com')
-            .select(columnsWithAlias('user', usersAttributes))
-            .leftJoinAndSelect('user.userRoles', 'userRole')
-            .leftJoinAndSelect('userRole.role', 'user.userRoles[0].role')
-            .getOne();
+    async pingAlive() {
+        return 'pong';
     }
 
     @Post('/test-validator')

@@ -1,5 +1,5 @@
 import { UserRepository } from './../user/user.repository';
-import { BaseController, columnsWithAlias, IRequest } from '~common';
+import { BaseController, IRequest } from '~common';
 import {
     Body,
     Controller,
@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { LoginDto } from './dto/requests/login.dto';
 
-import { AuthService, usersAttributes } from './services/auth.service';
+import { AuthService } from './services/auth.service';
 import { JwtGuard } from '../../common/guards/jwt.guard';
 import { UserStatus } from '../user/user.constant';
 
@@ -44,13 +44,10 @@ export class AuthController extends BaseController {
     @Post('login')
     async login(@Body() data: LoginDto) {
         try {
-            const user = await this.userRepository
-                .builder('user')
-                .filterByEmail(data.email)
-                .select(columnsWithAlias('user', usersAttributes))
-                .getOne();
+            const user = await this.userRepository.getUserWithAuthInfoByEmail(
+                data.email,
+            );
             // check if user exists?
-            console.log(user);
 
             if (!user) {
                 return new ErrorResponse(
@@ -74,7 +71,6 @@ export class AuthController extends BaseController {
                     return new ErrorResponse(
                         HttpStatus.BAD_REQUEST,
                         'auth.errors.user.invalidPwd',
-                        [],
                     );
                 }
             }

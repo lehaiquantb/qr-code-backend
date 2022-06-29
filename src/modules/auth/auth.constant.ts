@@ -1,3 +1,5 @@
+import { UserEntity } from '~user/entity/user.entity';
+
 export enum UserTokenType {
     REFRESH_TOKEN = 'refresh_token',
     ACCESS_TOKEN = 'access_token',
@@ -16,3 +18,13 @@ export const GoogleLoginLinkParameters = {
 export const GoogleUserInfoUrl =
     'https://www.googleapis.com/oauth2/v2/userinfo';
 export const GoogleGetAccessTokenUrl = 'https://oauth2.googleapis.com/token';
+
+export const usersAttributes: (keyof UserEntity)[] = [
+    'id',
+    'email',
+    'fullName',
+    'phoneNumber',
+    'birthday',
+    'gender',
+    'status',
+];
