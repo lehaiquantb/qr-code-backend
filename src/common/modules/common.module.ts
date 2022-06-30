@@ -2,6 +2,14 @@ import { Global, Module, Scope } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpExceptionFilter } from '~common';
 import { TransformInterceptor } from '~common';
+import { CommonService } from './services/common.service';
+
+const commonProviders = [
+    {
+        provide: 'cmss',
+        useClass: CommonService,
+    },
+];
 
 @Global()
 @Module({
@@ -15,7 +23,8 @@ import { TransformInterceptor } from '~common';
             provide: APP_INTERCEPTOR,
             useClass: TransformInterceptor,
         },
+        ...commonProviders,
     ],
-    exports: [],
+    exports: [...commonProviders],
 })
 export class CommonModule {}

@@ -1,3 +1,4 @@
+import { UserEntity } from '~user/entity/user.entity';
 import { UserRepository } from './../../user/user.repository';
 import { Injectable } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
@@ -7,7 +8,6 @@ import { generateHashToken } from '../../../common/helpers/common.function';
 import { UpdateProfileDto } from '../dto/requests/update-profile.dto';
 import { DatabaseService } from 'src/common/modules/database/database.service';
 import ConfigKey from '../../../../src/common/config/config-key';
-import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { UserTokenEntity } from '../entity/user-token.entity';
 import { BaseService } from '~base/service.base';
 import { IAuthUser } from '~common';
@@ -15,15 +15,16 @@ import { usersAttributes } from '~auth/auth.constant';
 import { userDetailAttributes } from '~user/user.constant';
 
 @Injectable()
-export class AuthService extends BaseService {
+export class AuthService extends BaseService<UserEntity, UserRepository> {
     constructor(
         @InjectEntityManager()
         private readonly dbManager: EntityManager,
         private readonly jwtService: JwtService,
         private readonly databaseService: DatabaseService,
-        private readonly userRepository: UserRepository,
+        private readonly repo: UserRepository, // private moduleRefa: ModuleRef // @Inject(REQUEST) private readonly re: any,
     ) {
-        super();
+        super(repo);
+        // console.log(moduleRefa);
     }
     /**
      *
@@ -150,7 +151,11 @@ export class AuthService extends BaseService {
     }
 
     public async profile(id: number) {
-        return this.findById(id);
+        console.log(this.moduleRef);
+        console.log(this.commonService.request);
+
+        return this.commonService.request.authUser;
+        // return this.findById(id);
     }
 
     public async updateProfile(body: UpdateProfileDto, id: number) {

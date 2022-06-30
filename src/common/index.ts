@@ -17,3 +17,4 @@ export * from './constants/index';
 export * from './types';
 export * from './helpers/util';
 export * from './providers/index';
+export * from './modules/index';
