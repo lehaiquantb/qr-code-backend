@@ -1,4 +1,4 @@
-import { DatabaseService } from 'src/common/services/database.service';
+import { DatabaseService } from 'src/common/modules/database/database.service';
 import { Module } from '@nestjs/common';
 import { RoleController } from './role.controller';
 import { RoleService } from './services/role.service';

@@ -5,7 +5,7 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { generateHashToken } from '../../../common/helpers/common.function';
 import { UpdateProfileDto } from '../dto/requests/update-profile.dto';
-import { DatabaseService } from 'src/common/services/database.service';
+import { DatabaseService } from 'src/common/modules/database/database.service';
 import ConfigKey from '../../../../src/common/config/config-key';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { UserTokenEntity } from '../entity/user-token.entity';

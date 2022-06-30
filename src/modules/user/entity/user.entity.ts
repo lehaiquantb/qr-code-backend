@@ -7,12 +7,15 @@ import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
 import { genPassword, KeyOfType, ResourceWithActions } from '~common';
 import { UserQueryBuilder } from '~user/user.builder';
+import { Exclude } from 'class-transformer';
+
 const NAME = TABLE_NAME.USER;
 @Entity({ name: NAME })
 export class UserEntity extends BaseEntity {
     @Column({ length: 255, nullable: false })
     email: string;
 
+    @Exclude()
     @Column({ length: 255, nullable: true })
     password: string;
 

@@ -22,7 +22,7 @@ import {
     UpdateUserSchema,
 } from './dto/requests/update-user.dto';
 import { UserList } from './dto/response/api-response.dto';
-import { DatabaseService } from '../../common/services/database.service';
+import { DatabaseService } from '../../common/modules/database/database.service';
 import { UserEntity } from './entity/user.entity';
 import {
     UserListQueryStringDto,

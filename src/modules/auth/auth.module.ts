@@ -12,7 +12,7 @@ import { AuthController } from './auth.controller';
 import { RefreshTokenMiddleware } from './auth.middleware';
 import ConfigKey from '../../../src/common/config/config-key';
 import { ConfigService } from '@nestjs/config';
-import { DatabaseService } from 'src/common/services/database.service';
+import { DatabaseService } from 'src/common/modules/database/database.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from '~user/user.repository';
 

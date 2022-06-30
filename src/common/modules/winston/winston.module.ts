@@ -3,9 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import * as winston from 'winston';
 import 'winston-daily-rotate-file';
-import ConfigKey from '../config/config-key';
+import ConfigKey from '../../config/config-key';
 import { Module } from '@nestjs/common';
-import { LOG_LEVEL, NODE_ENV } from '../constants/constants';
+import { LOG_LEVEL, NODE_ENV } from '../../constants/constants';
 
 export function createWinstonLogger(
     filename: string,
