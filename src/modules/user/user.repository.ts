@@ -1,6 +1,6 @@
 import { PermissionEntity } from '~role/entity/permission.entity';
 import { UserEntity } from '~user/entity/user.entity';
-import { BaseRepository, columnsWithAlias } from '~common';
+import { BaseRepository } from '~common';
 import { EntityRepository } from 'typeorm';
 import { UserQueryBuilder } from './user.builder';
 import { RoleEntity } from '~role/entity/role.entity';
@@ -21,7 +21,7 @@ export class UserRepository extends BaseRepository<UserEntity> {
     }
 
     async getUserWithAuthInfoByEmail(email: string): Promise<UserEntity> {
-        const columns = columnsWithAlias([
+        const columns = [
             { alias: 'user', columns: usersAttributes },
             { alias: 'role', columns: ['id', 'name', 'description'] },
             { alias: 'permission', columns: ['id'] },
@@ -30,7 +30,7 @@ export class UserRepository extends BaseRepository<UserEntity> {
                 columns: ['resource'],
             },
             { alias: 'permissionAction', columns: ['action'] },
-        ]);
+        ];
 
         const user = await this.builder('user')
             .filterByEmail(email)
@@ -65,7 +65,7 @@ export class UserRepository extends BaseRepository<UserEntity> {
                 'permissionAction',
                 'permissionAction.id = permission.permissionActionId',
             )
-            .select(columns)
+            .selectColumns(columns)
             .getOne();
 
         const allPermissions = [];

@@ -16,3 +16,4 @@ export * from './interceptors/transform.interceptor';
 export * from './constants/index';
 export * from './types';
 export * from './helpers/util';
+export * from './providers/index';

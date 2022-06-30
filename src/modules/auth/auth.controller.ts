@@ -9,7 +9,6 @@ import {
     Req,
     Request,
     UseGuards,
-    UsePipes,
     Patch,
 } from '@nestjs/common';
 import { LoginDto } from './dto/requests/login.dto';
@@ -18,8 +17,6 @@ import { AuthService } from './services/auth.service';
 import { JwtGuard } from '../../common/guards/jwt.guard';
 import { UserStatus } from '../user/user.constant';
 
-import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
-import { updateProfileSchema } from './dto/requests/update-profile.dto';
 import { UpdateProfileDto } from './dto/requests/update-profile.dto';
 import { extractToken } from '../../common/helpers/common.function';
 import {
@@ -131,8 +128,7 @@ export class AuthController extends BaseController {
     }
 
     @Patch('profile')
-    @UsePipes(new JoiValidationPipe(updateProfileSchema))
-    @UseGuards(JwtGuard, AuthorizationGuard)
+    @Auth(['read_user'])
     async updateProfile(
         @Request() req: IRequest,
         @Body() body: UpdateProfileDto,

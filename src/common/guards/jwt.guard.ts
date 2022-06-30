@@ -39,8 +39,9 @@ export class JwtGuard implements CanActivate {
             request.authorizationType === UserTokenType.REFRESH_TOKEN,
         )) as IAuthUser;
 
-        request.authUser = authUser;
+        // ContextProvider.setAuthUser(authUser);
 
+        request.authUser = authUser;
         return true;
     }
 

@@ -3,21 +3,24 @@ import {
     BadRequestException,
     Injectable,
     PipeTransform,
+    Scope,
 } from '@nestjs/common';
 import { ObjectSchema, ValidationResult, ValidationError } from 'joi';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class JoiValidationPipe implements PipeTransform {
     constructor(private schema?: ObjectSchema) {}
 
     transform(value: any, metadata: ArgumentMetadata) {
         const metatype = metadata?.metatype;
+        // note schema is duplicated if you set this.schema = new schema
+        let joiSchema = this.schema;
         if (metatype && !this.schema && (metatype as any)?.getJoiSchema) {
-            this.schema = (metatype as any)?.getJoiSchema();
+            joiSchema = (metatype as any)?.getJoiSchema();
         }
 
-        if (this.schema) {
-            const validationResult = this.schema.validate(value, {
+        if (joiSchema) {
+            const validationResult = joiSchema.validate(value, {
                 abortEarly: false,
             }) as ValidationResult;
 

@@ -10,6 +10,7 @@ import {
     INPUT_PHONE_MAX_LENGTH,
 } from '../../../../common/constants/constants';
 import { UserGender } from '../../../user/user.constant';
+import { JoiValidate } from '~common';
 
 export const updateProfileSchema = Joi.object({
     fullName: Joi.string()
@@ -42,6 +43,7 @@ export const updateProfileSchema = Joi.object({
 });
 
 export class UpdateProfileDto {
+    @JoiValidate(Joi.string())
     fullName: string;
     birthday: Date;
     phoneNumber: string;

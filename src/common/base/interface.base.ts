@@ -11,7 +11,7 @@ export interface LoginUser {
     expiresIn: number;
 }
 
-export type IAuthUser = LoginUser & Pick<JwtPayload, 'expiresIn'>;
+export type IAuthUser = LoginUser & JwtPayload;
 
 export interface IRequest extends Request {
     authUser: IAuthUser;

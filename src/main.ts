@@ -10,6 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import ConfigKey from '../src/common/config/config-key';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { JoiValidationPipe } from '~common';
+import { middleware as expressCtx } from 'express-ctx';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -56,7 +57,10 @@ async function bootstrap() {
     // use winston for logger
     app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
-    //swagger ui
+    // setup context provider
+    app.use(expressCtx);
+
+    // swagger ui
     if (configService.get(ConfigKey.NODE_ENV) === NODE_ENV.DEVELOPMENT) {
         const config = new DocumentBuilder()
             .setTitle('Example')

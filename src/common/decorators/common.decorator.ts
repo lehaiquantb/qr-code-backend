@@ -34,12 +34,12 @@ export function Auth(
     );
 }
 
-export function AuthUser() {
-    return createParamDecorator((_data: unknown, context: ExecutionContext) => {
+export const AuthUser = createParamDecorator(
+    (_data: unknown, context: ExecutionContext) => {
         const request = context.switchToHttp().getRequest() as IRequest;
 
         const user = request?.authUser;
 
         return user;
-    })();
-}
+    },
+);
