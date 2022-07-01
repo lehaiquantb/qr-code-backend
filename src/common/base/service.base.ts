@@ -1,8 +1,7 @@
+import { IAuthUser, ContextProvider, Optional } from '~common';
 import { CommonService } from './../modules/services/common.service';
-import { IRequest } from './interface.base';
-import { ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { I18nService } from 'nestjs-i18n';
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EntityId } from 'typeorm/repository/EntityId';
 import { DeleteResult } from 'typeorm';
@@ -24,13 +23,13 @@ export interface IBaseService<T> {
 
 @Injectable()
 export class BaseService<T extends BaseEntity, R extends BaseRepository<T>>
-    implements IBaseService<T>, OnModuleInit
+    implements IBaseService<T>
 {
     constructor(repository: R) {
         this.repository = repository;
     }
-    @Inject()
-    moduleRef: ModuleRef;
+    // @Inject()
+    // moduleRef: ModuleRef;
 
     @Inject()
     readonly i18n: I18nService;
@@ -38,7 +37,7 @@ export class BaseService<T extends BaseEntity, R extends BaseRepository<T>>
     @Inject()
     readonly configService: ConfigService;
 
-    @Inject('cmss')
+    @Inject()
     commonService: CommonService;
 
     // @Inject(REQUEST)
@@ -46,20 +45,20 @@ export class BaseService<T extends BaseEntity, R extends BaseRepository<T>>
 
     protected readonly repository: R;
 
-    get request(): IRequest {
-        return this.commonService.request;
+    get authUser(): Optional<IAuthUser> {
+        return ContextProvider.getAuthUser();
     }
 
-    async onModuleInit() {
-        // this.commonService = this.moduleRef.resolve(CommonService);
-        const contextId = ContextIdFactory.create();
-        const rr = { asd: 'da' };
-        this.moduleRef.registerRequestByContextId(rr, contextId);
-        this.commonService = await this.moduleRef.resolve(
-            CommonService,
-            contextId,
-        );
-    }
+    // async onModuleInit() {
+    //     // this.commonService = this.moduleRef.resolve(CommonService);
+    //     const contextId = ContextIdFactory.create();
+    //     const rr = { asd: 'da' };
+    //     this.moduleRef.registerRequestByContextId(rr, contextId);
+    //     this.commonService = await this.moduleRef.resolve(
+    //         CommonService,
+    //         contextId,
+    //     );
+    // }
 
     index(): Promise<T[]> {
         return this.repository.find();

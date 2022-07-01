@@ -23,7 +23,6 @@ import {
 } from './dto/requests/update-user.dto';
 import { UserList } from './dto/response/api-response.dto';
 import { DatabaseService } from '../../common/modules/database/database.service';
-import { UserEntity } from './entity/user.entity';
 import {
     UserListQueryStringDto,
     UserListQueryStringSchema,
@@ -100,59 +99,19 @@ export class UserController extends BaseController {
     @Post()
     async create(@Request() req: IRequest, @Body() data: CreateUserDto) {
         try {
-            const promises = [
-                this.databaseService.checkItemExist(
-                    UserEntity,
-                    'email',
-                    data.email,
-                ),
-                this.databaseService.checkItemExist(
-                    RoleEntity,
-                    'id',
-                    data.roleId,
-                ),
-            ];
-
-            const [userExist, roleExist] = await Promise.all(promises);
-
+            const userExist = await this.userRepository.isExist({
+                email: data.email,
+            });
             if (userExist) {
-                const message = await this.i18n.translate(
+                return new ErrorResponse(
+                    HttpStatus.BAD_REQUEST,
                     'user.common.error.email.exist',
                 );
-                return new ErrorResponse(HttpStatus.BAD_REQUEST, message, [
-                    {
-                        key: 'email',
-                        errorCode: HttpStatus.ITEM_ALREADY_EXIST,
-                        message: message,
-                    },
-                ]);
             }
             let newUser: UserResponseDto;
-            if (!roleExist) {
-                const message = await this.i18n.translate(
-                    'role.common.error.role.notFound',
-                );
-                return new ErrorResponse(HttpStatus.BAD_REQUEST, message, [
-                    {
-                        key: 'roleId',
-                        errorCode: HttpStatus.ITEM_NOT_FOUND,
-                        message: message,
-                    },
-                ]);
-            } else {
-                // const role = await RoleEntity.findOne(data.roleId);
-                // if (req.loginUser.role.code == UserRole.ADMIN) {
-                //     newUser = await this.usersService.createUser(data);
-                // } else if (
-                //     req.loginUser.role.code == UserRole.TENANT
-                //     // &&
-                //     // role.code == UserRole.USER
-                // ) {
-                //     newUser = await this.usersService.createUser(data);
-                // } else {
-                //     throw new UnauthorizedException();
-                // }
-            }
+            const res = await this.userRepository.insert({
+                birthday: data.birthday,
+            });
 
             return new SuccessResponse(newUser);
         } catch (error) {

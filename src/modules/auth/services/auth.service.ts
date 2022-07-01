@@ -151,11 +151,7 @@ export class AuthService extends BaseService<UserEntity, UserRepository> {
     }
 
     public async profile(id: number) {
-        console.log(this.moduleRef);
-        console.log(this.commonService.request);
-
-        return this.commonService.request.authUser;
-        // return this.findById(id);
+        return this.findById(id);
     }
 
     public async updateProfile(body: UpdateProfileDto, id: number) {

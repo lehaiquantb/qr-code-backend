@@ -13,6 +13,7 @@ import { Reflector } from '@nestjs/core';
 import { METADATA_KEY } from '../constants';
 import { AuthOptions } from '~decorators/common.decorator';
 import { IAuthUser } from '~base/interface.base';
+import { ContextProvider } from '../providers';
 @Injectable()
 export class JwtGuard implements CanActivate {
     constructor(
@@ -39,7 +40,7 @@ export class JwtGuard implements CanActivate {
             request.authorizationType === UserTokenType.REFRESH_TOKEN,
         )) as IAuthUser;
 
-        // ContextProvider.setAuthUser(authUser);
+        ContextProvider.setAuthUser(authUser);
 
         request.authUser = authUser;
         return true;

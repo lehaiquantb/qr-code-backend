@@ -15,8 +15,6 @@ import { ConfigService } from '@nestjs/config';
 import { DatabaseService } from 'src/common/modules/database/database.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from '~user/user.repository';
-import { CommonModule } from '~common';
-import { CommonService } from 'src/common/modules/services/common.service';
 
 @Global()
 @Module({
@@ -33,9 +31,8 @@ import { CommonService } from 'src/common/modules/services/common.service';
             }),
         }),
         TypeOrmModule.forFeature([UserRepository]),
-        CommonModule,
     ],
-    providers: [AuthService, JwtGuard, DatabaseService, CommonService],
+    providers: [AuthService, JwtGuard, DatabaseService],
     controllers: [AuthController],
     exports: [AuthService, JwtModule, JwtGuard],
 })

@@ -1,4 +1,4 @@
-import { SelectQueryBuilder } from 'typeorm';
+import { FindConditions, SelectQueryBuilder } from 'typeorm';
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { Repository as TypeormRepository } from 'typeorm';
 import { BaseEntity } from '../entites/BaseEntity';
@@ -16,4 +16,9 @@ export abstract class BaseRepository<T extends BaseEntity>
     }
 
     abstract builder(alias: string): SelectQueryBuilder<T>;
+
+    async isExist(where: FindConditions<T>): Promise<boolean> {
+        const count = await this.count(where);
+        return count > 0;
+    }
 }

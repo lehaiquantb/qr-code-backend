@@ -1,3 +1,4 @@
+import { ContextProvider } from './../providers/context.provider';
 import {
     Column,
     CreateDateColumn,
@@ -5,6 +6,9 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
     BaseEntity as TypeOrmBaseEntity,
+    BeforeInsert,
+    BeforeUpdate,
+    BeforeSoftRemove,
 } from 'typeorm';
 
 export abstract class BaseEntity extends TypeOrmBaseEntity {
@@ -31,5 +35,20 @@ export abstract class BaseEntity extends TypeOrmBaseEntity {
 
     static tableName(): string {
         return this.getRepository().metadata.tableName;
+    }
+
+    @BeforeInsert()
+    setCreatedBy() {
+        this.createdBy = ContextProvider.getAuthUser()?.id;
+    }
+
+    @BeforeUpdate()
+    setUpdatedBy() {
+        this.updatedBy = ContextProvider.getAuthUser()?.id;
+    }
+
+    @BeforeSoftRemove()
+    setDeleteBy() {
+        this.deletedBy = ContextProvider.getAuthUser()?.id;
     }
 }

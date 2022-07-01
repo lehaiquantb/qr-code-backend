@@ -1,3 +1,4 @@
+import { Optional } from './../types';
 import { IAuthUser } from '~common';
 import { LANGUAGES } from './../constants/constants';
 import { getValue, setValue } from 'express-ctx';
@@ -34,7 +35,7 @@ export class ContextProvider {
         ContextProvider.set(ContextProvider.AUTH_USER_KEY, user);
     }
 
-    static getAuthUser(): IAuthUser | undefined {
+    static getAuthUser(): Optional<IAuthUser> {
         return ContextProvider.get<IAuthUser>(ContextProvider.AUTH_USER_KEY);
     }
 }

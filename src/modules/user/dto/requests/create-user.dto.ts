@@ -20,7 +20,4 @@ export class CreateUserDto {
     @JoiValidate(userFields.gender)
     @JoiEnum(UserGender)
     gender?: UserGender;
-
-    @JoiValidate(userFields.roleId)
-    roleId?: number;
 }

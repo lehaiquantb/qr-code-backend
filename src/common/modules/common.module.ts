@@ -4,12 +4,7 @@ import { HttpExceptionFilter } from '~common';
 import { TransformInterceptor } from '~common';
 import { CommonService } from './services/common.service';
 
-const commonProviders = [
-    {
-        provide: 'cmss',
-        useClass: CommonService,
-    },
-];
+const commonProviders = [CommonService];
 
 @Global()
 @Module({
