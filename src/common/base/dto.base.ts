@@ -1,7 +1,7 @@
 import { METADATA_KEY } from '~common';
 import BaseJoi from 'joi';
 
-export class BaseDto {
+export class RequestDto {
     constructor() {
         console.log('');
     }
@@ -13,5 +13,18 @@ export class BaseDto {
 
     static getJoiObject() {
         return Reflect.getMetadata(METADATA_KEY.JOI, this.prototype) ?? {};
+    }
+}
+
+export class ResponseDto {
+    constructor() {
+        console.log('');
+    }
+
+    static getOmitProperties(): string[] {
+        return (
+            Reflect.getMetadata(METADATA_KEY.OMIT_PROPERTY, this.prototype) ??
+            []
+        );
     }
 }

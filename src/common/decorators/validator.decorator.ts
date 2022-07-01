@@ -1,4 +1,4 @@
-import { BaseDto, convertEnumToValues } from '~common';
+import { RequestDto, convertEnumToValues } from '~common';
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger';
 import { applyDecorators } from '@nestjs/common';
 import type { ValidationOptions } from 'class-validator';
@@ -59,7 +59,7 @@ export function JoiRequired(schema?: Joi.AnySchema): PropertyDecorator {
         : JoiValidate(Joi.required(), { required: true });
 }
 
-export function JoiArray<T extends BaseDto>(
+export function JoiArray<T extends RequestDto>(
     dtoClass: T,
     schema?: Joi.ArraySchema,
 ): PropertyDecorator {
@@ -73,7 +73,7 @@ export function JoiArray<T extends BaseDto>(
     return applyDecorators(...decorators);
 }
 
-export function JoiObject<T extends BaseDto>(
+export function JoiObject<T extends RequestDto>(
     dtoClass: T,
     schema?: Joi.ObjectSchema,
 ): PropertyDecorator {

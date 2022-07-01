@@ -2,20 +2,20 @@ import { UserRepository } from './modules/user/user.repository';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { JoiValidate, BaseController } from '~common';
 import Joi from 'joi';
-import { BaseDto } from '~common';
+import { RequestDto } from '~common';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '~user/entity/user.entity';
 import { AuthService } from '~auth/services/auth.service';
-class ItemDto extends BaseDto {
+class ItemDto extends RequestDto {
     @ApiProperty()
     @JoiValidate(Joi.string().required().label('dsa'))
     name: string;
 }
 
-class MyObject extends BaseDto {
+class MyObject extends RequestDto {
     prop1: string;
 }
-export class TestDto extends BaseDto {
+export class TestDto extends RequestDto {
     // if use ValidationPipe, this required all property use decorator in class-validator because ValidationPipe effect to transform value of JoiValidationPipe
     // @IsPassword({ message: 'Password must be a string' })
     name: string;

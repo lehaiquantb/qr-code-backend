@@ -23,7 +23,9 @@
     "common": {
         "error": {
             "user.notFound": "User not exist!",
-            "email.exist": "Email exists!",
+            "email": {
+                "exist": "Email exists!"
+            },
             "citizenId.exist": "CitizenId exists!",
             "taxCode.exist": "Tax code exists!",
             "bankAccount.exist": "Bank account exists!",

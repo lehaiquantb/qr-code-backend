@@ -1,6 +1,8 @@
+import { ResponseDto } from './../base/dto.base';
 import { Injectable } from '@nestjs/common';
 import { HttpStatus } from '~common';
 import { translate, I18Key } from '~i18n';
+import _ from 'lodash';
 const DEFAULT_SUCCESS_MESSAGE = 'success';
 @Injectable()
 export class ApiResponse<T> {
@@ -21,12 +23,19 @@ export interface IErrorResponse {
     message: string;
 }
 
-export class SuccessResponse {
-    constructor(data = {}, message = DEFAULT_SUCCESS_MESSAGE) {
+export class SuccessResponse<T extends ResponseDto> {
+    constructor(data: T | any, message = DEFAULT_SUCCESS_MESSAGE) {
+        let response: any = {};
+        if (data instanceof ResponseDto) {
+            const omitProperties: string[] =
+                (data.constructor as any)?.getOmitProperties() ?? [];
+            response = _.omit(data, omitProperties);
+        }
+
         return {
             code: HttpStatus.OK,
             message,
-            data,
+            data: response,
         };
     }
 }

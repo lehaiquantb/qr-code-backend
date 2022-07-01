@@ -1,3 +1,4 @@
+import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
 import { UserRepository } from './user.repository';
 import { UserResponseDto } from './dto/response/user-response.dto';
 import { IRequest } from '~common';
@@ -38,6 +39,8 @@ import { HttpStatus } from '~common';
 import { RoleEntity } from '../role/entity/role.entity';
 import { BaseController } from '~common';
 import { ApiTags } from '@nestjs/swagger';
+import { FindConditions } from 'typeorm';
+import { ROLE_TYPE } from '~role/role.interface';
 
 @Controller('user')
 @ApiTags('user')
@@ -108,12 +111,29 @@ export class UserController extends BaseController {
                     'user.common.error.email.exist',
                 );
             }
-            let newUser: UserResponseDto;
-            const res = await this.userRepository.insert({
-                birthday: data.birthday,
+            const condi: FindConditions<RoleEntity> = {
+                name: ROLE_TYPE.MEMBER,
+            };
+
+            const roleMember = await RoleEntity.findOne({
+                name: ROLE_TYPE.MEMBER,
             });
 
-            return new SuccessResponse(newUser);
+            const user = await this.userRepository.insertAndGet({
+                birthday: data.birthday,
+                email: data.email,
+                fullName: data.fullName,
+                password: data.password,
+                phoneNumber: data.phoneNumber,
+                gender: data.gender,
+            });
+
+            await UserRoleEntity.insert({
+                role: roleMember,
+                user,
+            });
+
+            return new SuccessResponse(new UserResponseDto(user));
         } catch (error) {
             throw new InternalServerErrorException(error);
         }

@@ -98,4 +98,5 @@ export const METADATA_KEY = {
     ROLES: Symbol('_roles_'),
     PERMISSIONS: Symbol('_permissions_'),
     AUTH_OPTIONS: Symbol('_auth_options_'),
+    OMIT_PROPERTY: Symbol('_omit_property_'),
 };

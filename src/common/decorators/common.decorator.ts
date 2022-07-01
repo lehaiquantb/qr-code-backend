@@ -43,3 +43,16 @@ export const AuthUser = createParamDecorator(
         return user;
     },
 );
+
+export function OmitProperty(): PropertyDecorator {
+    return (target: Object, propertyKey: string | symbol) => {
+        const existMetaData =
+            Reflect.getMetadata(METADATA_KEY.OMIT_PROPERTY, target) ?? [];
+        existMetaData.push(propertyKey);
+        Reflect.defineMetadata(
+            METADATA_KEY.OMIT_PROPERTY,
+            existMetaData,
+            target,
+        );
+    };
+}

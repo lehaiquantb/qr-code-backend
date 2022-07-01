@@ -8,6 +8,6 @@ export class UserQueryBuilder extends BaseQueryBuilder<UserEntity> {
     }
 
     public filterByEmail(email: string) {
-        return this.where(`${this.alias}.email = :email`, { email });
+        return this.filterByColumn('email', email);
     }
 }

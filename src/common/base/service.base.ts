@@ -84,7 +84,4 @@ export class BaseService<T extends BaseEntity, R extends BaseRepository<T>>
     delete(id: EntityId): Promise<DeleteResult> {
         return this.repository.delete(id);
     }
-    ssss() {
-        // return this.request.authUser
-    }
 }
