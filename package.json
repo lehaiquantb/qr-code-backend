@@ -70,8 +70,8 @@
     },
     "devDependencies": {
         "@faker-js/faker": "^7.3.0",
-        "@nestjs/cli": "^8.1.6",
-        "@nestjs/schematics": "^8.0.5",
+        "@nestjs/cli": "^8.2.8",
+        "@nestjs/schematics": "^8.0.11",
         "@nestjs/swagger": "^5.2.0",
         "@types/bcrypt": "^5.0.0",
         "@types/cron": "^1.7.3",

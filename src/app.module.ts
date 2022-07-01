@@ -12,6 +12,7 @@ import { DatabaseModule } from './common/modules/database/database.module';
 import { AppController } from './app.controller';
 import envSchema from './common/config/validation-schema';
 import { ConfigModule } from '@nestjs/config';
+import { ProductModule } from './product/product.module';
 
 @Module({
     imports: [
@@ -29,6 +30,7 @@ import { ConfigModule } from '@nestjs/config';
         RoleModule,
         UserModule,
         TypeOrmModule.forFeature([UserRepository]),
+        ProductModule,
     ],
     controllers: [AppController],
     providers: [],

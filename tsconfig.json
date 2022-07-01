@@ -57,6 +57,12 @@
       "~user/*": [
         "src/modules/user/*"
       ],
+      "~product/*": [
+        "src/modules/product/*"
+      ],
+      "~rate/*": [
+        "src/modules/rate/*"
+      ],
       "~database/*": [
         "database/*"
       ]
