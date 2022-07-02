@@ -7,8 +7,7 @@ unless_exists: true
  fileName =  h.fileName(name);
  varName = h.varName(name);
  constantName = h.constantName(name);
-%>
-import * as BaseJoi from 'joi';
+%>import * as BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 import { <%= ClassName %>Entity } from '~<%= fileName %>/entity/<%= fileName %>.entity';
 const Joi = BaseJoi.extend(JoiDate);

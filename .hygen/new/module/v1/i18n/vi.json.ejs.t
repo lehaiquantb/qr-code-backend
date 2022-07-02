@@ -9,8 +9,7 @@ unless_exists: true
  constantName = h.constantName(name);
  table_name = h.table_name(name);
  humanName = h.humanName(name);
-%>
-{
+%>{
     "error": {
         "notFound": "<%= humanName %> not found",
         "exist": "<%= humanName %> already exists",

@@ -7,8 +7,7 @@ unless_exists: true
  fileName =  h.fileName(name);
  varName = h.varName(name);
  constantName = h.constantName(name);
-%>
-import { Module } from '@nestjs/common';
+%>import { Module } from '@nestjs/common';
 import { DatabaseService } from '~common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { <%= ClassName %>Service } from '~<%= fileName %>/services/<%= fileName %>.service';

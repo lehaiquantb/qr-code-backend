@@ -7,8 +7,7 @@ unless_exists: true
  fileName =  h.fileName(name);
  varName = h.varName(name);
  constantName = h.constantName(name);
-%>
-import { QueryList<%= ClassName %>Dto } from '~<%= fileName %>/dto/request/<%= fileName %>.request.dto';
+%>import { QueryList<%= ClassName %>Dto } from '~<%= fileName %>/dto/request/<%= fileName %>.request.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { InjectEntityManager } from '@nestjs/typeorm';

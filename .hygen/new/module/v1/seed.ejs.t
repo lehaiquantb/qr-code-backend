@@ -8,8 +8,7 @@ unless_exists: true
  varName = h.varName(name);
  constantName = h.constantName(name);
  table_name = h.table_name(name);
-%>
-import { <%= ClassName %>Entity } from '~<%= fileName %>/entity/<%= fileName %>.entity';
+%>import { <%= ClassName %>Entity } from '~<%= fileName %>/entity/<%= fileName %>.entity';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { factoryExcute } from '~database/factories';

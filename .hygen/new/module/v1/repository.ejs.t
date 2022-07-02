@@ -7,8 +7,7 @@ unless_exists: true
  fileName =  h.fileName(name);
  varName = h.varName(name);
  constantName = h.constantName(name);
-%>
-import { EntityRepository } from 'typeorm';
+%>import { EntityRepository } from 'typeorm';
 import { BaseRepository } from '~common';
 import { <%= ClassName %>Entity } from '~<%= fileName %>/entity/<%= fileName %>.entity';
 import { <%= ClassName %>QueryBuilder } from '~<%= fileName %>/<%= fileName %>.builder';

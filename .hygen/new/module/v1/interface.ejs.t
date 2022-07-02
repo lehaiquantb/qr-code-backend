@@ -7,5 +7,4 @@ unless_exists: true
  fileName =  h.fileName(name);
  varName = h.varName(name);
  constantName = h.constantName(name);
-%>
-// your interface
+%>// your interface
