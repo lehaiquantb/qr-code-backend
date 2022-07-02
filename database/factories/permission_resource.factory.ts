@@ -1,5 +1,5 @@
 import { PermissionResourceEntity } from './../../src/modules/role/entity/permission-resource.entity';
-import { PERMISSION_ACTION, PERMISSION_RESOURCE } from './../../src/modules/role/role.interface';
+import { PERMISSION_ACTION, PERMISSION_RESOURCE } from '~common';
 import { PermissionActionEntity } from './../../src/modules/role/entity/permission-action.entity';
 import { faker } from '@faker-js/faker';
 import { UserStatus } from './../../src/modules/user/user.constant';

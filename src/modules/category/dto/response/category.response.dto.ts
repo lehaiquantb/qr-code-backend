@@ -4,6 +4,10 @@ import { CategoryEntity } from '~category/entity/category.entity';
 export class CategoryResponseDto extends ResponseDto {
     id: number;
 
+    name: string;
+
+    description: string;
+
     @OmitProperty()
     private category?: CategoryEntity;
 
@@ -11,6 +15,8 @@ export class CategoryResponseDto extends ResponseDto {
         super();
         this.category = category;
         this.id = category?.id;
+        this.name = category?.name;
+        this.description = category?.description;
     }
 }
 

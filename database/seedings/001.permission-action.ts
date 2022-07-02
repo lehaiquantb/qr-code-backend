@@ -1,4 +1,4 @@
-import { PERMISSION_ACTION } from '../../src/modules/role/role.interface';
+import { PERMISSION_ACTION } from '~common';
 import { PermissionActionEntity } from '../../src/modules/role/entity/permission-action.entity';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { UserTokenEntity } from '../../src/modules/auth/entity/user-token.entity';

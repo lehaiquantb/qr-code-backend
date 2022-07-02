@@ -1,9 +1,6 @@
 /*eslint-disable @typescript-eslint/ban-types*/
 import { METADATA_KEY, IRequest } from '~common';
-import {
-    PERMISSION_ACTION,
-    PERMISSION_RESOURCE,
-} from './../../modules/role/role.interface';
+import { PERMISSION_ACTION, PERMISSION_RESOURCE } from '~common';
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { JwtGuard } from 'src/common/guards/jwt.guard';
 import {

@@ -1,5 +1,6 @@
+import { CategoryEntity } from '~category/entity/category.entity';
 import { TABLE_NAME } from '~database/constant';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '~common';
 import { ProductQueryBuilder } from '~product/product.builder';
 import { RateEntity } from '~rate/entity/rate.entity';
@@ -22,4 +23,10 @@ export class ProductEntity extends BaseEntity {
 
     @OneToMany(() => RateEntity, (rate) => rate.product)
     rates!: RateEntity[];
+
+    @ManyToOne(() => CategoryEntity, (category) => category.products)
+    category!: CategoryEntity;
+
+    @Column({ type: 'int', nullable: false })
+    categoryId: number;
 }

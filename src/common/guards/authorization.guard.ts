@@ -1,4 +1,4 @@
-import { PERMISSION_ACTION } from './../../modules/role/role.interface';
+import { PERMISSION_ACTION } from '~common';
 import { PermissionType } from './../decorators/common.decorator';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';

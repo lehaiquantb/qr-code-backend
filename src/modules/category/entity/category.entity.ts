@@ -1,7 +1,8 @@
 import { TABLE_NAME } from '~database/constant';
-import { Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from '~common';
 import { CategoryQueryBuilder } from '~category/category.builder';
+import { ProductEntity } from '~product/entity/product.entity';
 
 const NAME = TABLE_NAME.CATEGORY;
 @Entity({ name: NAME })
@@ -11,4 +12,13 @@ export class CategoryEntity extends BaseEntity {
             CategoryEntity.createQueryBuilder(alias),
         );
     }
+
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    name: string;
+
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    description: string;
+
+    @OneToMany(() => ProductEntity, (product) => product.category)
+    products: ProductEntity[];
 }

@@ -14,6 +14,7 @@ import envSchema from './common/config/validation-schema';
 import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from '~product/product.module';
 import { RateModule } from '~rate/rate.module';
+import { CategoryModule } from '~category/category.module';
 
 @Module({
     imports: [
@@ -33,6 +34,7 @@ import { RateModule } from '~rate/rate.module';
         TypeOrmModule.forFeature([UserRepository]),
         ProductModule,
         RateModule,
+        CategoryModule,
     ],
     controllers: [AppController],
     providers: [],

@@ -1,7 +1,7 @@
 import {
     PERMISSION_ACTION,
     PERMISSION_RESOURCE,
-} from './../../src/modules/role/role.interface';
+} from '~common';
 import { PermissionResourceEntity } from './../../src/modules/role/entity/permission-resource.entity';
 import { PermissionActionEntity } from './../../src/modules/role/entity/permission-action.entity';
 import { factoryExcute } from '~database/factories';

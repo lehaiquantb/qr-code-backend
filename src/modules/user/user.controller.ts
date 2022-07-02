@@ -40,7 +40,7 @@ import { RoleEntity } from '../role/entity/role.entity';
 import { BaseController } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { FindConditions } from 'typeorm';
-import { ROLE_TYPE } from '~role/role.interface';
+import { ROLE_TYPE } from '~common';
 import { UserEntity } from './entity/user.entity';
 
 @Controller('user')

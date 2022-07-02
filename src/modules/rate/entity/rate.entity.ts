@@ -18,6 +18,12 @@ export class RateEntity extends BaseEntity {
     @Column({ type: 'varchar', nullable: true, length: 255 })
     comment: string;
 
+    @Column({ type: 'int', nullable: false })
+    productId: number;
+
+    @Column({ type: 'int', nullable: false })
+    userId: number;
+
     @ManyToOne(() => UserEntity, (user) => user.rates)
     user: UserEntity;
 

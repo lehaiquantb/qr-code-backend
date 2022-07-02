@@ -1,4 +1,4 @@
-import { PERMISSION_ACTION } from './../../src/modules/role/role.interface';
+import { PERMISSION_ACTION } from '~common';
 import { PermissionActionEntity } from './../../src/modules/role/entity/permission-action.entity';
 import { faker } from '@faker-js/faker';
 import { UserStatus } from './../../src/modules/user/user.constant';

@@ -2,7 +2,7 @@ import { PermissionResourceEntity } from '../../src/modules/role/entity/permissi
 import {
     PERMISSION_ACTION,
     PERMISSION_RESOURCE,
-} from '../../src/modules/role/role.interface';
+} from '~common';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { factoryExcute } from '~database/factories';
