@@ -1,4 +1,6 @@
 import { UserRoleEntity } from './../../src/modules/role/entity/user-role.entity';
+import { CategoryEntity } from '~category/entity/category.entity';
+import categoryFactory from './category.factory';
 import { RateEntity } from '~rate/entity/rate.entity';
 import rateFactory from './rate.factory';
 import { RolePermissionEntity } from './../../src/modules/role/entity/role-permission.entity';
@@ -75,6 +77,7 @@ export async function createEntity(queryRunner: QueryRunner) {
 
 let Factories: { [key: string]: FactoryDefine<any> } = {
     // hygen inject
+    [CategoryEntity.name]: categoryFactory,
 
     [RateEntity.name]: rateFactory,
 

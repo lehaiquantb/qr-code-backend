@@ -1,6 +1,7 @@
 import { TableColumnOptions } from 'typeorm';
 
 export enum TABLE_NAME {
+    CATEGORY = 'category',
     RATE = 'rate',
     USER = 'user',
     ROLE = 'role',
