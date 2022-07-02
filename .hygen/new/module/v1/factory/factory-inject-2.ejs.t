@@ -11,4 +11,4 @@ skip_if: <%= h.fileName(name) %>.factory
  constantName = h.constantName(name);
  table_name = h.table_name(name);
 %>import { <%= ClassName %>Entity } from '~<%= fileName %>/entity/<%= fileName %>.entity';
-import <%= varName %>Factory from './<%= fileName %>.factory';
+import <%= varName %>Factory from './<%= table_name %>.factory';
