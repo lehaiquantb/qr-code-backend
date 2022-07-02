@@ -118,5 +118,9 @@ module.exports = {
     table_name(name) {
       return this.changeCase.lower(this.changeCase.snake(name));
     },
+
+    humanName(name) {
+      return this.changeCase.sentence(name);
+    }
   },
 }

@@ -8,6 +8,7 @@ import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
 import { genPassword, KeyOfType, ResourceWithActions } from '~common';
 import { UserQueryBuilder } from '~user/user.builder';
 import { Exclude } from 'class-transformer';
+import { RateEntity } from '~rate/entity/rate.entity';
 
 const NAME = TABLE_NAME.USER;
 @Entity({ name: NAME })
@@ -44,6 +45,9 @@ export class UserEntity extends BaseEntity {
 
     @OneToMany(() => UserRoleEntity, (userRole) => userRole.user)
     userRoles!: UserRoleEntity[];
+
+    @OneToMany(() => RateEntity, (rate) => rate.user)
+    rates!: RateEntity[];
 
     @BeforeInsert()
     @BeforeUpdate()

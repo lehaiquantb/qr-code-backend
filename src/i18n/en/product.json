@@ -1,0 +1,11 @@
+{
+    "error": {
+        "notFound": "Product not found",
+        "exist": "Product already exists"
+    },
+    "success": {
+        "create": "Product created successfully",
+        "update": "Product updated successfully",
+        "delete": "Product deleted successfully"
+    }
+}

@@ -52,7 +52,7 @@ export class ProductController extends BaseController {
             if (!product) {
                 return new ErrorResponse(
                     HttpStatus.ITEM_NOT_FOUND,
-                    'product.common.error.product.notFound',
+                    'product.error.notFound',
                 );
             }
             return new SuccessResponse(new ProductResponseDto(product));
@@ -85,7 +85,7 @@ export class ProductController extends BaseController {
             if (productExist) {
                 return new ErrorResponse(
                     HttpStatus.BAD_REQUEST,
-                    'product.common.error.exist',
+                    'product.error.exist',
                 );
             }
 
@@ -106,10 +106,10 @@ export class ProductController extends BaseController {
     ) {
         try {
             const productExist = await this.productRepository.isExist({ id });
-            if (productExist) {
+            if (!productExist) {
                 return new ErrorResponse(
                     HttpStatus.BAD_REQUEST,
-                    'product.common.error.exist',
+                    'product.error.notExist',
                 );
             }
 
@@ -128,16 +128,16 @@ export class ProductController extends BaseController {
     ) {
         try {
             const productExist = await this.productRepository.isExist({ id });
-            if (productExist) {
+            if (!productExist) {
                 return new ErrorResponse(
                     HttpStatus.BAD_REQUEST,
-                    'product.common.error.exist',
+                    'product.error.notExist',
                 );
             }
 
             const deleteResult = await this.productService.softDelete(id);
 
-            return new SuccessResponse({ id }, 'product.delete.success');
+            return new SuccessResponse({ id }, 'product.success.delete');
         } catch (error) {
             throw new InternalServerErrorException(error);
         }

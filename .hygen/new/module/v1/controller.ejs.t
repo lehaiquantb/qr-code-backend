@@ -62,7 +62,7 @@ export class <%= ClassName %>Controller extends BaseController {
             if (!<%= varName %>) {
                 return new ErrorResponse(
                     HttpStatus.ITEM_NOT_FOUND,
-                    '<%= varName %>.common.error.<%= varName %>.notFound',
+                    '<%= varName %>.error.notFound',
                 );
             }
             return new SuccessResponse(new <%= ClassName %>ResponseDto(<%= varName %>));
@@ -95,7 +95,7 @@ export class <%= ClassName %>Controller extends BaseController {
             if (<%= varName %>Exist) {
                 return new ErrorResponse(
                     HttpStatus.BAD_REQUEST,
-                    '<%= varName %>.common.error.exist',
+                    '<%= varName %>.error.exist',
                 );
             }
 
@@ -116,10 +116,10 @@ export class <%= ClassName %>Controller extends BaseController {
     ) {
         try {
             const <%= varName %>Exist = await this.<%= varName %>Repository.isExist({ id });
-            if (<%= varName %>Exist) {
+            if (!<%= varName %>Exist) {
                 return new ErrorResponse(
                     HttpStatus.BAD_REQUEST,
-                    '<%= varName %>.common.error.exist',
+                    '<%= varName %>.error.notExist',
                 );
             }
 
@@ -138,16 +138,16 @@ export class <%= ClassName %>Controller extends BaseController {
     ) {
         try {
             const <%= varName %>Exist = await this.<%= varName %>Repository.isExist({ id });
-            if (<%= varName %>Exist) {
+            if (!<%= varName %>Exist) {
                 return new ErrorResponse(
                     HttpStatus.BAD_REQUEST,
-                    '<%= varName %>.common.error.exist',
+                    '<%= varName %>.error.notExist',
                 );
             }
 
             const deleteResult = await this.<%= varName %>Service.softDelete(id);
 
-            return new SuccessResponse({ id }, '<%= varName %>.delete.success');
+            return new SuccessResponse({ id }, '<%= varName %>.success.delete');
         } catch (error) {
             throw new InternalServerErrorException(error);
         }
