@@ -11,9 +11,11 @@ import {
     BeforeSoftRemove,
 } from 'typeorm';
 
+export type EntityId = number;
+
 export abstract class BaseEntity extends TypeOrmBaseEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+    id: EntityId;
 
     @CreateDateColumn({ type: 'timestamp', nullable: true })
     createdAt: Date;

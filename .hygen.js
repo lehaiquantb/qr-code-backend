@@ -1,5 +1,5 @@
 module.exports = {
-  templates: `${__dirname}/.hygen`,
+  templates: `${__dirname}/._templates`,
   helpers: {
     ControllerName(name) {
       return `${this.ClassName(name)}Controller`;

@@ -18,7 +18,7 @@ export interface IBaseService<T> {
 
     update(id: EntityId, data: any): Promise<T>;
 
-    delete(id: EntityId): Promise<DeleteResult>;
+    softDelete(id: EntityId): Promise<DeleteResult>;
 }
 
 @Injectable()
@@ -40,10 +40,7 @@ export class BaseService<T extends BaseEntity, R extends BaseRepository<T>>
     @Inject()
     commonService: CommonService;
 
-    // @Inject(REQUEST)
-    // req: IRequest;
-
-    protected readonly repository: R;
+    readonly repository: R;
 
     get authUser(): Optional<IAuthUser> {
         return ContextProvider.getAuthUser();
@@ -81,7 +78,7 @@ export class BaseService<T extends BaseEntity, R extends BaseRepository<T>>
         return this.findById(id);
     }
 
-    delete(id: EntityId): Promise<DeleteResult> {
-        return this.repository.delete(id);
+    softDelete(id: EntityId): Promise<DeleteResult> {
+        return this.repository.softDelete(id);
     }
 }
