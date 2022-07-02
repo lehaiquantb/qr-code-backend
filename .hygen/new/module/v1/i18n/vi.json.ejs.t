@@ -1,5 +1,5 @@
 ---
-to: "i18n/vi/<%= h.fileName(name) %>.json"
+to: "src/i18n/vi/<%= h.varName(name) %>.json"
 unless_exists: true
 ---
 <%
@@ -13,7 +13,8 @@ unless_exists: true
 {
     "error": {
         "notFound": "<%= humanName %> not found",
-        "exist": "<%= humanName %> already exists"
+        "exist": "<%= humanName %> already exists",
+        "notExist": "<%= humanName %> does not exist"
     },
     "success": {
         "create": "<%= humanName %> created successfully",

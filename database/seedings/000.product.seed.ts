@@ -1,3 +1,4 @@
+
 import { ProductEntity } from '~product/entity/product.entity';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as dotenv from 'dotenv';

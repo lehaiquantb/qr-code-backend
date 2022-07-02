@@ -1,7 +1,8 @@
 {
     "error": {
         "notFound": "Product not found",
-        "exist": "Product already exists"
+        "exist": "Product already exists",
+        "notExist": "Product does not exist"
     },
     "success": {
         "create": "Product created successfully",

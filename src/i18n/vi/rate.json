@@ -1,0 +1,12 @@
+{
+    "error": {
+        "notFound": "Rate not found",
+        "exist": "Rate already exists",
+        "notExist": "Rate does not exist"
+    },
+    "success": {
+        "create": "Rate created successfully",
+        "update": "Rate updated successfully",
+        "delete": "Rate deleted successfully"
+    }
+}

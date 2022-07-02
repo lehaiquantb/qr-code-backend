@@ -1,5 +1,5 @@
 ---
-to: "i18n/en/<%= h.fileName(name) %>.json"
+to: "src/i18n/en/<%= h.fileName(name) %>.json"
 unless_exists: true
 ---
 <%
