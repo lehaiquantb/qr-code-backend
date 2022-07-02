@@ -1,4 +1,6 @@
 import { UserRoleEntity } from './../../src/modules/role/entity/user-role.entity';
+import { RateEntity } from '~rate/entity/rate.entity';
+import rateFactory from './rate.factory';
 import { RolePermissionEntity } from './../../src/modules/role/entity/role-permission.entity';
 import { RoleEntity } from './../../src/modules/role/entity/role.entity';
 import { PermissionEntity } from './../../src/modules/role/entity/permission.entity';
@@ -73,6 +75,9 @@ export async function createEntity(queryRunner: QueryRunner) {
 
 let Factories: { [key: string]: FactoryDefine<any> } = {
     // hygen inject
+
+    [RateEntity.name]: rateFactory,
+
     [ProductEntity.name]: productFactory,
     [UserEntity.name]: userFactory,
     [UserTokenEntity.name]: userTokenFactory,

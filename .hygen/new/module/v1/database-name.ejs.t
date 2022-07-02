@@ -2,6 +2,7 @@
 inject: true
 to: database/constant.ts
 after: TABLE_NAME
+skip_if: <%= h.constantName(name) %>
 ---
 <%
  ClassName = h.ClassName(name);
@@ -9,5 +10,4 @@ after: TABLE_NAME
  varName = h.varName(name);
  constantName = h.constantName(name);
  table_name = h.table_name(name);
-%>
-<%= constantName %> = '<%= table_name %>',
+%>  <%= constantName %> = '<%= table_name %>',
