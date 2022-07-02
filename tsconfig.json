@@ -15,6 +15,9 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "paths": {
+"~rate/*": [
+    "src/modules/rate/*"
+],
       "~i18n": [
         "src/i18n"
       ],
@@ -59,12 +62,6 @@
       ],
       "~product/*": [
         "src/modules/product/*"
-      ],
-      "~rate/*": [
-        "src/modules/rate/*"
-      ],
-      "~abc-pro/*": [
-        "src/modules/abc-pro/*"
       ],
       "~database/*": [
         "database/*"

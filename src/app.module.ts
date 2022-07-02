@@ -13,6 +13,7 @@ import { AppController } from './app.controller';
 import envSchema from './common/config/validation-schema';
 import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from '~product/product.module';
+import { RateModule } from '~rate/rate.module';
 
 @Module({
     imports: [
@@ -31,6 +32,7 @@ import { ProductModule } from '~product/product.module';
         UserModule,
         TypeOrmModule.forFeature([UserRepository]),
         ProductModule,
+        RateModule,
     ],
     controllers: [AppController],
     providers: [],
