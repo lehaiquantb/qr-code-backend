@@ -15,9 +15,9 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "paths": {
-"~rate/*": [
-    "src/modules/rate/*"
-],
+      "~rate/*": [
+        "src/modules/rate/*"
+      ],
       "~i18n": [
         "src/i18n"
       ],

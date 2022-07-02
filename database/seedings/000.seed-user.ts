@@ -1,5 +1,5 @@
 import { UserEntity } from 'src/modules/user/entity/user.entity';
-import { UserTokenEntity } from './../../src/modules/auth/entity/user-token.entity';
+import { UserTokenEntity } from '../../src/modules/auth/entity/user-token.entity';
 import { UserStatus } from '../../src/modules/user/user.constant';
 import { In, MigrationInterface, QueryRunner } from 'typeorm';
 import * as bcrypt from 'bcrypt';

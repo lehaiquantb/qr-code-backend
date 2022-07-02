@@ -41,6 +41,7 @@ import { BaseController } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { FindConditions } from 'typeorm';
 import { ROLE_TYPE } from '~role/role.interface';
+import { UserEntity } from './entity/user.entity';
 
 @Controller('user')
 @ApiTags('user')
@@ -119,21 +120,23 @@ export class UserController extends BaseController {
                 name: ROLE_TYPE.MEMBER,
             });
 
-            const user = await this.userRepository.insertAndGet({
-                birthday: data.birthday,
-                email: data.email,
-                fullName: data.fullName,
-                password: data.password,
-                phoneNumber: data.phoneNumber,
-                gender: data.gender,
-            });
+            const user = new UserEntity();
+
+            user.birthday = data.birthday;
+            user.email = data.email;
+            user.fullName = data.fullName;
+            user.password = data.password;
+            user.phoneNumber = data.phoneNumber;
+            user.gender = data.gender;
+
+            const newUser = await this.userRepository.insertAndGet(user);
 
             await UserRoleEntity.insert({
                 role: roleMember,
-                user,
+                user: newUser,
             });
 
-            return new SuccessResponse(new UserResponseDto(user));
+            return new SuccessResponse(new UserResponseDto(newUser));
         } catch (error) {
             throw new InternalServerErrorException(error);
         }

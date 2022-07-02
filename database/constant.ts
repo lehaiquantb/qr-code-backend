@@ -1,8 +1,7 @@
 import { TableColumnOptions } from 'typeorm';
 
 export enum TABLE_NAME {
-
-RATE = 'rate',
+    RATE = 'rate',
     USER = 'user',
     ROLE = 'role',
     USER_TOKEN = 'user_token',
@@ -12,7 +11,6 @@ RATE = 'rate',
     PERMISSION_ACTION = 'permission_action',
     PERMISSION_RESOURCE = 'permission_resource',
     PRODUCT = 'product',
-    ABC_PRO = 'abc_pro',
 }
 
 export const createColumns = function (

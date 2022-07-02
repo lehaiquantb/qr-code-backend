@@ -1,13 +1,13 @@
-import { PermissionActionEntity } from './../../src/modules/role/entity/permission-action.entity';
-import { PermissionEntity } from './../../src/modules/role/entity/permission.entity';
-import { RolePermissionEntity } from './../../src/modules/role/entity/role-permission.entity';
-import { RoleEntity } from './../../src/modules/role/entity/role.entity';
-import { PermissionResourceEntity } from './../../src/modules/role/entity/permission-resource.entity';
+import { PermissionActionEntity } from '../../src/modules/role/entity/permission-action.entity';
+import { PermissionEntity } from '../../src/modules/role/entity/permission.entity';
+import { RolePermissionEntity } from '../../src/modules/role/entity/role-permission.entity';
+import { RoleEntity } from '../../src/modules/role/entity/role.entity';
+import { PermissionResourceEntity } from '../../src/modules/role/entity/permission-resource.entity';
 import {
     ROLE_TYPE,
     PERMISSION_ACTION,
     PERMISSION_RESOURCE,
-} from './../../src/modules/role/role.interface';
+} from '../../src/modules/role/role.interface';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { factoryExcute } from '~database/factories';

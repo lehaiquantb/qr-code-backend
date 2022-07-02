@@ -30,6 +30,8 @@ import permissionFactory from './permission.factory';
 import roleFactory from './role.factory';
 import rolePermissionFactory from './role_permission.factory';
 import userRoleFactory from './user_role.factory';
+import { ProductEntity } from '~product/entity/product.entity';
+import productFactory from './product.factory';
 
 interface Factory<T extends BaseEntity> {
     tableName: string;
@@ -69,7 +71,9 @@ export async function createEntity(queryRunner: QueryRunner) {
     return user;
 }
 
-let factories: { [key: string]: FactoryDefine<any> } = {
+let Factories: { [key: string]: FactoryDefine<any> } = {
+    // hygen inject
+    [ProductEntity.name]: productFactory,
     [UserEntity.name]: userFactory,
     [UserTokenEntity.name]: userTokenFactory,
     [PermissionActionEntity.name]: permissionActionFactory,
@@ -90,7 +94,7 @@ export function test() {
             const factory = import(`../../${file.slice(0, -3)}`);
             factory.then((res) => {
                 const tableName = res?.default()?.tableName;
-                factories[tableName] = res?.default;
+                Factories[tableName] = res?.default;
             });
         }
     });
@@ -113,7 +117,7 @@ export async function factoryExcute<T extends BaseEntity>(
 
     const entityName = entity.name;
 
-    const factory = factories[entityName];
+    const factory = Factories[entityName];
     const e = await factory(params);
 
     for (const key in params) {

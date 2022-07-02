@@ -1,7 +1,7 @@
 ---
 inject: true
-to: database/constant.ts
-after: TABLE_NAME
+to: database/factories/index.ts
+after: // hygen inject
 ---
 <%
  ClassName = h.ClassName(name);
@@ -10,4 +10,4 @@ after: TABLE_NAME
  constantName = h.constantName(name);
  table_name = h.table_name(name);
 %>
-<%= constantName %> = '<%= table_name %>',
+    [<%= ClassName %>Entity.name]: <%= varName %>Factory,

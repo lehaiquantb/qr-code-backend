@@ -1,9 +1,6 @@
 import { RoleEntity } from './../../src/modules/role/entity/role.entity';
-import { PermissionResourceEntity } from './../../src/modules/role/entity/permission-resource.entity';
 import {
     ROLE_TYPE,
-    PERMISSION_ACTION,
-    PERMISSION_RESOURCE,
 } from './../../src/modules/role/role.interface';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as dotenv from 'dotenv';

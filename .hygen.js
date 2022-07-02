@@ -52,18 +52,10 @@ module.exports = {
     entityFileName(name) {
       return `${this.fileName(name)}.entity`;
     },
-    translationEntityFileName(name) {
-      return `${this.fileName(name)}-translation.entity`;
-    },
-    translationDtoFileName(name) {
-      return `${this.fileName(name)}-translation.dto`;
-    },
     repositoryFileName(name) {
       return `${this.fileName(name)}.repository`;
     },
-    translationRepositoryFileName(name) {
-      return `${this.fileName(name)}-translation.repository`;
-    },
+
     createCommandFileName(name) {
       return `create-${this.fileName(name)}.command`;
     },
@@ -76,17 +68,11 @@ module.exports = {
     dtoFileName(name) {
       return `${this.fileName(name)}.dto`;
     },
-    notFoundExceptionFileName(name) {
-      return `${this.fileName(name)}-not-found.exception`;
-    },
     createDtoFileName(name) {
       return `create-${this.fileName(name)}.dto`;
     },
     updateDtoFileName(name) {
       return `update-${this.fileName(name)}.dto`;
-    },
-    pageOptionsDtoFileName(name) {
-      return `${this.fileName(name)}-page-options.dto`;
     },
     serviceFileName(name) {
       return `${this.fileName(name)}.service`;
@@ -97,14 +83,9 @@ module.exports = {
     ClassName(name) {
       return this.changeCase.pascal(name);
     },
-    TableName(name) {
-      return this.inflection.pluralize(this.inflection.dasherize(name));
-    },
+
     RepositoryName(name) {
       return `${this.ClassName(name)}Repository`;
-    },
-    TranslationRepositoryName(name) {
-      return `${this.ClassName(name)}TranslationRepository`;
     },
     moduleName(name) {
       return this.changeCase.camel(name);
@@ -132,6 +113,10 @@ module.exports = {
 
     constantName(name) {
       return this.changeCase.constant(name);
-    }
+    },
+
+    table_name(name) {
+      return this.changeCase.lower(this.changeCase.snake(name));
+    },
   },
 }
