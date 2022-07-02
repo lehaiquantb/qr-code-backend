@@ -1,5 +1,5 @@
 module.exports = {
-  templates: `${__dirname}/._templates`,
+  templates: `${__dirname}/.hygen`,
   helpers: {
     ControllerName(name) {
       return `${this.ClassName(name)}Controller`;
@@ -109,8 +109,29 @@ module.exports = {
     moduleName(name) {
       return this.changeCase.camel(name);
     },
+    /** product-category */
     fileName(name) {
       return this.inflection.dasherize(name).toLowerCase();
     },
+
+    path(name) {
+      return `src/modules/${this.inflection.dasherize(name).toLowerCase()}`;
+    },
+
+    requestDtoFileName(name) {
+      return `${this.fileName(name)}.request.dto.ts`;
+    },
+
+    responseDtoFileName(name) {
+      return `${this.fileName(name)}.response.dto.ts`;
+    },
+
+    varName(name) {
+      return this.changeCase.camel(name);
+    },
+
+    constantName(name) {
+      return this.changeCase.constant(name);
+    }
   },
 }

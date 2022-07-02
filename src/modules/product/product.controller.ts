@@ -32,13 +32,13 @@ import {
     QueryListProductDto,
     CreateProductDto,
     UpdateProductDto,
-} from '~product/dto/request/user.request.dto';
+} from '~product/dto/request/product.request.dto';
 
 @Controller('product')
 @ApiTags('Product')
 export class ProductController extends BaseController {
     constructor(
-        private readonly productsService: ProductService,
+        private readonly productService: ProductService,
         private readonly databaseService: DatabaseService,
         private readonly productRepository: ProductRepository,
     ) {
@@ -48,7 +48,7 @@ export class ProductController extends BaseController {
     @Get(':id')
     async getProduct(@Param('id', ParseIntPipe) id: number) {
         try {
-            const product = await this.productsService.findById(id);
+            const product = await this.productService.findById(id);
             if (!product) {
                 return new ErrorResponse(
                     HttpStatus.ITEM_NOT_FOUND,
@@ -68,7 +68,7 @@ export class ProductController extends BaseController {
     ) {
         try {
             const productList: ProductListResponseDto =
-                await this.productsService.queryProductList(query);
+                await this.productService.queryProductList(query);
             return new SuccessResponse(productList);
         } catch (error) {
             throw new InternalServerErrorException(error);
@@ -90,7 +90,7 @@ export class ProductController extends BaseController {
             }
 
             const insertedProduct =
-                await this.productsService.repository.insertAndGet(data);
+                await this.productService.repository.insertAndGet(data);
 
             return new SuccessResponse(new ProductResponseDto(insertedProduct));
         } catch (error) {
@@ -113,7 +113,7 @@ export class ProductController extends BaseController {
                 );
             }
 
-            const updatedProduct = await this.productsService.update(id, data);
+            const updatedProduct = await this.productService.update(id, data);
 
             return new SuccessResponse(new ProductResponseDto(updatedProduct));
         } catch (error) {
@@ -135,7 +135,7 @@ export class ProductController extends BaseController {
                 );
             }
 
-            const deleteResult = await this.productsService.softDelete(id);
+            const deleteResult = await this.productService.softDelete(id);
 
             return new SuccessResponse({ id }, 'product.delete.success');
         } catch (error) {

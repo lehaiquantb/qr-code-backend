@@ -63,6 +63,9 @@
       "~rate/*": [
         "src/modules/rate/*"
       ],
+      "~abc-pro/*": [
+        "src/modules/abc-pro/*"
+      ],
       "~database/*": [
         "database/*"
       ]

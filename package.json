@@ -23,7 +23,8 @@
         "format": "prettier --write \"src/**/*.ts\"",
         "wdio": "wdio run wdio.conf.js",
         "download-file": "sh download.sh",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "gen:module": "hygen new module:v1"
     },
     "dependencies": {
         "@joi/date": "^2.1.0",

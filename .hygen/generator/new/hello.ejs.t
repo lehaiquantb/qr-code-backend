@@ -1,4 +1,7 @@
 ---
+to: .hygen/<%= name %>/<%= action || 'new' %>/hello.ejs.t
+---
+---
 to: app/hello.js
 ---
 const hello = ```

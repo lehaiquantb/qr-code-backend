@@ -10,6 +10,7 @@ export enum TABLE_NAME {
     PERMISSION_ACTION = 'permission_action',
     PERMISSION_RESOURCE = 'permission_resource',
     PRODUCT = 'product',
+    ABC_PRO = 'abc_pro',
 }
 
 export const createColumns = function (

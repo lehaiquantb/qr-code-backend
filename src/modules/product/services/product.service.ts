@@ -1,4 +1,4 @@
-import { QueryListProductDto } from './../dto/request/user.request.dto';
+import { QueryListProductDto } from '~product/dto/request/product.request.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { InjectEntityManager } from '@nestjs/typeorm';
