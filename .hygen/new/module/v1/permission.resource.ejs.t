@@ -2,7 +2,7 @@
 inject: true
 to: src/common/constants/permission.constant.ts
 after: PERMISSION_RESOURCE
-skip_if: <%= h.varName(name) %>
+skip_if: <%= h.constantName(name) %>
 ---
 <%
  ClassName = h.ClassName(name);
