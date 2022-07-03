@@ -13,10 +13,10 @@ export class CategoryEntity extends BaseEntity {
         );
     }
 
-    @Column({ type: 'varchar', length: 255, nullable: true })
+    @Column({ type: 'nvarchar', length: 255, nullable: true })
     name: string;
 
-    @Column({ type: 'varchar', length: 255, nullable: true })
+    @Column({ type: 'nvarchar', length: 255, nullable: true })
     description: string;
 
     @OneToMany(() => ProductEntity, (product) => product.category)

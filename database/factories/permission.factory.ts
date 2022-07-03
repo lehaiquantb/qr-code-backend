@@ -7,8 +7,6 @@ import { PermissionActionEntity } from './../../src/modules/role/entity/permissi
 import { factoryExcute } from '~database/factories';
 import { PermissionEntity } from './../../src/modules/role/entity/permission.entity';
 import { faker } from '@faker-js/faker';
-import { UserStatus } from './../../src/modules/user/user.constant';
-import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { FactoryDefine } from '.';
 
 const permissionFactory: FactoryDefine<PermissionEntity> = async (params) => {

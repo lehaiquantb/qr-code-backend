@@ -13,9 +13,20 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { factoryExcute } from '~database/factories';
 dotenv.config();
+
+export let <%= varName %>List: Params<<%= ClassName %>Entity>[] = [
+    {
+        id: 1,
+    },
+];
+
 export class <%= ClassName %>_1720963593422 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
-        const promises = [];
+        const promises = <%= varName %>List.map(async (item) =>
+            factoryExcute(<%= ClassName %>Entity, {
+                ...item,
+            }),
+        );
 
         await Promise.all(promises);
     }

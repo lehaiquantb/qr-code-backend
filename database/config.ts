@@ -15,6 +15,7 @@ export const DatabaseConfig: ConnectionOptions[] = [
         socketPath: null,
         synchronize: false,
         migrationsRun: false,
+        charset: 'utf8mb4_unicode_ci',
         entities: ['src/**/*.entity{.ts,.js}'],
         migrations: ['database/migrations/**/*{.ts,.js}'],
         cli: { migrationsDir: 'database/migrations' },
@@ -30,6 +31,7 @@ export const DatabaseConfig: ConnectionOptions[] = [
         socketPath: null,
         synchronize: false,
         migrationsRun: false,
+        charset: 'utf8mb4_unicode_ci',
         entities: ['src/**/*.entity{.ts,.js}'],
         migrations: ['database/seedings/**/*{.ts,.js}'],
         cli: {

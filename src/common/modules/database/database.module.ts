@@ -17,8 +17,15 @@ import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOpti
                 const mysqlDatabase = DatabaseConfig.find(
                     (item) => item.type === ConfigKey.DB_TYPE,
                 );
-                const { database, port, username, password, host, socketPath } =
-                    mysqlDatabase as MysqlConnectionOptions;
+                const {
+                    database,
+                    port,
+                    username,
+                    password,
+                    host,
+                    socketPath,
+                    charset,
+                } = mysqlDatabase as MysqlConnectionOptions;
                 const isDevelopment =
                     configService.get(ConfigKey.NODE_ENV) ===
                     NODE_ENV.DEVELOPMENT;
@@ -30,6 +37,7 @@ import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOpti
                     username,
                     password,
                     database,
+                    charset,
                     entities: ['dist/**/*.entity{.ts,.js}'],
                     logger: new FileLogger(isDevelopment, {
                         logPath: 'logs/query.log',

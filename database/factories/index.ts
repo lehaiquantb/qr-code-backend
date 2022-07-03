@@ -50,7 +50,7 @@ interface Factory<T extends BaseEntity> {
 //         defineFunction: require('./user.factory'),
 //     },
 // ];
-type Params<T> = { [key in keyof Partial<T>]: Required<T>[key] };
+export type Params<T> = { [key in keyof Partial<T>]: Required<T>[key] };
 
 export type FactoryDefine<T extends BaseEntity> = (
     params?: Params<T>,

@@ -1,7 +1,7 @@
 import { RoleEntity } from '../../src/modules/role/entity/role.entity';
 import {
     ROLE_TYPE,
-} from '../../src/modules/role/role.interface';
+} from '~common';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { factoryExcute } from '~database/factories';

@@ -12,7 +12,7 @@ export class RateEntity extends BaseEntity {
         return new RateQueryBuilder(RateEntity.createQueryBuilder(alias));
     }
 
-    @Column({ type: 'int', nullable: false, default: 0 })
+    @Column({ type: 'int', nullable: false, default: 1 })
     rate: number;
 
     @Column({ type: 'varchar', nullable: true, length: 255 })
