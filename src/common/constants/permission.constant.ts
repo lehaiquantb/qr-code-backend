@@ -1,4 +1,5 @@
 export enum PERMISSION_RESOURCE {
+    FILE = 'file',
     RATE = 'rate',
     CATEGORY = 'category',
     USER = 'user',

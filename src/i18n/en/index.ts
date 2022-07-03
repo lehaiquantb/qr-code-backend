@@ -1,3 +1,5 @@
+import file from './file.json';
+
 import category from './category.json';
 
 import errors from './errors.json';
@@ -9,6 +11,7 @@ import auth from './auth.json';
 import product from './product.json';
 
 export default {
+    file,
     category,
     rate,
     errors,

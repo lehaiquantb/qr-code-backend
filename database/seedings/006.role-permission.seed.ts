@@ -3,58 +3,98 @@ import { PermissionEntity } from '../../src/modules/role/entity/permission.entit
 import { RolePermissionEntity } from '../../src/modules/role/entity/role-permission.entity';
 import { RoleEntity } from '../../src/modules/role/entity/role.entity';
 import { PermissionResourceEntity } from '../../src/modules/role/entity/permission-resource.entity';
-import {
-    ROLE_TYPE,
-    PERMISSION_ACTION,
-    PERMISSION_RESOURCE,
-} from '~common';
+import { ROLE_TYPE, PERMISSION_ACTION, PERMISSION_RESOURCE } from '~common';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { factoryExcute } from '~database/factories';
+import { TABLE_NAME } from '~database/constant';
 dotenv.config();
 export class RolePermission_1720963593422 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
-        const permissionActionId = (
-            await factoryExcute(PermissionActionEntity, {
-                action: PERMISSION_ACTION.MANAGE_ALL,
-            })
-        ).id;
-        const permissionResourceId = (
-            await factoryExcute(PermissionResourceEntity, {
-                resource: PERMISSION_RESOURCE.USER,
-            })
-        ).id;
+        const permissionAction = await factoryExcute(PermissionActionEntity, {
+            action: PERMISSION_ACTION.MANAGE_ALL,
+        });
+        // const permissionResourceId = (
+        //     await factoryExcute(PermissionResourceEntity, {
+        //         resource: PERMISSION_RESOURCE.USER,
+        //     })
+        // ).id;
 
-        const permissionResourceIdProduct = (
-            await factoryExcute(PermissionResourceEntity, {
-                resource: PERMISSION_RESOURCE.PRODUCT,
-            })
-        ).id;
+        // const permissionResourceIdProduct = (
+        //     await factoryExcute(PermissionResourceEntity, {
+        //         resource: PERMISSION_RESOURCE.PRODUCT,
+        //     })
+        // ).id;
 
-        const promises = [
-            factoryExcute(RolePermissionEntity, {
-                role: await factoryExcute(RoleEntity, {
-                    name: ROLE_TYPE.ADMIN,
+        // const permissionResourceIdProduct = (
+        //     await factoryExcute(PermissionResourceEntity, {
+        //         resource: PERMISSION_RESOURCE.PRODUCT,
+        //     })
+        // ).id;
+
+        const permissionResources: PermissionResourceEntity[] =
+            await Promise.all([
+                factoryExcute(PermissionResourceEntity, {
+                    resource: PERMISSION_RESOURCE.PRODUCT,
                 }),
-                permission: await factoryExcute(PermissionEntity, {
-                    permissionActionId,
-                    permissionResourceId,
+                factoryExcute(PermissionResourceEntity, {
+                    resource: PERMISSION_RESOURCE.USER,
                 }),
+                factoryExcute(PermissionResourceEntity, {
+                    resource: PERMISSION_RESOURCE.RATE,
+                }),
+                factoryExcute(PermissionResourceEntity, {
+                    resource: PERMISSION_RESOURCE.FILE,
+                }),
+                factoryExcute(PermissionResourceEntity, {
+                    resource: PERMISSION_RESOURCE.CATEGORY,
+                }),
+            ]);
+
+        // const promises = [
+        //     factoryExcute(RolePermissionEntity, {
+        //         role: await factoryExcute(RoleEntity, {
+        //             name: ROLE_TYPE.ADMIN,
+        //         }),
+        //         permission: await factoryExcute(PermissionEntity, {
+        //             permissionActionId,
+        //             permissionResourceId,
+        //         }),
+        //     }),
+
+        //     factoryExcute(RolePermissionEntity, {
+        //         role: await factoryExcute(RoleEntity, {
+        //             name: ROLE_TYPE.ADMIN,
+        //         }),
+        //         permission: await factoryExcute(PermissionEntity, {
+        //             permissionActionId,
+        //             permissionResourceId: permissionResourceIdProduct,
+        //         }),
+        //     }),
+        // ];
+
+        const permissions = await Promise.all(
+            permissionResources.map(async (permissionResource) => {
+                return factoryExcute(PermissionEntity, {
+                    permissionAction,
+                    permissionResource,
+                });
             }),
+        );
 
-            factoryExcute(RolePermissionEntity, {
-                role: await factoryExcute(RoleEntity, {
-                    name: ROLE_TYPE.ADMIN,
-                }),
-                permission: await factoryExcute(PermissionEntity, {
-                    permissionActionId,
-                    permissionResourceId: permissionResourceIdProduct,
-                }),
+        await Promise.all(
+            permissions.map(async (permission) => {
+                return factoryExcute(RolePermissionEntity, {
+                    role: await factoryExcute(RoleEntity, {
+                        name: ROLE_TYPE.ADMIN,
+                    }),
+                    permission,
+                });
             }),
-        ];
-
-        await Promise.all(promises);
+        );
     }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {}
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        queryRunner.manager.getRepository(TABLE_NAME.ROLE_PERMISSION).clear()
+    }
 }

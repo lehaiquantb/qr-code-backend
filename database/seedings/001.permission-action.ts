@@ -43,5 +43,7 @@ export class SeedingPermissionAction1720963593422
         await Promise.all(promises);
     }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {}
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        queryRunner.manager.getRepository(TABLE_NAME.PERMISSION_ACTION).clear()
+    }
 }

@@ -25,7 +25,7 @@ export interface IErrorResponse {
 
 export class SuccessResponse<T extends ResponseDto> {
     constructor(data: T | any, message: I18Key = DEFAULT_SUCCESS_MESSAGE) {
-        let response: any = {};
+        let response: any = data;
         if (data instanceof ResponseDto) {
             const omitProperties: string[] =
                 (data.constructor as any)?.getOmitProperties() ?? [];

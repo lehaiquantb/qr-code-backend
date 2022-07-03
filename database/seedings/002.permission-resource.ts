@@ -6,6 +6,7 @@ import {
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { factoryExcute } from '~database/factories';
+import { TABLE_NAME } from '~database/constant';
 dotenv.config();
 export class SeedingPermissionResource1720963593422
     implements MigrationInterface
@@ -23,5 +24,7 @@ export class SeedingPermissionResource1720963593422
         await Promise.all(promises);
     }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {}
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        queryRunner.manager.getRepository(TABLE_NAME.PERMISSION_RESOURCE).clear()
+    }
 }

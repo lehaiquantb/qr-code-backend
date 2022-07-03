@@ -1,10 +1,10 @@
+import { TABLE_NAME } from '~database/constant';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { UserTokenEntity } from '../../src/modules/auth/entity/user-token.entity';
 import { UserStatus } from '../../src/modules/user/user.constant';
 import { In, MigrationInterface, QueryRunner } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
-import { TABLE_NAME } from '../constant';
 import { createEntity, factoryExcute } from '~database/factories';
 import { generateHashToken, genPassword } from '~common';
 dotenv.config();
@@ -27,5 +27,7 @@ export class SeedingUser1720963593420 implements MigrationInterface {
         await Promise.all(promises);
     }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {}
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        queryRunner.manager.getRepository(TABLE_NAME.USER).clear()
+    }
 }

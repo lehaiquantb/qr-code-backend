@@ -1,41 +1,37 @@
-import { UserRoleEntity } from './../../src/modules/role/entity/user-role.entity';
-import { CategoryEntity } from '~category/entity/category.entity';
-import categoryFactory from './category.factory';
-import { RateEntity } from '~rate/entity/rate.entity';
-import rateFactory from './rate.factory';
-import { RolePermissionEntity } from './../../src/modules/role/entity/role-permission.entity';
-import { RoleEntity } from './../../src/modules/role/entity/role.entity';
-import { PermissionEntity } from './../../src/modules/role/entity/permission.entity';
-import { PermissionResourceEntity } from './../../src/modules/role/entity/permission-resource.entity';
-import { PermissionActionEntity } from './../../src/modules/role/entity/permission-action.entity';
-import { TABLE_NAME } from './../constant';
-import { BaseEntity } from 'src/common/entites/BaseEntity';
-import { UserTokenType } from './../../src/modules/auth/auth.constant';
-import { UserTokenEntity } from './../../src/modules/auth/entity/user-token.entity';
-import { UserStatus } from './../../src/modules/user/user.constant';
-import { UserEntity } from 'src/modules/user/entity/user.entity';
-import {
-    QueryRunner,
-    Repository,
-    getRepository,
-    ObjectType,
-    getConnection,
-    createConnection,
-} from 'typeorm';
-import { Faker, faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import glob from 'glob';
 import path from 'path';
-import DatabaseConfig from '~database/config';
-import userFactory from './user.factory';
-import userTokenFactory from './user_token.factory';
+import { BaseEntity } from 'src/common/entites/BaseEntity';
+import { UserEntity } from 'src/modules/user/entity/user.entity';
+import {
+    getConnection, ObjectType, QueryRunner,
+    Repository
+} from 'typeorm';
+import { CategoryEntity } from '~category/entity/category.entity';
+import { FileEntity } from '~file/entity/file.entity';
+import { ProductEntity } from '~product/entity/product.entity';
+import { RateEntity } from '~rate/entity/rate.entity';
+import { UserTokenType } from './../../src/modules/auth/auth.constant';
+import { UserTokenEntity } from './../../src/modules/auth/entity/user-token.entity';
+import { PermissionActionEntity } from './../../src/modules/role/entity/permission-action.entity';
+import { PermissionResourceEntity } from './../../src/modules/role/entity/permission-resource.entity';
+import { PermissionEntity } from './../../src/modules/role/entity/permission.entity';
+import { RolePermissionEntity } from './../../src/modules/role/entity/role-permission.entity';
+import { RoleEntity } from './../../src/modules/role/entity/role.entity';
+import { UserRoleEntity } from './../../src/modules/role/entity/user-role.entity';
+import { UserStatus } from './../../src/modules/user/user.constant';
+import categoryFactory from './category.factory';
+import fileFactory from './file.factory';
+import permissionFactory from './permission.factory';
 import permissionActionFactory from './permission_action.factory';
 import permissionResourceFactory from './permission_resource.factory';
-import permissionFactory from './permission.factory';
+import productFactory from './product.factory';
+import rateFactory from './rate.factory';
 import roleFactory from './role.factory';
 import rolePermissionFactory from './role_permission.factory';
+import userFactory from './user.factory';
 import userRoleFactory from './user_role.factory';
-import { ProductEntity } from '~product/entity/product.entity';
-import productFactory from './product.factory';
+import userTokenFactory from './user_token.factory';
 
 interface Factory<T extends BaseEntity> {
     tableName: string;
@@ -77,10 +73,9 @@ export async function createEntity(queryRunner: QueryRunner) {
 
 let Factories: { [key: string]: FactoryDefine<any> } = {
     // hygen inject
+    [FileEntity.name]: fileFactory,
     [CategoryEntity.name]: categoryFactory,
-
     [RateEntity.name]: rateFactory,
-
     [ProductEntity.name]: productFactory,
     [UserEntity.name]: userFactory,
     [UserTokenEntity.name]: userTokenFactory,

@@ -5,6 +5,7 @@ import {
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { factoryExcute } from '~database/factories';
+import { TABLE_NAME } from '~database/constant';
 dotenv.config();
 export class Role_1720963593422 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
@@ -22,5 +23,7 @@ export class Role_1720963593422 implements MigrationInterface {
         await Promise.all(promises);
     }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {}
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        queryRunner.manager.getRepository(TABLE_NAME.ROLE).clear()
+    }
 }

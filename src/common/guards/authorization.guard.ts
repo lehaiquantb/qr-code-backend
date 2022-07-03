@@ -43,8 +43,10 @@ export class AuthorizationGuard implements CanActivate {
 
         // checkif user has avaiable permissions contains need permissions to access this resource
         return (
-            _.difference(needPermissionsRaw, avaiablePermissionsRaw).length ===
-            0
+            _.difference(
+                _.uniq(needPermissionsRaw),
+                _.uniq(avaiablePermissionsRaw),
+            ).length === 0
         );
     }
 

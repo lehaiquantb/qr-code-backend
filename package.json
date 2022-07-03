@@ -15,6 +15,7 @@
         "migration:generate": "yarn typeorm migration:generate -d database/migrations -n db-migration",
         "migration:run": "yarn typeorm migration:run",
         "seed:run": "yarn typeorm migration:run -c seed",
+        "seed:revert": "yarn typeorm migration:revert -c seed",
         "schema:drop": "yarn typeorm schema:drop",
         "drop:migration": "yarn schema:drop && yarn migration:run",
         "db:create": "ts-node -r tsconfig-paths/register database/create-database.ts",

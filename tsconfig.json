@@ -15,6 +15,9 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "paths": {
+      "~file/*": [
+        "src/modules/file/*"
+      ],
       "~category/*": [
         "src/modules/category/*"
       ],

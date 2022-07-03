@@ -15,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from '~product/product.module';
 import { RateModule } from '~rate/rate.module';
 import { CategoryModule } from '~category/category.module';
+import { FileModule } from '~file/file.module';
 
 @Module({
     imports: [
@@ -35,6 +36,7 @@ import { CategoryModule } from '~category/category.module';
         ProductModule,
         RateModule,
         CategoryModule,
+        FileModule,
     ],
     controllers: [AppController],
     providers: [],

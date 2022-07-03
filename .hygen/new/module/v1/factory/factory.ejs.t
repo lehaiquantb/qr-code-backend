@@ -13,7 +13,7 @@ import { faker } from '@faker-js/faker';
 import { <%= ClassName %>Entity } from '~<%= fileName %>/entity/<%= fileName %>.entity';
 import { FactoryDefine } from '.';
 
-const <%= varName %>Factory: FactoryDefine<<%= ClassName %>Entity> = async () => {
+const <%= varName %>Factory: FactoryDefine<<%= ClassName %>Entity> = async (params) => {
     const <%= varName %> = new <%= ClassName %>Entity();
     return <%= varName %>;
 };
