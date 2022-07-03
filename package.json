@@ -18,7 +18,7 @@
         "schema:drop": "yarn typeorm schema:drop",
         "drop:migration": "yarn schema:drop && yarn migration:run",
         "db:create": "ts-node -r tsconfig-paths/register database/create-database.ts",
-        "db": "yarn run drop:migration && yarn run seed:run",
+        "db": "yarn db:create && yarn drop:migration && yarn seed:run",
         "lint": "eslint \"{src,apps,libs}/**/*.ts\"",
         "lint:fix": "yarn lint --fix",
         "format": "prettier --write \"src/**/*.ts\"",
