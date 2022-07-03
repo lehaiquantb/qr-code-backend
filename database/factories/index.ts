@@ -3,10 +3,7 @@ import glob from 'glob';
 import path from 'path';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
-import {
-    getConnection, ObjectType, QueryRunner,
-    Repository
-} from 'typeorm';
+import { getConnection, ObjectType, QueryRunner, Repository } from 'typeorm';
 import { CategoryEntity } from '~category/entity/category.entity';
 import { FileEntity } from '~file/entity/file.entity';
 import { ProductEntity } from '~product/entity/product.entity';
@@ -47,6 +44,11 @@ interface Factory<T extends BaseEntity> {
 //     },
 // ];
 export type Params<T> = { [key in keyof Partial<T>]: Required<T>[key] };
+export type ParamsExtend<T> = {
+    [key in keyof Partial<T>]:
+        | Required<T>[key]
+        | (() => Required<T>[key] | Promise<Required<T>[key]>);
+};
 
 export type FactoryDefine<T extends BaseEntity> = (
     params?: Params<T>,
@@ -106,10 +108,16 @@ export function test() {
 // test();
 export async function factoryExcute<T extends BaseEntity>(
     entity: ObjectType<T>,
-    params?: Params<T>,
+    params?: ParamsExtend<T>,
 ): Promise<T> {
     // const a = new (entity as any)();
     const repo = getConnection('seed').manager.getRepository(entity);
+
+    for (const key in params) {
+        if (typeof params[key] === 'function') {
+            params[key] = await (params[key] as any)();
+        }
+    }
 
     if (params) {
         const result = await repo.findOne({ where: params });

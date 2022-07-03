@@ -9,7 +9,7 @@ import * as dotenv from 'dotenv';
 import { TABLE_NAME } from '../constant';
 import { createEntity, factoryExcute } from '~database/factories';
 dotenv.config();
-export class SeedingPermissionAction1720963593422
+export class SeedingPermissionAction_1720963593422
     implements MigrationInterface
 {
     public async up(queryRunner: QueryRunner): Promise<void> {

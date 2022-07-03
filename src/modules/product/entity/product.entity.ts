@@ -26,7 +26,10 @@ export class ProductEntity extends BaseEntity {
     @Column({ type: 'varchar', nullable: false, length: 255 })
     name: string;
 
-    @Column({ type: 'varchar', nullable: true, length: 255 })
+    @Column({ type: 'int', nullable: true, default: 0 })
+    price: number;
+
+    @Column({ type: 'longtext', nullable: true })
     description: string;
 
     @Column({ type: 'boolean', nullable: false, default: false })

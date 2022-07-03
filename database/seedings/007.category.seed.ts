@@ -7,6 +7,14 @@ dotenv.config();
 
 export let categoryList: Params<CategoryEntity>[] = [
     {
+        name: 'Bách hóa',
+        description: 'Các sản phẩm thiết yếu cho tiêu dùng',
+    },
+    {
+        name: 'Sách',
+        description: 'Các loại sách',
+    },
+    {
         name: 'Rau củ',
         description: 'Nông sản sạch',
     },
@@ -18,10 +26,7 @@ export let categoryList: Params<CategoryEntity>[] = [
         name: 'Thực phẩm khô',
         description: 'Đồ khô được bảo quản tốt',
     },
-    {
-        name: 'Bách hóa',
-        description: 'Các sản phẩm thiết yếu cho tiêu dùng',
-    },
+
     {
         name: 'Gia dụng',
         description: 'Các sản phẩm gia dụng',
@@ -37,6 +42,6 @@ export class Category_1720963593422 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.manager.getRepository(TABLE_NAME.CATEGORY).clear()
+        queryRunner.manager.getRepository(TABLE_NAME.CATEGORY).clear();
     }
 }

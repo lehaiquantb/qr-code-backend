@@ -14,6 +14,7 @@ const productFactory: FactoryDefine<ProductEntity> = async (params) => {
         min: 10000000000,
         max: 99999999999,
     })}`;
+    product.price = faker.datatype.number({ min: 1000, max: 999000 });
     product.name = faker.commerce.productName();
     product.description = faker.commerce.productDescription();
     product.verified = false;

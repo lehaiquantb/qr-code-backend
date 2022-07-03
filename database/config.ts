@@ -33,7 +33,7 @@ export const DatabaseConfig: ConnectionOptions[] = [
         migrationsRun: false,
         charset: 'utf8mb4_unicode_ci',
         entities: ['src/**/*.entity{.ts,.js}'],
-        migrations: ['database/seedings/**/*{.ts,.js}'],
+        migrations: ['database/seedings/excutor/**/*{.ts,.js}'],
         cli: {
             migrationsDir: 'database/seeds',
         },

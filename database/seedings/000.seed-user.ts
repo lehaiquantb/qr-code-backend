@@ -8,18 +8,25 @@ import * as dotenv from 'dotenv';
 import { createEntity, factoryExcute } from '~database/factories';
 import { generateHashToken, genPassword } from '~common';
 dotenv.config();
-export class SeedingUser1720963593420 implements MigrationInterface {
+export class SeedingUser_1720963593420 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         const promises = [
             factoryExcute(UserEntity, {
                 id: 1,
-                email: 'quanlh@gmail.com',
+                email: 'quanlh.admin@gmail.com',
                 password: genPassword('123456'),
-                fullName: 'Quan Le',
+                fullName: 'Quan Le Admin',
                 phoneNumber: '0987654321',
                 status: UserStatus.ACTIVE,
             }),
-            factoryExcute(UserEntity, { id: 2 }),
+            factoryExcute(UserEntity, {
+                id: 2,
+                email: 'quanlh.member@gmail.com',
+                password: genPassword('123456'),
+                fullName: 'Quan Le Member',
+                phoneNumber: '0987654322',
+                status: UserStatus.ACTIVE,
+            }),
             factoryExcute(UserEntity, { id: 3 }),
             factoryExcute(UserEntity, { id: 4 }),
             factoryExcute(UserEntity, { id: 5 }),
