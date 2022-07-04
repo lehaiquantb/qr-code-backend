@@ -21,8 +21,6 @@ export class CategoryResponseDto extends ResponseDto {
 }
 
 export class CategoryListResponseDto extends CommonListResponse<CategoryResponseDto> {
-    items: CategoryResponseDto[];
-
     constructor(categoryEntities?: CategoryEntity[]) {
         super();
         this.items =

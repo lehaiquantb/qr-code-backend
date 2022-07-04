@@ -15,8 +15,6 @@ export class ProductResponseDto extends ResponseDto {
 }
 
 export class ProductListResponseDto extends CommonListResponse<ProductResponseDto> {
-    items: ProductResponseDto[];
-
     constructor(productEntities?: ProductEntity[]) {
         super();
         this.items =

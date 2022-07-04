@@ -11,9 +11,7 @@ export class UserWithToken {
     accessToken: ITokenInfo;
     refreshToken: ITokenInfo;
 }
-export class UserLoginResult extends ApiResponse<UserWithToken> {
-    data: UserWithToken;
-}
+export class UserLoginResult extends ApiResponse<UserWithToken> {}
 
 export class GoogleLoginLinkResult extends ApiResponse<
     Record<string, unknown>
@@ -22,18 +20,10 @@ export class GoogleLoginLinkResult extends ApiResponse<
     redirectUri: string;
 }
 
-export class UpdateProfileResult extends ApiResponse<Record<string, unknown>> {
-    data: Record<string, unknown>;
-}
+export class UpdateProfileResult extends ApiResponse<Record<string, unknown>> {}
 
-export class UserProfileResult extends ApiResponse<UserEntity> {
-    data: UserEntity;
-}
+export class UserProfileResult extends ApiResponse<UserEntity> {}
 
-export class UserLogoutResult extends ApiResponse<boolean> {
-    data: boolean;
-}
+export class UserLogoutResult extends ApiResponse<boolean> {}
 
-export class RefreshTokenResult extends ApiResponse<UserWithToken> {
-    data: UserWithToken;
-}
+export class RefreshTokenResult extends ApiResponse<UserWithToken> {}

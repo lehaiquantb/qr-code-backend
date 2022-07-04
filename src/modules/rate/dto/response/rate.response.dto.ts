@@ -15,8 +15,6 @@ export class RateResponseDto extends ResponseDto {
 }
 
 export class RateListResponseDto extends CommonListResponse<RateResponseDto> {
-    items: RateResponseDto[];
-
     constructor(rateEntities?: RateEntity[]) {
         super();
         this.items =

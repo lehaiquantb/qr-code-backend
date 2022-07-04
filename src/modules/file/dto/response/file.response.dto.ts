@@ -15,8 +15,6 @@ export class FileResponseDto extends ResponseDto {
 }
 
 export class FileListResponseDto extends CommonListResponse<FileResponseDto> {
-    items: FileResponseDto[];
-
     constructor(fileEntities?: FileEntity[]) {
         super();
         this.items =

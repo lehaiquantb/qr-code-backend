@@ -23,7 +23,6 @@ export class <%= ClassName %>ResponseDto extends ResponseDto {
 }
 
 export class <%= ClassName %>ListResponseDto extends CommonListResponse<<%= ClassName %>ResponseDto> {
-    items: <%= ClassName %>ResponseDto[];
 
     constructor(<%= varName %>Entities?: <%= ClassName %>Entity[]) {
         super();

@@ -5,22 +5,14 @@ import {
 
 import { UserResponseDto } from './user-response.dto';
 
-export class UserList extends CommonListResponse<UserResponseDto> {
-    items: UserResponseDto[];
-}
+export class UserList extends CommonListResponse<UserResponseDto> {}
 
-export class UserListResult extends ApiResponse<UserList> {
-    data: UserList;
-}
+export class UserListResult extends ApiResponse<UserList> {}
 
-export class UserDetailResult extends ApiResponse<UserResponseDto> {
-    data: UserResponseDto;
-}
+export class UserDetailResult extends ApiResponse<UserResponseDto> {}
 
 export class UserRemoveResponseDto {
     id: number;
 }
 
-export class RemoveUserResult extends ApiResponse<UserRemoveResponseDto> {
-    data: UserRemoveResponseDto;
-}
+export class RemoveUserResult extends ApiResponse<UserRemoveResponseDto> {}

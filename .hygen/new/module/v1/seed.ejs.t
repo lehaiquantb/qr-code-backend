@@ -11,12 +11,12 @@ unless_exists: true
 %>import { <%= ClassName %>Entity } from '~<%= fileName %>/entity/<%= fileName %>.entity';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as dotenv from 'dotenv';
-import { factoryExcute, Params } from '~database/factories';
+import { factoryExcute, ParamsExtend } from '~database/factories';
 import { TABLE_NAME } from '~database/constant';
 
 dotenv.config();
 
-export let <%= varName %>List: Params<<%= ClassName %>Entity>[] = [
+export let <%= varName %>List: ParamsExtend<<%= ClassName %>Entity>[] = [
     {
         id: 1,
     },

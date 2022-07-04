@@ -5,30 +5,18 @@ import {
 import { PermissionResponseDto } from './permission-response.dto';
 import { RoleResponseDto } from './role-response.dto';
 
-export class PermissionList extends CommonListResponse<PermissionResponseDto> {
-    items: PermissionResponseDto[];
-}
+export class PermissionList extends CommonListResponse<PermissionResponseDto> {}
 
-export class PermissionListResult extends ApiResponse<PermissionList> {
-    data: PermissionList;
-}
+export class PermissionListResult extends ApiResponse<PermissionList> {}
 
-export class RoleList extends CommonListResponse<RoleResponseDto> {
-    items: RoleResponseDto[];
-}
+export class RoleList extends CommonListResponse<RoleResponseDto> {}
 
-export class RoleListResult extends ApiResponse<RoleList> {
-    data: RoleList;
-}
+export class RoleListResult extends ApiResponse<RoleList> {}
 
-export class RoleResult extends ApiResponse<RoleResponseDto> {
-    data: RoleResponseDto;
-}
+export class RoleResult extends ApiResponse<RoleResponseDto> {}
 
 export class RoleRemoveResponseDto {
     id: number;
 }
 
-export class RemoveRoleResult extends ApiResponse<RoleRemoveResponseDto> {
-    data: RoleRemoveResponseDto;
-}
+export class RemoveRoleResult extends ApiResponse<RoleRemoveResponseDto> {}
