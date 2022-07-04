@@ -6,4 +6,8 @@ export class ProductQueryBuilder extends BaseQueryBuilder<ProductEntity> {
     constructor(queryBuilder: QueryBuilder<ProductEntity>) {
         super(queryBuilder);
     }
+
+    public filterByCategoryId(categoryId: number): this {
+        return this.filterByColumn('categoryId', categoryId);
+    }
 }

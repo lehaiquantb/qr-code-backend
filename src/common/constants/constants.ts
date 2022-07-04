@@ -29,10 +29,10 @@ export const DEFAULT_ORDER_BY = 'createdAt';
 export const DEFAULT_ORDER_DIRECTION = ORDER_DIRECTION.ASC;
 
 export const MIN_ID = 1;
-export const MIN_PAGE_SIZE = 0;
+export const MIN_PAGE_LIMIT = 5;
 export const MIN_PAGE = 1;
-export const MAX_PAGE_SIZE = 10000;
-export const MAX_PAGE = 10000;
+export const MAX_PAGE_LIMIT = 100;
+export const MAX_PAGE = 100;
 
 export const BIRTHDAY_MIN_DATE = '1800-01-01';
 

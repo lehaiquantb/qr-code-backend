@@ -60,15 +60,23 @@ export function JoiRequired(schema?: Joi.AnySchema): PropertyDecorator {
 }
 
 export function JoiArray<T extends RequestDto>(
-    dtoClass: T,
+    dtoClass: T | Joi.AnySchema,
     schema?: Joi.ArraySchema,
 ): PropertyDecorator {
-    const joiSchema = Joi.array()
-        .items((dtoClass as any)?.getJoiSchema())
-        .concat(schema);
+    let itemSchema = Joi.any();
+    let itemType: any = 'string';
+    if (Joi.isSchema(dtoClass)) {
+        itemSchema = dtoClass;
+        itemType = dtoClass.type;
+    } else {
+        itemSchema = (dtoClass as any)?.getJoiSchema() ?? Joi.any();
+        itemType = dtoClass;
+    }
+
+    const joiSchema = Joi.array().items(itemSchema).concat(schema);
     const decorators = [
         JoiValidate(joiSchema),
-        ApiProperty({ isArray: true, type: dtoClass }),
+        ApiProperty({ isArray: true, type: itemType }),
     ];
     return applyDecorators(...decorators);
 }

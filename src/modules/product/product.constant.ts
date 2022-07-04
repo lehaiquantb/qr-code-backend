@@ -10,3 +10,5 @@ export const productDetailAttributes: (keyof ProductEntity)[] = [
     'updatedAt',
     'updatedBy',
 ];
+
+export const PRODUCT_ORDER_BY: (keyof ProductEntity)[] = ['id', 'createdAt'];
