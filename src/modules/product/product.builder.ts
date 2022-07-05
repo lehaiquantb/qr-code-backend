@@ -10,4 +10,8 @@ export class ProductQueryBuilder extends BaseQueryBuilder<ProductEntity> {
     public filterByCategoryId(categoryId: number): this {
         return this.filterByColumn('categoryId', categoryId);
     }
+
+    public whereCategoryIdIn(categoryIds: number[]): this {
+        return this.whereIn('categoryId', categoryIds);
+    }
 }

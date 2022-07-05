@@ -1,4 +1,4 @@
-import { CommonListResponse, OmitProperty, ResponseDto } from '~common';
+import { CommonListResponse, ResponseDto } from '~common';
 import { CategoryEntity } from '~category/entity/category.entity';
 
 export class CategoryResponseDto extends ResponseDto {
@@ -8,12 +8,8 @@ export class CategoryResponseDto extends ResponseDto {
 
     description: string;
 
-    @OmitProperty()
-    private category?: CategoryEntity;
-
     constructor(category?: CategoryEntity) {
         super();
-        this.category = category;
         this.id = category?.id;
         this.name = category?.name;
         this.description = category?.description;

@@ -12,9 +12,14 @@ export class ApiResponse<T> {
     public errors: T;
 }
 
+export interface IMeta {
+    total: number;
+    limit: number;
+    lastOrderByValue: string;
+}
 export class CommonListResponse<T> {
     items: T[];
-    totalItems: number;
+    meta?: IMeta;
 }
 
 export interface IErrorResponse {

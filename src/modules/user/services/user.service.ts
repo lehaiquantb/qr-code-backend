@@ -112,7 +112,7 @@ export class UserService {
                 );
             }
             if (limit && page)
-                _queryBuilder.take(limit).skip((page - 1) * limit);
+                _queryBuilder.take(limit).skip((page - 1) * limit).limit;
             const [items, totalItems] = await _queryBuilder.getManyAndCount();
             return {
                 items: items.map((item) => {
@@ -120,7 +120,6 @@ export class UserService {
                         ...item,
                     };
                 }),
-                totalItems: totalItems,
             };
         } catch (error) {
             throw error;

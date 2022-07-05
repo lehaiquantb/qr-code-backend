@@ -67,8 +67,6 @@ export class ProductController extends BaseController {
         query: QueryListProductDto,
     ) {
         try {
-            console.log(query);
-
             const productList: ProductListResponseDto =
                 await this.productService.queryProductList(query);
             return new SuccessResponse(productList);

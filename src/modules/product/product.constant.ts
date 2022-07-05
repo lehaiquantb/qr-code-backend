@@ -1,6 +1,7 @@
 import * as BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 import { ProductEntity } from '~product/entity/product.entity';
+import { ColumnOfEntity } from '~common';
 const Joi = BaseJoi.extend(JoiDate);
 
 export const productDetailAttributes: (keyof ProductEntity)[] = [
@@ -11,4 +12,8 @@ export const productDetailAttributes: (keyof ProductEntity)[] = [
     'updatedBy',
 ];
 
-export const PRODUCT_ORDER_BY: (keyof ProductEntity)[] = ['id', 'createdAt'];
+export const PRODUCT_ORDER_BY: ColumnOfEntity<ProductEntity>[] = [
+    'id',
+    'createdAt',
+    'name',
+];

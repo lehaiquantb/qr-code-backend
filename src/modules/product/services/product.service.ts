@@ -7,6 +7,7 @@ import { BaseService, IRequest } from '~common';
 import { ProductEntity } from '~product/entity/product.entity';
 import { ProductRepository } from '~product/product.repository';
 import { ProductListResponseDto } from '~product/dto/response/product.response.dto';
+import _ from 'lodash';
 
 @Injectable()
 export class ProductService extends BaseService<
@@ -27,6 +28,26 @@ export class ProductService extends BaseService<
     ): Promise<ProductListResponseDto> {
         const productEntities: ProductEntity[] = [];
 
-        return new ProductListResponseDto(productEntities);
+        const queryBuilder = this.repository
+            .builder('product')
+            .search(['name', 'description'], queryParam.keyword);
+        if (queryParam.categoryIds.length > 0) {
+            queryBuilder.whereCategoryIdIn(queryParam.categoryIds);
+        }
+
+        queryBuilder.orderBy(queryParam.orderBy, queryParam.orderDirection);
+
+        // const total = await queryBuilder.getCount();
+        const items = await queryBuilder
+            .greater(queryParam.orderBy as any, queryParam.lastOrderValue)
+            .limit(queryParam.limit)
+            .getMany();
+        console.log(queryBuilder.getSql());
+
+        return new ProductListResponseDto(items, {
+            lastOrderByValue: _.last(items)?.[queryParam.orderBy],
+            total: 0,
+            limit: queryParam.limit,
+        });
     }
 }

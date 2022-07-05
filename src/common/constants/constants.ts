@@ -20,6 +20,8 @@ export enum DATE_FORMAT {
     YYYY_MM_DD_HYPHEN = 'YYYY-MM-DD',
 }
 
+export type ColumnOfEntity<T> = keyof T;
+
 export const APPROVED = { TRUE: 1, FALSE: 0 };
 
 export const DEFAULT_FIRST_PAGE = 1;
@@ -29,10 +31,12 @@ export const DEFAULT_ORDER_BY = 'createdAt';
 export const DEFAULT_ORDER_DIRECTION = ORDER_DIRECTION.ASC;
 
 export const MIN_ID = 1;
-export const MIN_PAGE_LIMIT = 5;
+export const MIN_LIMIT = 1;
 export const MIN_PAGE = 1;
-export const MAX_PAGE_LIMIT = 100;
+export const MAX_LIMIT = 100;
 export const MAX_PAGE = 100;
+export const DEFAULT_PAGE = 1;
+export const DEFAULT_LIMIT = 5;
 
 export const BIRTHDAY_MIN_DATE = '1800-01-01';
 
