@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
 import ConfigKey from './config-key';
-import { NODE_ENV, LOG_LEVEL } from '../constants/constants';
+import { NODE_ENV, LOG_LEVEL } from '../constants';
 
 export default Joi.object({
     [ConfigKey.NODE_ENV]: Joi.string()

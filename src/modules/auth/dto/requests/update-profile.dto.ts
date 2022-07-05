@@ -8,7 +8,7 @@ import {
     PHONE_NUMBER_REGEX,
     DATE_FORMAT,
     INPUT_PHONE_MAX_LENGTH,
-} from '../../../../common/constants/constants';
+} from '~common';
 import { UserGender } from '../../../user/user.constant';
 import { JoiValidate } from '~common';
 

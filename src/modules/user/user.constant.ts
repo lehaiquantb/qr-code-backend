@@ -6,7 +6,7 @@ import {
     BIRTHDAY_MIN_DATE,
     PHONE_NUMBER_REGEX,
     INPUT_PHONE_MAX_LENGTH,
-} from '../../common/constants/constants';
+} from '~common';
 import { UserEntity } from './entity/user.entity';
 const Joi = BaseJoi.extend(JoiDate);
 

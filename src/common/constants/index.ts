@@ -1,3 +1,3 @@
-export * from './constants';
-export * from './common.constant';
+export * from './common.constants';
+export * from './http-status.constant';
 export * from './permission.constant';

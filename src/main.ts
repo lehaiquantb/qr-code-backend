@@ -11,6 +11,7 @@ import ConfigKey from '../src/common/config/config-key';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { JoiValidationPipe } from '~common';
 import { middleware as expressCtx } from 'express-ctx';
+import { setupDev } from '~plugins';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -60,6 +61,7 @@ async function bootstrap() {
     // setup context provider
     app.use(expressCtx);
 
+    // setup for development mode
     // swagger ui
     if (configService.get(ConfigKey.NODE_ENV) === NODE_ENV.DEVELOPMENT) {
         const config = new DocumentBuilder()
@@ -76,6 +78,8 @@ async function bootstrap() {
                 ConfigKey.PORT,
             )}${SWAGGER_PATH}]`,
         );
+
+        setupDev();
     }
 
     await app.listen(configService.get(ConfigKey.PORT));

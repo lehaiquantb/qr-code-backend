@@ -51,4 +51,6 @@ export class ProductEntity extends BaseEntity {
 
     @Column({ type: 'int', nullable: false })
     imageId: number;
+
+    averageRate = 0;
 }

@@ -1,10 +1,10 @@
-import { MIN_LIMIT } from './../../../../common/constants/constants';
+import { MIN_LIMIT } from '~common';
 import * as Joi from 'joi';
 import {
     INPUT_TEXT_MAX_LENGTH,
     MIN_PAGE,
     ORDER_DIRECTION,
-} from 'src/common/constants/constants';
+} from 'src/common/constants/common.constants';
 
 export const RoleListQueryStringSchema = Joi.object().keys({
     page: Joi.number().optional().min(MIN_PAGE),

@@ -13,6 +13,7 @@ export class ProductResponseDto extends ResponseDto {
     verified: boolean;
     urlImage: string;
     category: CategoryResponseDto;
+    averageRate: number;
     constructor(product?: ProductEntity) {
         super();
         this.id = product?.id;
@@ -24,6 +25,7 @@ export class ProductResponseDto extends ResponseDto {
         this.description = product.description;
         this.verified = product.verified;
         this.urlImage = product.image?.url ?? '';
+        this.averageRate = product.averageRate;
         this.category = new CategoryResponseDto(product.category);
     }
 }

@@ -8,6 +8,8 @@ import { ProductEntity } from '~product/entity/product.entity';
 import { ProductRepository } from '~product/product.repository';
 import { ProductListResponseDto } from '~product/dto/response/product.response.dto';
 import _ from 'lodash';
+import { CategoryEntity } from '~category/entity/category.entity';
+import { FileEntity } from '~file/entity/file.entity';
 
 @Injectable()
 export class ProductService extends BaseService<
@@ -35,18 +37,37 @@ export class ProductService extends BaseService<
             queryBuilder.whereCategoryIdIn(queryParam.categoryIds);
         }
 
-        queryBuilder.orderBy(queryParam.orderBy, queryParam.orderDirection);
+        queryBuilder
+            .orderByColumn(queryParam.orderBy, queryParam.orderDirection)
+            .leftJoinAndMapOne(
+                'product.category',
+                CategoryEntity,
+                'category',
+                'category.id = product.categoryId',
+            )
+            .leftJoinAndMapOne(
+                'product.image',
+                FileEntity,
+                'image',
+                'image.id = product.imageId',
+            )
+            .leftJoin('product.rates', 'rates')
+            .groupBy('product.id')
+            .selectColumns([{ alias: 'product', columns: 'id' }])
+            .addSelect('AVG(rates.rate)', 'averageRate');
+        console.log(queryBuilder.getQuery().bgBlue);
 
-        // const total = await queryBuilder.getCount();
+        const total = await queryBuilder.getCount();
         const items = await queryBuilder
-            .greater(queryParam.orderBy as any, queryParam.lastOrderValue)
+            .greaterThan(queryParam.orderBy, queryParam.lastOrderValue)
             .limit(queryParam.limit)
             .getMany();
-        console.log(queryBuilder.getSql());
+
+        console.log(items);
 
         return new ProductListResponseDto(items, {
             lastOrderByValue: _.last(items)?.[queryParam.orderBy],
-            total: 0,
+            total,
             limit: queryParam.limit,
         });
     }

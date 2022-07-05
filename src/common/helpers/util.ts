@@ -21,11 +21,16 @@ export function randomEnum<T>(anEnum: T): T[keyof T] {
 }
 
 export function columnsWithAlias(
-    tables: { alias: string; columns: string[] }[],
+    tables: { alias: string; columns: string[] | string }[],
 ): string[] {
     return _.concat(
-        ...tables.map((table) =>
-            table.columns.map((column) => `${table.alias}.${column}`),
-        ),
+        ...tables.map((table) => {
+            if (typeof table.columns === 'string') {
+                return [`${table.alias}.${table.columns}`];
+            } else
+                return table.columns.map(
+                    (column) => `${table.alias}.${column}`,
+                );
+        }),
     );
 }

@@ -20,7 +20,8 @@ export enum DATE_FORMAT {
     YYYY_MM_DD_HYPHEN = 'YYYY-MM-DD',
 }
 
-export type ColumnOfEntity<T> = keyof T;
+/*eslint-disable-next-line @typescript-eslint/ban-types*/
+export type ColumnOfEntity<T> = keyof T | String;
 
 export const APPROVED = { TRUE: 1, FALSE: 0 };
 

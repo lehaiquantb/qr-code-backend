@@ -4,7 +4,7 @@ import { FileLogger } from 'typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import ConfigKey from '../../config/config-key';
 import { DatabaseConfig } from 'database/config';
-import { NODE_ENV } from 'src/common/constants/constants';
+import { NODE_ENV } from '~common';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
 @Global()

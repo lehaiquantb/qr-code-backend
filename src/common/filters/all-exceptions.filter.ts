@@ -14,7 +14,12 @@ import { I18nRequestScopeService } from 'nestjs-i18n';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { uniqueId } from 'lodash';
 import { ValidationErrorItem } from 'joi';
-import { HttpStatus } from '~common';
+import { HttpStatus, LANGUAGES } from '~common';
+const getLanguage = (request: Request): string => {
+    const lang = request?.headers['accept-language'];
+    const supportedLanguages = Object.values(LANGUAGES) as string[];
+    return supportedLanguages.includes(lang) ? lang : LANGUAGES.EN;
+};
 
 const translateErrorValidator = async (
     errors: ValidationErrorItem[],
@@ -25,13 +30,13 @@ const translateErrorValidator = async (
             const { type, context, path } = error;
             const key = ['validation', type].join('.');
             // translate label
-            context.label = await i18n.translate(context.label);
+            context.label = i18n.translate(context.label);
             // translate message
             let message = '';
             if (context.name) {
-                message = await i18n.translate(context.name, { args: context });
+                message = i18n.translate(context.name, { args: context });
             } else {
-                message = await i18n.translate(key, { args: context });
+                message = i18n.translate(key, { args: context });
             }
             return {
                 key: path.join('.'),
@@ -80,8 +85,8 @@ const handleInternalErrorException = async (
     // return only logId
     return {
         code: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: await i18n.translate('errors.500', {
-            lang: request?.headers['accept-language'],
+        message: i18n.translate('errors.500', {
+            lang: getLanguage(request),
             args: { param: logId },
         }),
         errors: [],
@@ -103,16 +108,19 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
         const response = ctx.getResponse<Response>();
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const apiResponse = exception.getResponse() as any;
+        const exceptionResponse = exception.getResponse() as any;
         const status = exception.getStatus();
         let res = {
             code: exception.getStatus(),
-            message: await this.i18n.translate(`errors.${status}`, {
-                lang: request?.headers['accept-language'],
+            message: this.i18n.translate(`errors.${status}`, {
+                lang: getLanguage(request),
             }),
-            errors: apiResponse?.errors || [],
+            errors: exceptionResponse?.errors || [],
         };
-        this.logger.error(apiResponse.message, {
+
+        console.log(exceptionResponse);
+
+        this.logger.error(exceptionResponse.message, {
             requestUrl: request.url,
             request: request.body,
             exception,

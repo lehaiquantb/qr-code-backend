@@ -1,6 +1,6 @@
 import { Optional } from './../types';
 import { IAuthUser } from '~common';
-import { LANGUAGES } from './../constants/constants';
+import { LANGUAGES } from '~common';
 import { getValue, setValue } from 'express-ctx';
 
 export class ContextProvider {
