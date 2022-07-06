@@ -8,8 +8,6 @@ import { ProductEntity } from '~product/entity/product.entity';
 import { ProductRepository } from '~product/product.repository';
 import { ProductListResponseDto } from '~product/dto/response/product.response.dto';
 import _ from 'lodash';
-import { CategoryEntity } from '~category/entity/category.entity';
-import { FileEntity } from '~file/entity/file.entity';
 
 @Injectable()
 export class ProductService extends BaseService<
@@ -39,29 +37,17 @@ export class ProductService extends BaseService<
 
         queryBuilder
             .orderByColumn(queryParam.orderBy, queryParam.orderDirection)
-            .leftJoinAndMapOne(
-                'product.category',
-                CategoryEntity,
-                'category',
-                'category.id = product.categoryId',
-            )
-            .leftJoinAndMapOne(
-                'product.image',
-                FileEntity,
-                'image',
-                'image.id = product.imageId',
-            )
-            .leftJoin('product.rates', 'rates')
+            .leftJoinAndSelect('product.category', 'category')
+            .leftJoinAndSelect('product.image', 'image')
+            .leftJoin('product.rates', 'rates', 'rates.productId = product.id')
             .groupBy('product.id')
-            .selectColumns([{ alias: 'product', columns: 'id' }])
-            .addSelect('AVG(rates.rate)', 'averageRate');
-        console.log(queryBuilder.getQuery().bgBlue);
+            .addSelect('AVG(rates.rate) as averageRate');
 
         const total = await queryBuilder.getCount();
         const items = await queryBuilder
             .greaterThan(queryParam.orderBy, queryParam.lastOrderValue)
             .limit(queryParam.limit)
-            .getMany();
+            .getManyEntity();
 
         console.log(items);
 

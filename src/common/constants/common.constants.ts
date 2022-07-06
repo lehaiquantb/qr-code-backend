@@ -23,6 +23,11 @@ export enum DATE_FORMAT {
 /*eslint-disable-next-line @typescript-eslint/ban-types*/
 export type ColumnOfEntity<T> = keyof T | String;
 
+export type ColumnOfEntityWithAlias<T> = {
+    alias: string;
+    columns: ColumnOfEntity<T>[] | ColumnOfEntity<T> | '*';
+};
+
 export const APPROVED = { TRUE: 1, FALSE: 0 };
 
 export const DEFAULT_FIRST_PAGE = 1;
@@ -104,4 +109,5 @@ export const METADATA_KEY = {
     PERMISSIONS: Symbol('_permissions_'),
     AUTH_OPTIONS: Symbol('_auth_options_'),
     OMIT_PROPERTY: Symbol('_omit_property_'),
+    VIRTUAL_COLUMN: Symbol('VIRTUAL_COLUMN'),
 };

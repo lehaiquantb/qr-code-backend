@@ -1,4 +1,9 @@
-import { ColumnOfEntity, columnsWithAlias } from '~common';
+import {
+    ColumnOfEntity,
+    columnsWithAlias,
+    ColumnOfEntityWithAlias,
+    METADATA_KEY,
+} from '~common';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Brackets, Like, QueryBuilder, SelectQueryBuilder } from 'typeorm';
 import _ from 'lodash';
@@ -13,10 +18,45 @@ export abstract class BaseQueryBuilder<
         return `${this.alias}.${columnName}`;
     }
 
-    selectColumns(
-        cWAs: { alias: string; columns: string[] | string }[],
-    ): SelectQueryBuilder<T> {
-        return this.select(columnsWithAlias(cWAs));
+    async getManyEntity(): Promise<T[]> {
+        const { entities, raw } = await this.getRawAndEntities();
+        const items = entities.map((entitiy, index) => {
+            const metaInfo =
+                Reflect.getMetadata(METADATA_KEY.VIRTUAL_COLUMN, entitiy) ?? {};
+            const item = raw[index];
+
+            for (const [propertyKey, name] of Object.entries<string>(
+                metaInfo,
+            )) {
+                entitiy[propertyKey] = item[name];
+            }
+
+            return entitiy;
+        });
+
+        return [...items];
+    }
+
+    async getOneEntity(): Promise<T> {
+        const { entities, raw } = await this.getRawAndEntities();
+        const metaInfo =
+            Reflect.getMetadata(METADATA_KEY.VIRTUAL_COLUMN, entities[0]) ?? {};
+
+        for (const [propertyKey, name] of Object.entries<string>(metaInfo)) {
+            entities[0][propertyKey] = raw[0][name];
+        }
+
+        return entities[0];
+    }
+
+    selectColumns<CustomEntity extends BaseEntity = T>(
+        cWAs:
+            | ColumnOfEntityWithAlias<CustomEntity>[]
+            | ColumnOfEntityWithAlias<CustomEntity>,
+    ): this {
+        if (_.isArray(cWAs)) {
+            return this.select(columnsWithAlias(cWAs));
+        } else return this.select(columnsWithAlias([cWAs]));
     }
 
     filterByColumn(columnName: ColumnOfEntity<T>, value: any) {

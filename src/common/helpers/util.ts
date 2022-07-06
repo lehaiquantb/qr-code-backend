@@ -1,3 +1,4 @@
+import { ColumnOfEntityWithAlias, BaseEntity } from '~common';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
 
@@ -20,17 +21,18 @@ export function randomEnum<T>(anEnum: T): T[keyof T] {
     return randomEnumValue;
 }
 
-export function columnsWithAlias(
-    tables: { alias: string; columns: string[] | string }[],
+export function columnsWithAlias<T extends BaseEntity>(
+    tables: ColumnOfEntityWithAlias<T>[],
 ): string[] {
     return _.concat(
         ...tables.map((table) => {
             if (typeof table.columns === 'string') {
                 return [`${table.alias}.${table.columns}`];
-            } else
+            } else if (_.isArray(table.columns)) {
                 return table.columns.map(
-                    (column) => `${table.alias}.${column}`,
+                    (column) => `${table.alias}.${column as string}`,
                 );
+            }
         }),
     );
 }

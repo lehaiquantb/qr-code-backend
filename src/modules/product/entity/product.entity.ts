@@ -8,7 +8,7 @@ import {
     OneToMany,
     OneToOne,
 } from 'typeorm';
-import { BaseEntity } from '~common';
+import { BaseEntity, VirtualColumn } from '~common';
 import { ProductQueryBuilder } from '~product/product.builder';
 import { RateEntity } from '~rate/entity/rate.entity';
 import { FileEntity } from '~file/entity/file.entity';
@@ -52,5 +52,6 @@ export class ProductEntity extends BaseEntity {
     @Column({ type: 'int', nullable: false })
     imageId: number;
 
+    @VirtualColumn()
     averageRate = 0;
 }
