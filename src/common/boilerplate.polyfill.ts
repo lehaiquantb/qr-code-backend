@@ -16,6 +16,7 @@ import type { BaseEntity } from './entites/BaseEntity';
 // import { VIRTUAL_COLUMN_KEY } from './decorators';
 import type { KeyOfType } from './types';
 import Joi from 'joi';
+import { ColumnOfEntity } from './constants';
 declare module 'joi' {
     interface AnySchema<TSchema = any> extends Joi.SchemaInternals {
         label(name: I18Key): this;
@@ -98,6 +99,16 @@ declare module 'typeorm' {
         //   pageOptionsDto: PageOptionsDto,
         //   options?: Partial<{ takeAll: boolean }>,
         // ): Promise<[Entity[], PageMetaDto]>;
+
+        select(
+            selection: string,
+            selectionAliasName?: ColumnOfEntity<Entity>,
+        ): this;
+
+        addSelect(
+            selection: string,
+            selectionAliasName?: ColumnOfEntity<Entity>,
+        ): this;
 
         leftJoinAndSelect<AliasEntity extends BaseEntity, A extends string>(
             this: SelectQueryBuilder<Entity>,

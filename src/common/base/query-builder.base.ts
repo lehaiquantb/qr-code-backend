@@ -1,3 +1,4 @@
+import { VirtualColumnOptions } from './../decorators/virtual-column.decorator';
 import {
     ColumnOfEntity,
     columnsWithAlias,
@@ -25,12 +26,24 @@ export abstract class BaseQueryBuilder<
                 Reflect.getMetadata(METADATA_KEY.VIRTUAL_COLUMN, entitiy) ?? {};
             const item = raw[index];
 
-            for (const [propertyKey, name] of Object.entries<string>(
-                metaInfo,
-            )) {
-                entitiy[propertyKey] = item[name];
-            }
+            for (const [
+                propertyKey,
+                options,
+            ] of Object.entries<VirtualColumnOptions>(metaInfo)) {
+                const columnName = options.name;
 
+                switch (options.type) {
+                    case 'number':
+                        entitiy[propertyKey] = _.toNumberDefault(
+                            item[columnName],
+                            options.default,
+                        );
+                        break;
+                    default:
+                        entitiy[propertyKey] = item[columnName];
+                        break;
+                }
+            }
             return entitiy;
         });
 

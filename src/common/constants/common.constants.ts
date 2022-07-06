@@ -28,6 +28,14 @@ export type ColumnOfEntityWithAlias<T> = {
     columns: ColumnOfEntity<T>[] | ColumnOfEntity<T> | '*';
 };
 
+export type PickRequired<T, K extends keyof T> = {
+    [P in K]-?: T[P];
+};
+
+export type PickOptional<T, K extends keyof T> = {
+    [P in K]?: T[P];
+};
+
 export const APPROVED = { TRUE: 1, FALSE: 0 };
 
 export const DEFAULT_FIRST_PAGE = 1;

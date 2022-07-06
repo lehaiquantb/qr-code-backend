@@ -41,15 +41,13 @@ export class ProductService extends BaseService<
             .leftJoinAndSelect('product.image', 'image')
             .leftJoin('product.rates', 'rates', 'rates.productId = product.id')
             .groupBy('product.id')
-            .addSelect('AVG(rates.rate) as averageRate');
+            .addSelect('AVG(rates.rate)', 'averageRate');
 
         const total = await queryBuilder.getCount();
         const items = await queryBuilder
             .greaterThan(queryParam.orderBy, queryParam.lastOrderValue)
             .limit(queryParam.limit)
             .getManyEntity();
-
-        console.log(items);
 
         return new ProductListResponseDto(items, {
             lastOrderByValue: _.last(items)?.[queryParam.orderBy],

@@ -52,6 +52,6 @@ export class ProductEntity extends BaseEntity {
     @Column({ type: 'int', nullable: false })
     imageId: number;
 
-    @VirtualColumn()
-    averageRate = 0;
+    @VirtualColumn({ type: 'number', default: 0 })
+    averageRate: number;
 }

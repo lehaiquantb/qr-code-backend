@@ -1,11 +1,24 @@
-import { METADATA_KEY } from '../constants';
+import { ColumnOptions, ColumnType } from 'typeorm';
+import { METADATA_KEY, PickOptional } from '../constants';
 
-export function VirtualColumn(name?: string): PropertyDecorator {
+export type VirtualColumnOptions = PickOptional<
+    ColumnOptions,
+    'name' | 'default'
+> & { type?: Extract<ColumnType, 'number' | 'string' | 'date'> };
+
+export function VirtualColumn(
+    options?: VirtualColumnOptions,
+): PropertyDecorator {
     return (target, propertyKey) => {
         const metaInfo =
-            Reflect.getMetadata(METADATA_KEY.VIRTUAL_COLUMN, target) || {};
+            Reflect.getMetadata(METADATA_KEY.VIRTUAL_COLUMN, target) ?? {};
 
-        metaInfo[propertyKey] = name ?? propertyKey;
+        const virtualColumnOptions = {
+            ...options,
+            name: options?.name ?? propertyKey,
+        };
+
+        metaInfo[propertyKey] = virtualColumnOptions;
 
         Reflect.defineMetadata(METADATA_KEY.VIRTUAL_COLUMN, metaInfo, target);
     };
