@@ -1,9 +1,9 @@
 export enum PERMISSION_RESOURCE {
     FILE = 'file',
-    RATE = 'rate',
     CATEGORY = 'category',
     USER = 'user',
     PRODUCT = 'product',
+    ACTION = 'action',
 }
 
 export enum PERMISSION_ACTION {

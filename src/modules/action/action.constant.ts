@@ -1,9 +1,9 @@
 import * as BaseJoi from 'joi';
 import JoiDate from '@joi/date';
-import { RateEntity } from '~rate/entity/rate.entity';
+import { ActionEntity } from '~action/entity/action.entity';
 const Joi = BaseJoi.extend(JoiDate);
 
-export const rateDetailAttributes: (keyof RateEntity)[] = [
+export const actionDetailAttributes: (keyof ActionEntity)[] = [
     'id',
     'createdAt',
     'createdBy',

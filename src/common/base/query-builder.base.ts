@@ -33,12 +33,12 @@ export abstract class BaseQueryBuilder<
                 const columnName = options.name;
 
                 switch (options.type) {
-                    case 'number':
-                        entitiy[propertyKey] = _.toNumberDefault(
-                            item[columnName],
-                            options.default,
-                        );
-                        break;
+                    // case 'number':
+                    //     entitiy[propertyKey] = _.toNumberDefault(
+                    //         item[columnName],
+                    //         options.default,
+                    //     );
+                    //     break;
                     default:
                         entitiy[propertyKey] = item[columnName];
                         break;

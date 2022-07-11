@@ -39,9 +39,13 @@ export class ProductService extends BaseService<
             .orderByColumn(queryParam.orderBy, queryParam.orderDirection)
             .leftJoinAndSelect('product.category', 'category')
             .leftJoinAndSelect('product.image', 'image')
-            .leftJoin('product.rates', 'rates', 'rates.productId = product.id')
+            .leftJoin(
+                'product.actions',
+                'actions',
+                'actions.productId = product.id',
+            )
             .groupBy('product.id')
-            .addSelect('AVG(rates.rate)', 'averageRate');
+            .addSelect('AVG(actions.rate)', 'averageRate');
 
         const total = await queryBuilder.getCount();
         const items = await queryBuilder

@@ -15,14 +15,14 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "paths": {
+      "~action/*": [
+        "src/modules/action/*"
+      ],
       "~file/*": [
         "src/modules/file/*"
       ],
       "~category/*": [
         "src/modules/category/*"
-      ],
-      "~rate/*": [
-        "src/modules/rate/*"
       ],
       "~i18n": [
         "src/i18n"

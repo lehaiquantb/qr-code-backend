@@ -13,9 +13,9 @@ import { AppController } from './app.controller';
 import envSchema from './common/config/validation-schema';
 import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from '~product/product.module';
-import { RateModule } from '~rate/rate.module';
 import { CategoryModule } from '~category/category.module';
 import { FileModule } from '~file/file.module';
+import { ActionModule } from '~action/action.module';
 
 @Module({
     imports: [
@@ -34,7 +34,7 @@ import { FileModule } from '~file/file.module';
         UserModule,
         TypeOrmModule.forFeature([UserRepository]),
         ProductModule,
-        RateModule,
+        ActionModule,
         CategoryModule,
         FileModule,
     ],

@@ -1,9 +1,9 @@
 import { TableColumnOptions } from 'typeorm';
 
 export enum TABLE_NAME {
+    ACTION = 'action',
     FILE = 'file',
     CATEGORY = 'category',
-    RATE = 'rate',
     USER = 'user',
     ROLE = 'role',
     USER_TOKEN = 'user_token',

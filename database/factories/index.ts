@@ -4,10 +4,10 @@ import path from 'path';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { getConnection, ObjectType, QueryRunner, Repository } from 'typeorm';
+import { ActionEntity } from '~action/entity/action.entity';
 import { CategoryEntity } from '~category/entity/category.entity';
 import { FileEntity } from '~file/entity/file.entity';
 import { ProductEntity } from '~product/entity/product.entity';
-import { RateEntity } from '~rate/entity/rate.entity';
 import { UserTokenType } from './../../src/modules/auth/auth.constant';
 import { UserTokenEntity } from './../../src/modules/auth/entity/user-token.entity';
 import { PermissionActionEntity } from './../../src/modules/role/entity/permission-action.entity';
@@ -17,13 +17,13 @@ import { RolePermissionEntity } from './../../src/modules/role/entity/role-permi
 import { RoleEntity } from './../../src/modules/role/entity/role.entity';
 import { UserRoleEntity } from './../../src/modules/role/entity/user-role.entity';
 import { UserStatus } from './../../src/modules/user/user.constant';
+import actionFactory from './action.factory';
 import categoryFactory from './category.factory';
 import fileFactory from './file.factory';
 import permissionFactory from './permission.factory';
 import permissionActionFactory from './permission_action.factory';
 import permissionResourceFactory from './permission_resource.factory';
 import productFactory from './product.factory';
-import rateFactory from './rate.factory';
 import roleFactory from './role.factory';
 import rolePermissionFactory from './role_permission.factory';
 import userFactory from './user.factory';
@@ -75,9 +75,9 @@ export async function createEntity(queryRunner: QueryRunner) {
 
 let Factories: { [key: string]: FactoryDefine<any> } = {
     // hygen inject
+    [ActionEntity.name]: actionFactory,
     [FileEntity.name]: fileFactory,
     [CategoryEntity.name]: categoryFactory,
-    [RateEntity.name]: rateFactory,
     [ProductEntity.name]: productFactory,
     [UserEntity.name]: userFactory,
     [UserTokenEntity.name]: userTokenFactory,

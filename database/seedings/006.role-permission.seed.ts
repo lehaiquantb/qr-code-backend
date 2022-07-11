@@ -41,7 +41,7 @@ export class RolePermission_1720963593422 implements MigrationInterface {
                     resource: PERMISSION_RESOURCE.USER,
                 }),
                 factoryExcute(PermissionResourceEntity, {
-                    resource: PERMISSION_RESOURCE.RATE,
+                    resource: PERMISSION_RESOURCE.ACTION,
                 }),
                 factoryExcute(PermissionResourceEntity, {
                     resource: PERMISSION_RESOURCE.FILE,

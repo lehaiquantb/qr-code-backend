@@ -10,8 +10,8 @@ import {
 } from 'typeorm';
 import { BaseEntity, VirtualColumn } from '~common';
 import { ProductQueryBuilder } from '~product/product.builder';
-import { RateEntity } from '~rate/entity/rate.entity';
 import { FileEntity } from '~file/entity/file.entity';
+import { ActionEntity } from '~action/entity/action.entity';
 
 const NAME = TABLE_NAME.PRODUCT;
 @Entity({ name: NAME })
@@ -35,8 +35,8 @@ export class ProductEntity extends BaseEntity {
     @Column({ type: 'boolean', nullable: false, default: false })
     verified: boolean;
 
-    @OneToMany(() => RateEntity, (rate) => rate.product)
-    rates!: RateEntity[];
+    @OneToMany(() => ActionEntity, (action) => action.product)
+    actions!: ActionEntity[];
 
     @ManyToOne(() => CategoryEntity, (category) => category.products)
     @JoinColumn({ name: 'categoryId' })
