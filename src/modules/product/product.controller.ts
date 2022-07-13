@@ -19,6 +19,8 @@ import {
     SuccessResponse,
     DatabaseService,
     IRequest,
+    AuthUser,
+    IAuthUser,
 } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { ProductService } from '~product/services/product.service';
@@ -33,6 +35,7 @@ import {
     CreateProductDto,
     UpdateProductDto,
 } from '~product/dto/request/product.request.dto';
+import { ActionResponseDto } from '~action/dto/response/action.response.dto';
 
 @Controller('product')
 @ApiTags('Product')
@@ -46,16 +49,52 @@ export class ProductController extends BaseController {
     }
 
     @Get(':id')
-    async getProduct(@Param('id', ParseIntPipe) id: number) {
+    async getProductById(
+        @Param('id', ParseIntPipe) id: number,
+        @AuthUser() authUser?: IAuthUser,
+    ) {
         try {
-            const product = await this.productService.findById(id);
+            const product = await this.productService.getProductDetailById(id);
+
             if (!product) {
                 return new ErrorResponse(
                     HttpStatus.ITEM_NOT_FOUND,
                     'product.error.notFound',
                 );
             }
-            return new SuccessResponse(new ProductResponseDto(product));
+
+            const response = new ProductResponseDto(product);
+            response.currentActionOfUser = new ActionResponseDto(
+                product?.actions?.find((a) => a.userId === authUser?.id),
+            );
+            return new SuccessResponse(response);
+        } catch (error) {
+            throw new InternalServerErrorException(error);
+        }
+    }
+
+    @Get('scan/:qrCode')
+    async scanProductByQrCode(
+        @Param('qrCode') qrCode: string,
+        @AuthUser() authUser?: IAuthUser,
+    ) {
+        try {
+            const product = await this.productService.getProductDetailByQrCode(
+                qrCode,
+            );
+
+            if (!product) {
+                return new ErrorResponse(
+                    HttpStatus.ITEM_NOT_FOUND,
+                    'product.error.notFound',
+                );
+            }
+
+            const response = new ProductResponseDto(product);
+            response.currentActionOfUser = new ActionResponseDto(
+                product?.actions?.find((a) => a.userId === authUser?.id),
+            );
+            return new SuccessResponse(response);
         } catch (error) {
             throw new InternalServerErrorException(error);
         }

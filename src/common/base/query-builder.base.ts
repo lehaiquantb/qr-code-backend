@@ -33,12 +33,12 @@ export abstract class BaseQueryBuilder<
                 const columnName = options.name;
 
                 switch (options.type) {
-                    // case 'number':
-                    //     entitiy[propertyKey] = _.toNumberDefault(
-                    //         item[columnName],
-                    //         options.default,
-                    //     );
-                    //     break;
+                    case 'number':
+                        entitiy[propertyKey] = _.toNumberDefault(
+                            item[columnName],
+                            options.default,
+                        );
+                        break;
                     default:
                         entitiy[propertyKey] = item[columnName];
                         break;
@@ -52,14 +52,19 @@ export abstract class BaseQueryBuilder<
 
     async getOneEntity(): Promise<T> {
         const { entities, raw } = await this.getRawAndEntities();
-        const metaInfo =
-            Reflect.getMetadata(METADATA_KEY.VIRTUAL_COLUMN, entities[0]) ?? {};
+        if (entities.length > 0) {
+            const metaInfo =
+                Reflect.getMetadata(METADATA_KEY.VIRTUAL_COLUMN, entities[0]) ??
+                {};
 
-        for (const [propertyKey, name] of Object.entries<string>(metaInfo)) {
-            entities[0][propertyKey] = raw[0][name];
+            for (const [propertyKey, name] of Object.entries<string>(
+                metaInfo,
+            )) {
+                entities[0][propertyKey] = raw[0][name];
+            }
+            return entities[0];
         }
-
-        return entities[0];
+        return null;
     }
 
     selectColumns<CustomEntity extends BaseEntity = T>(
@@ -78,6 +83,13 @@ export abstract class BaseQueryBuilder<
             {
                 [columnName as string]: value,
             },
+        );
+    }
+
+    whereEqual(columnName: ColumnOfEntity<T>, value: any): this {
+        return this.where(
+            `${this.alias}.${columnName as string} = :${columnName as string}`,
+            { [columnName as string]: value },
         );
     }
 

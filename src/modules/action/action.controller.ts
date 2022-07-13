@@ -19,6 +19,8 @@ import {
     SuccessResponse,
     DatabaseService,
     IRequest,
+    AuthUser,
+    IAuthUser,
 } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { ActionService } from '~action/services/action.service';
@@ -98,24 +100,36 @@ export class ActionController extends BaseController {
         }
     }
 
-    @Patch(':id')
+    @Patch('/action-user/:productId')
     async updateAction(
-        @Param('id', ParseIntPipe) id: number,
+        @Param('productId', ParseIntPipe) productId: number,
         @Body()
         data: UpdateActionDto,
+        @AuthUser() authUser: IAuthUser,
     ) {
         try {
-            const actionExist = await this.actionRepository.isExist({ id });
-            if (!actionExist) {
-                return new ErrorResponse(
-                    HttpStatus.BAD_REQUEST,
-                    'action.error.notExist',
+            const actionExist = await this.actionRepository.isExist({
+                userId: 2,
+                productId,
+            });
+            if (actionExist) {
+                const updatedAction = await this.actionRepository.updateAndGet(
+                    { userId: 2, productId },
+                    data,
+                );
+                return new SuccessResponse(
+                    new ActionResponseDto(updatedAction),
+                );
+            } else {
+                const updatedAction = await this.actionRepository.insertAndGet({
+                    productId,
+                    userId: 2,
+                    ...data,
+                });
+                return new SuccessResponse(
+                    new ActionResponseDto(updatedAction),
                 );
             }
-
-            const updatedAction = await this.actionService.update(id, data);
-
-            return new SuccessResponse(new ActionResponseDto(updatedAction));
         } catch (error) {
             throw new InternalServerErrorException(error);
         }

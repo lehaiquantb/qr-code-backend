@@ -59,4 +59,22 @@ export class ProductService extends BaseService<
             limit: queryParam.limit,
         });
     }
+
+    async getProductDetailById(productId: number): Promise<ProductEntity> {
+        const product = await this.repository
+            .builder('product')
+            .whereEqual('id', productId)
+            .queryDetail()
+            .getOneEntity();
+        return product;
+    }
+
+    async getProductDetailByQrCode(qrCode: string): Promise<ProductEntity> {
+        const product = await this.repository
+            .builder('product')
+            .whereEqual('qrCode', qrCode)
+            .queryDetail()
+            .getOneEntity();
+        return product;
+    }
 }

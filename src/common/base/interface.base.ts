@@ -14,5 +14,5 @@ export interface LoginUser {
 export type IAuthUser = LoginUser & JwtPayload;
 
 export interface IRequest extends Request {
-    authUser: IAuthUser;
+    authUser?: IAuthUser;
 }

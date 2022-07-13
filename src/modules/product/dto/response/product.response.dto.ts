@@ -1,3 +1,4 @@
+import { ActionResponseDto } from '~action/dto/response/action.response.dto';
 import { CategoryResponseDto } from '~category/dto/response/category.response.dto';
 import { CommonListResponse, IMeta, ResponseDto } from '~common';
 import { ProductEntity } from '~product/entity/product.entity';
@@ -14,6 +15,8 @@ export class ProductResponseDto extends ResponseDto {
     urlImage: string;
     category: CategoryResponseDto;
     averageRate: number;
+    actions: ActionResponseDto[];
+    currentActionOfUser: ActionResponseDto;
     constructor(product?: ProductEntity) {
         super();
         this.id = product?.id;
@@ -27,6 +30,8 @@ export class ProductResponseDto extends ResponseDto {
         this.urlImage = product.image?.url ?? '';
         this.averageRate = product.averageRate;
         this.category = new CategoryResponseDto(product.category);
+        this.actions =
+            product?.actions?.map((a) => new ActionResponseDto(a)) ?? [];
     }
 }
 

@@ -1,3 +1,5 @@
+import { FindConditions, ObjectID } from 'typeorm';
+
 export enum LANGUAGES {
     EN = 'en',
     VI = 'vi',
@@ -22,6 +24,17 @@ export enum DATE_FORMAT {
 
 /*eslint-disable-next-line @typescript-eslint/ban-types*/
 export type ColumnOfEntity<T> = keyof T | String;
+
+export type Criteria<T> =
+    | string
+    | string[]
+    | number
+    | number[]
+    | Date
+    | Date[]
+    | ObjectID
+    | ObjectID[]
+    | FindConditions<T>;
 
 export type ColumnOfEntityWithAlias<T> = {
     alias: string;

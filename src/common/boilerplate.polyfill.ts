@@ -99,6 +99,7 @@ declare module 'typeorm' {
         //   pageOptionsDto: PageOptionsDto,
         //   options?: Partial<{ takeAll: boolean }>,
         // ): Promise<[Entity[], PageMetaDto]>;
+        // where(where: Brackets | ColumnOfEntity<Entity> | ((qb: this) => string) | ObjectLiteral | ObjectLiteral[], parameters?: ObjectLiteral): this;
 
         select(
             selection: string,
