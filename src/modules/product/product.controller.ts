@@ -21,6 +21,7 @@ import {
     IRequest,
     AuthUser,
     IAuthUser,
+    Auth,
 } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { ProductService } from '~product/services/product.service';
@@ -74,6 +75,7 @@ export class ProductController extends BaseController {
     }
 
     @Get('scan/:qrCode')
+    @Auth([], { isPublic: true })
     async scanProductByQrCode(
         @Param('qrCode') qrCode: string,
         @AuthUser() authUser?: IAuthUser,

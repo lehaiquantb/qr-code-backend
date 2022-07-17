@@ -75,6 +75,7 @@ export class ProductService extends BaseService<
             .whereEqual('qrCode', qrCode)
             .queryDetail()
             .getOneEntity();
+
         return product;
     }
 }

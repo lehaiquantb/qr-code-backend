@@ -25,6 +25,8 @@ export class ProductQueryBuilder extends BaseQueryBuilder<ProductEntity> {
                 'action',
                 'action.productId = product.id',
             )
+            .groupBy('action.productId')
+            .addSelect('AVG(action.rate)', 'averageRate')
             .orderBy('action.createdAt', 'ASC');
     }
 }

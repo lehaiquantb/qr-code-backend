@@ -8,6 +8,31 @@ import {
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Brackets, Like, QueryBuilder, SelectQueryBuilder } from 'typeorm';
 import _ from 'lodash';
+
+function assignValue<T extends BaseEntity>(entity: T, raw: any): T {
+    const metaInfo =
+        Reflect.getMetadata(METADATA_KEY.VIRTUAL_COLUMN, entity) ?? {};
+
+    for (const [propertyKey, options] of Object.entries<VirtualColumnOptions>(
+        metaInfo,
+    )) {
+        const columnName = options.name;
+
+        switch (options.type) {
+            case 'number':
+                entity[propertyKey] = _.toNumberDefault(
+                    raw[columnName],
+                    options.default,
+                );
+                break;
+            default:
+                entity[propertyKey] = raw[columnName];
+                break;
+        }
+    }
+    return entity;
+}
+
 export abstract class BaseQueryBuilder<
     T extends BaseEntity,
 > extends SelectQueryBuilder<T> {
@@ -21,30 +46,8 @@ export abstract class BaseQueryBuilder<
 
     async getManyEntity(): Promise<T[]> {
         const { entities, raw } = await this.getRawAndEntities();
-        const items = entities.map((entitiy, index) => {
-            const metaInfo =
-                Reflect.getMetadata(METADATA_KEY.VIRTUAL_COLUMN, entitiy) ?? {};
-            const item = raw[index];
-
-            for (const [
-                propertyKey,
-                options,
-            ] of Object.entries<VirtualColumnOptions>(metaInfo)) {
-                const columnName = options.name;
-
-                switch (options.type) {
-                    case 'number':
-                        entitiy[propertyKey] = _.toNumberDefault(
-                            item[columnName],
-                            options.default,
-                        );
-                        break;
-                    default:
-                        entitiy[propertyKey] = item[columnName];
-                        break;
-                }
-            }
-            return entitiy;
+        const items = entities.map((entity, index) => {
+            return assignValue(entity, raw[index]);
         });
 
         return [...items];
@@ -53,16 +56,7 @@ export abstract class BaseQueryBuilder<
     async getOneEntity(): Promise<T> {
         const { entities, raw } = await this.getRawAndEntities();
         if (entities.length > 0) {
-            const metaInfo =
-                Reflect.getMetadata(METADATA_KEY.VIRTUAL_COLUMN, entities[0]) ??
-                {};
-
-            for (const [propertyKey, name] of Object.entries<string>(
-                metaInfo,
-            )) {
-                entities[0][propertyKey] = raw[0][name];
-            }
-            return entities[0];
+            return assignValue(entities[0], raw[0]);
         }
         return null;
     }

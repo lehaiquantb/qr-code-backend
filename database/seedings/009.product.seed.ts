@@ -20,7 +20,7 @@ export let productList: ParamsExtend<ProductEntity>[] = [
         Số lượng: 24 Lon/ thùng
         HSD: 09 tháng kể từ ngày sản xuất
         Bảo quản nơi sạch sẽ, khô ráo thoáng mát, tránh ánh nắng mặt trời.`,
-        qrCode: '89123456781',
+        qrCode: '8934588672026',
         category: () => factoryExcute(CategoryEntity, categoryList[0]),
         image: () => factoryExcute(FileEntity, fileList[0]),
         verified: true,
