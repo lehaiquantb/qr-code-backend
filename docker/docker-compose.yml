@@ -1,0 +1,32 @@
+version: '1'
+
+services:
+  # Database
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Quan@1999
+      MYSQL_USER: quanlh
+      MYSQL_PASSWORD: Quan@1999
+    networks:
+      - quanlh-network
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8888:80'
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: Quan@1999
+    networks:
+      - quanlh-network
+networks:
+  quanlh-network:
+volumes:
+  db_data:
