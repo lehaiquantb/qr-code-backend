@@ -30,6 +30,8 @@ function assignValue<T extends BaseEntity>(entity: T, raw: any): T {
                 break;
         }
     }
+    console.log('...');
+
     return entity;
 }
 
