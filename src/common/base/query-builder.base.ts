@@ -114,9 +114,8 @@ export abstract class BaseQueryBuilder<
     }
 
     greaterThan(columnName: ColumnOfEntity<T>, value: any): this {
-        if (_.isEmpty(value)) return this;
-
-        return this.where(
+        if (_.isEmptyValue(value)) return this;
+        return this.andWhere(
             `${this.alias}.${columnName as string} > :${columnName as string}`,
             {
                 [columnName as string]: value,
@@ -125,9 +124,9 @@ export abstract class BaseQueryBuilder<
     }
 
     lessThan(columnName: ColumnOfEntity<T>, value: any): this {
-        if (_.isEmpty(value)) return this;
+        if (_.isEmptyValue(value)) return this;
 
-        return this.where(
+        return this.andWhere(
             `${this.alias}.${columnName as string} < :${columnName as string}`,
             {
                 [columnName as string]: value,

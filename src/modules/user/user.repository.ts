@@ -89,7 +89,7 @@ export class UserRepository extends BaseRepository<UserEntity> {
         });
         const temp = {};
         for (const p of allPermissions) {
-            if (_.isEmpty(temp[p?.resource])) {
+            if (_.isEmptyValue(temp[p?.resource])) {
                 temp[p?.resource] = [p?.action];
             } else {
                 temp[p?.resource].push(p?.action);

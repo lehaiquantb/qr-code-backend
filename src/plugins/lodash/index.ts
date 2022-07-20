@@ -1,7 +1,8 @@
-import _ from 'lodash';
+import _, { isNil } from 'lodash';
 declare module 'lodash' {
     interface LoDashStatic {
         toNumberDefault(value: any, defaultValue: number): number;
+        isEmptyValue(value: any): boolean;
     }
 }
 
@@ -11,5 +12,9 @@ _.mixin({
         if (!!defaultValue && isNaN(val)) {
             return defaultValue;
         } else return val;
+    },
+
+    isEmptyValue: function (value: any) {
+        return value === '' || isNil(value) || isNaN(value);
     },
 });
