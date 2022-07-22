@@ -1,3 +1,4 @@
+import { ProviderEntity } from '~provider/entity/provider.entity';
 import { CategoryEntity } from '~category/entity/category.entity';
 import { factoryExcute } from '~database/factories';
 import { faker } from '@faker-js/faker';
@@ -18,6 +19,8 @@ const productFactory: FactoryDefine<ProductEntity> = async (params) => {
     product.name = faker.commerce.productName();
     product.description = faker.commerce.productDescription();
     product.verified = false;
+    product.provider =
+        params?.provider ?? (await factoryExcute(ProviderEntity));
     return product;
 };
 

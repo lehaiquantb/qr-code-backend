@@ -1,6 +1,6 @@
 import { ColumnOfEntityWithAlias, BaseEntity } from '~common';
 import bcrypt from 'bcrypt';
-import _ from 'lodash';
+import _, { isNil } from 'lodash';
 
 export function convertEnumToValues(enumType: any): any[] {
     type EnumValueType = [`${typeof enumType}`];
@@ -35,4 +35,8 @@ export function columnsWithAlias<T extends BaseEntity>(
             }
         }),
     );
+}
+
+export function isEmptyValue(value: any): boolean {
+    return value === '' || isNil(value) || isNaN(value);
 }

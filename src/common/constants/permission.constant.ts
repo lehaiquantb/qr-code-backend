@@ -1,4 +1,5 @@
 export enum PERMISSION_RESOURCE {
+    PROVIDER = 'provider',
     FILE = 'file',
     CATEGORY = 'category',
     USER = 'user',

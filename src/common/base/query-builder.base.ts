@@ -4,6 +4,7 @@ import {
     columnsWithAlias,
     ColumnOfEntityWithAlias,
     METADATA_KEY,
+    isEmptyValue,
 } from '~common';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
 import { Brackets, Like, QueryBuilder, SelectQueryBuilder } from 'typeorm';
@@ -30,7 +31,7 @@ function assignValue<T extends BaseEntity>(entity: T, raw: any): T {
                 break;
         }
     }
-    console.log('...');
+    // console.log('...');
 
     return entity;
 }
@@ -116,7 +117,7 @@ export abstract class BaseQueryBuilder<
     }
 
     greaterThan(columnName: ColumnOfEntity<T>, value: any): this {
-        if (_.isEmptyValue(value)) return this;
+        if (isEmptyValue(value)) return this;
         return this.andWhere(
             `${this.alias}.${columnName as string} > :${columnName as string}`,
             {
@@ -126,7 +127,7 @@ export abstract class BaseQueryBuilder<
     }
 
     lessThan(columnName: ColumnOfEntity<T>, value: any): this {
-        if (_.isEmptyValue(value)) return this;
+        if (isEmptyValue(value)) return this;
 
         return this.andWhere(
             `${this.alias}.${columnName as string} < :${columnName as string}`,

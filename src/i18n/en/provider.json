@@ -1,0 +1,12 @@
+{
+    "error": {
+        "notFound": "Provider not found",
+        "exist": "Provider already exists",
+        "notExist": "Provider does not exist"
+    },
+    "success": {
+        "create": "Provider created successfully",
+        "update": "Provider updated successfully",
+        "delete": "Provider deleted successfully"
+    }
+}

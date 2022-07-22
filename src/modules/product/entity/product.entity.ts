@@ -12,6 +12,7 @@ import { BaseEntity, VirtualColumn } from '~common';
 import { ProductQueryBuilder } from '~product/product.builder';
 import { FileEntity } from '~file/entity/file.entity';
 import { ActionEntity } from '~action/entity/action.entity';
+import { ProviderEntity } from '~provider/entity/provider.entity';
 
 const NAME = TABLE_NAME.PRODUCT;
 @Entity({ name: NAME })
@@ -51,6 +52,13 @@ export class ProductEntity extends BaseEntity {
 
     @Column({ type: 'int', nullable: false })
     imageId: number;
+
+    @ManyToOne(() => ProviderEntity, (provider) => provider.products)
+    @JoinColumn({ name: 'providerId' })
+    provider!: ProviderEntity;
+
+    @Column({ type: 'int', nullable: false })
+    providerId: number;
 
     @VirtualColumn({ type: 'number', default: 0 })
     averageRate: number;

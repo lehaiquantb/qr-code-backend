@@ -58,6 +58,9 @@ export class Permission_1720963593422 implements MigrationInterface {
             factoryExcute(PermissionResourceEntity, {
                 resource: PERMISSION_RESOURCE.ACTION,
             }),
+            factoryExcute(PermissionResourceEntity, {
+                resource: PERMISSION_RESOURCE.PROVIDER,
+            }),
         ];
 
         const permissionResources = await Promise.all(

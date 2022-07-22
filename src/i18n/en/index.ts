@@ -1,3 +1,5 @@
+import provider from './provider.json';
+
 import action from './action.json';
 
 import file from './file.json';
@@ -12,6 +14,7 @@ import auth from './auth.json';
 import product from './product.json';
 
 export default {
+    provider,
     action,
     file,
     category,

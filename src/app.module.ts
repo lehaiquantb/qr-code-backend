@@ -16,6 +16,7 @@ import { ProductModule } from '~product/product.module';
 import { CategoryModule } from '~category/category.module';
 import { FileModule } from '~file/file.module';
 import { ActionModule } from '~action/action.module';
+import { ProviderModule } from '~provider/provider.module';
 
 @Module({
     imports: [
@@ -37,6 +38,7 @@ import { ActionModule } from '~action/action.module';
         ActionModule,
         CategoryModule,
         FileModule,
+        ProviderModule,
     ],
     controllers: [AppController],
     providers: [],

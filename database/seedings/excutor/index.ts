@@ -1,4 +1,5 @@
-import { Product_1720963593422 } from './../009.product.seed';
+import { Provider_1720963593422 } from './../009.provider.seed';
+import { Product_1720963593422 } from '../010.product.seed';
 import { File_1720963593422 } from './../008.file.seed';
 import { Category_1720963593422 } from './../007.category.seed';
 import { RolePermission_1720963593422 } from './../006.role-permission.seed';
@@ -9,6 +10,7 @@ import { SeedingPermissionAction_1720963593422 } from './../001.permission-actio
 import { Permission_1720963593422 } from './../005.permission.seed';
 import { SeedingUser_1720963593420 } from './../000.seed-user';
 import { Action_1720963593422 } from '../011.action.seed';
+
 export {
     SeedingUser_1720963593420,
     SeedingPermissionAction_1720963593422,
@@ -19,6 +21,7 @@ export {
     RolePermission_1720963593422,
     Category_1720963593422,
     File_1720963593422,
+    Provider_1720963593422,
     Product_1720963593422,
-    Action_1720963593422
+    Action_1720963593422,
 };

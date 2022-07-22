@@ -1,4 +1,6 @@
 import { faker } from '@faker-js/faker';
+import { ProviderEntity } from '~provider/entity/provider.entity';
+import providerFactory from './provider.factory';
 import glob from 'glob';
 import path from 'path';
 import { BaseEntity } from 'src/common/entites/BaseEntity';
@@ -75,6 +77,7 @@ export async function createEntity(queryRunner: QueryRunner) {
 
 let Factories: { [key: string]: FactoryDefine<any> } = {
     // hygen inject
+    [ProviderEntity.name]: providerFactory,
     [ActionEntity.name]: actionFactory,
     [FileEntity.name]: fileFactory,
     [CategoryEntity.name]: categoryFactory,

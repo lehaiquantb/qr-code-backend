@@ -1,3 +1,4 @@
+import { ProviderEntity } from '~provider/entity/provider.entity';
 import { fileList } from './008.file.seed';
 import { categoryList } from './007.category.seed';
 import { ProductEntity } from '~product/entity/product.entity';
@@ -24,6 +25,7 @@ export let productList: ParamsExtend<ProductEntity>[] = [
         category: () => factoryExcute(CategoryEntity, categoryList[0]),
         image: () => factoryExcute(FileEntity, fileList[0]),
         verified: true,
+        provider: () => factoryExcute(ProviderEntity, { id: 4 }),
     },
     {
         id: 2,
@@ -35,6 +37,7 @@ export let productList: ParamsExtend<ProductEntity>[] = [
         category: () => factoryExcute(CategoryEntity, categoryList[0]),
         image: () => factoryExcute(FileEntity, fileList[1]),
         verified: false,
+        provider: () => factoryExcute(ProviderEntity, { id: 3 }),
     },
     {
         id: 3,
@@ -45,6 +48,7 @@ export let productList: ParamsExtend<ProductEntity>[] = [
         category: () => factoryExcute(CategoryEntity, categoryList[2]),
         image: () => factoryExcute(FileEntity, fileList[2]),
         verified: false,
+        provider: () => factoryExcute(ProviderEntity, { id: 1 }),
     },
     {
         id: 4,
@@ -55,6 +59,7 @@ export let productList: ParamsExtend<ProductEntity>[] = [
         category: () => factoryExcute(CategoryEntity, categoryList[3]),
         image: () => factoryExcute(FileEntity, fileList[3]),
         verified: false,
+        provider: () => factoryExcute(ProviderEntity, { id: 1 }),
     },
     {
         id: 5,
@@ -81,6 +86,7 @@ export let productList: ParamsExtend<ProductEntity>[] = [
         category: () => factoryExcute(CategoryEntity, categoryList[1]),
         image: () => factoryExcute(FileEntity, fileList[4]),
         verified: false,
+        provider: () => factoryExcute(ProviderEntity, { id: 2 }),
     },
     {
         id: 6,
@@ -101,6 +107,7 @@ export let productList: ParamsExtend<ProductEntity>[] = [
         category: () => factoryExcute(CategoryEntity, categoryList[1]),
         image: () => factoryExcute(FileEntity, fileList[5]),
         verified: false,
+        provider: () => factoryExcute(ProviderEntity, { id: 2 }),
     },
 ];
 
