@@ -1,15 +1,8 @@
-import {
-    DEFAULT_FIRST_PAGE,
-    DEFAULT_LIMIT_FOR_PAGINATION,
-    DEFAULT_ORDER_BY,
-    DEFAULT_ORDER_DIRECTION,
-    TYPE_ORM_ORDER_DIRECTION,
-} from '~common';
+import { BaseService } from '~common';
 import {
     Inject,
     Injectable,
     InternalServerErrorException,
-    Optional,
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { InjectEntityManager } from '@nestjs/typeorm';
@@ -19,12 +12,13 @@ import { EntityManager, In, Like, Brackets } from 'typeorm';
 
 import { UserEntity } from 'src/modules/user/entity/user.entity';
 import { CreateUserDto } from '../dto/requests/create-user.dto';
-import { userListAttributes, UserStatus } from '../user.constant';
+import { UserStatus } from '../user.constant';
 import { UserListQueryStringDto } from '../dto/requests/list-user.dto';
 import { UserList } from '../dto/response/api-response.dto';
 import { UserResponseDto } from '../dto/response/user-response.dto';
 import { UpdateUserDto } from '../dto/requests/update-user.dto';
 import { UserStatusDto } from '../dto/requests/common-user.dto';
+import { UserRepository } from '~user/user.repository';
 
 const userDetailAttributes: (keyof UserEntity)[] = [
     'id',
@@ -40,14 +34,17 @@ const userDetailAttributes: (keyof UserEntity)[] = [
     'updatedBy',
 ];
 @Injectable()
-export class UserService {
+export class UserService extends BaseService<UserEntity, UserRepository> {
     constructor(
-        @Optional() @Inject(REQUEST) private readonly request: Request,
+        @Inject(REQUEST) private readonly request: Request,
         @InjectEntityManager()
         private readonly dbManager: EntityManager,
-    ) {}
+        private readonly userRepository: UserRepository,
+    ) {
+        super(userRepository);
+    }
 
-    generateQueryBuilder(queryBuilder, { keyword, genders, statuses, roles }) {
+    generateQueryBuilder(queryBuilder, { keyword, genders, statuses }) {
         if (keyword) {
             const likeKeyword = `%${keyword}%`;
             queryBuilder.andWhere(
@@ -74,65 +71,32 @@ export class UserService {
                 gender: In(genders),
             });
         }
-        if (roles && roles.length > 0) {
-            queryBuilder.andWhere({
-                roleId: In(roles),
-            });
-        }
     }
 
     async getUsers(query: UserListQueryStringDto): Promise<UserList> {
         try {
-            const {
-                page = DEFAULT_FIRST_PAGE,
-                limit = DEFAULT_LIMIT_FOR_PAGINATION,
-                keyword = '',
-                orderBy = DEFAULT_ORDER_BY,
-                orderDirection = DEFAULT_ORDER_DIRECTION,
-                genders = [],
-                statuses = [],
-                roles = [],
-            } = query;
+            const qb = this.repository
+                .builder('user')
+                .search(['fullName', 'email'], query.keyword)
+                .orderByColumn(query.orderBy, query.orderDirection)
+                .whereIn('gender', query.genders)
+                .whereIn('status', query.statuses)
+                .pagination(query.page, query.limit);
 
-            const _queryBuilder = this.dbManager
-                .createQueryBuilder(UserEntity, 'users')
-                .where((queryBuilder) => {
-                    this.generateQueryBuilder(queryBuilder, {
-                        keyword,
-                        roles,
-                        statuses,
-                        genders,
-                    });
-                })
-                .select(userListAttributes);
-            if (orderBy) {
-                _queryBuilder.orderBy(
-                    `users.${orderBy}`,
-                    orderDirection.toUpperCase() as TYPE_ORM_ORDER_DIRECTION,
-                );
-            }
-            if (limit && page)
-                _queryBuilder.take(limit).skip((page - 1) * limit).limit;
-            const [items, totalItems] = await _queryBuilder.getManyAndCount();
-            return {
-                items: items.map((item) => {
-                    return {
-                        ...item,
-                    };
-                }),
-            };
+            const [items, totalItems] = await qb.getManyAndCount();
+
+            return new UserList(items, {
+                total: totalItems,
+                limit: query.limit,
+            });
         } catch (error) {
             throw error;
         }
     }
 
-    async getUserById(id: number): Promise<UserResponseDto> {
+    async getUserById(id: number): Promise<UserEntity | undefined> {
         try {
-            const user = await this.dbManager.findOne(UserEntity, {
-                relations: ['role'],
-                where: { id },
-            });
-
+            const user = await this.findById(id);
             return user;
         } catch (error) {
             throw error;

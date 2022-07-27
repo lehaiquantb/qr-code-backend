@@ -1,6 +1,6 @@
 import './common/boilerplate.polyfill';
 import './plugins/lodash';
-import { NODE_ENV } from './common/constants';
+import { NODE_ENV, SWAGGER_BEARER_AUTH_NAME } from './common/constants';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
@@ -10,7 +10,11 @@ import express from 'express';
 import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
 import ConfigKey from '../src/common/config/config-key';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {
+    DocumentBuilder,
+    SwaggerCustomOptions,
+    SwaggerModule,
+} from '@nestjs/swagger';
 import { JoiValidationPipe } from '~common';
 import { middleware as expressCtx } from 'express-ctx';
 import { setupDev } from '~plugins';
@@ -70,11 +74,27 @@ async function bootstrap() {
             .setTitle('Example')
             .setDescription('API description')
             .setVersion('1.0')
+            .addBearerAuth(
+                {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                    name: 'JWT',
+                    description: 'Enter JWT token',
+                    in: 'header',
+                },
+                SWAGGER_BEARER_AUTH_NAME,
+            )
             .addTag('example')
             .build();
         const document = SwaggerModule.createDocument(app, config);
         const SWAGGER_PATH = '/swagger';
-        SwaggerModule.setup(SWAGGER_PATH, app, document);
+        const options: SwaggerCustomOptions = {
+            swaggerOptions: {
+                persistAuthorization: true,
+            },
+        };
+        SwaggerModule.setup(SWAGGER_PATH, app, document, options);
         console.log(
             `[Swagger UI is available at http://localhost:${configService.get(
                 ConfigKey.PORT,

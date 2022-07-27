@@ -1,7 +1,12 @@
 import { UserRoleEntity } from 'src/modules/role/entity/user-role.entity';
 import { UserRepository } from './user.repository';
 import { UserResponseDto } from './dto/response/user-response.dto';
-import { IRequest } from '~common';
+import {
+    Auth,
+    IRequest,
+    PERMISSION_ACTION,
+    PERMISSION_RESOURCE,
+} from '~common';
 import {
     Controller,
     Get,
@@ -24,17 +29,13 @@ import {
 } from './dto/requests/update-user.dto';
 import { UserList } from './dto/response/api-response.dto';
 import { DatabaseService } from '../../common/modules/database/database.service';
-import {
-    UserListQueryStringDto,
-    UserListQueryStringSchema,
-} from './dto/requests/list-user.dto';
+import { UserListQueryStringDto } from './dto/requests/list-user.dto';
 import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
 
 import {
     ErrorResponse,
     SuccessResponse,
 } from '../../common/helpers/api.response';
-import { RemoveEmptyQueryPipe } from 'src/common/pipes/removeEmptyQueryPipe';
 import { HttpStatus } from '~common';
 import { RoleEntity } from '../role/entity/role.entity';
 import { BaseController } from '~common';
@@ -65,6 +66,7 @@ export class UserController extends BaseController {
     }
 
     @Get(':id')
+    @Auth([`${PERMISSION_ACTION.READ}_${PERMISSION_RESOURCE.USER}`])
     async getUser(@Param('id', ParseIntPipe) id: number) {
         try {
             const user = await this.usersService.getUserById(id);
@@ -78,7 +80,7 @@ export class UserController extends BaseController {
                     [],
                 );
             }
-            return new SuccessResponse(user);
+            return new SuccessResponse(new UserResponseDto(user));
         } catch (error) {
             throw new InternalServerErrorException(error);
         }
@@ -86,10 +88,7 @@ export class UserController extends BaseController {
 
     @Get()
     async getUsers(
-        @Query(
-            new JoiValidationPipe(UserListQueryStringSchema),
-            new RemoveEmptyQueryPipe(),
-        )
+        @Query()
         query: UserListQueryStringDto,
     ) {
         try {

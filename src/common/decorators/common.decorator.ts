@@ -1,6 +1,10 @@
 /*eslint-disable @typescript-eslint/ban-types*/
 import { METADATA_KEY, IRequest } from '~common';
-import { PERMISSION_ACTION, PERMISSION_RESOURCE } from '~common';
+import {
+    PERMISSION_ACTION,
+    PERMISSION_RESOURCE,
+    SWAGGER_BEARER_AUTH_NAME,
+} from '~common';
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { JwtGuard } from 'src/common/guards/jwt.guard';
 import {
@@ -25,7 +29,7 @@ export function Auth(
         SetMetadata(METADATA_KEY.PERMISSIONS, permissions ?? []),
         SetMetadata(METADATA_KEY.AUTH_OPTIONS, options ?? {}),
         UseGuards(JwtGuard, AuthorizationGuard),
-        ApiBearerAuth(),
+        ApiBearerAuth(SWAGGER_BEARER_AUTH_NAME),
         UseInterceptors(),
         ApiUnauthorizedResponse({ description: 'Unauthorized' }),
     );

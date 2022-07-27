@@ -4,7 +4,19 @@ import { applyDecorators } from '@nestjs/common';
 import type { ValidationOptions } from 'class-validator';
 import { registerDecorator } from 'class-validator';
 import * as Joi from 'joi';
-import { METADATA_KEY } from '~common';
+import {
+    METADATA_KEY,
+    MIN_PAGE,
+    MAX_PAGE,
+    DEFAULT_PAGE,
+    MIN_LIMIT,
+    MAX_LIMIT,
+    DEFAULT_LIMIT,
+    MAX_LENGTH_SEARCH_KEYWORD,
+    ORDER_DIRECTION,
+    DEFAULT_ORDER_DIRECTION,
+    DEFAULT_ORDER_BY,
+} from '~common';
 export function IsPassword(
     validationOptions?: ValidationOptions,
 ): PropertyDecorator {
@@ -59,25 +71,77 @@ export function JoiRequired(schema?: Joi.AnySchema): PropertyDecorator {
         : JoiValidate(Joi.required(), { required: true });
 }
 
-export function JoiArray<T extends RequestDto>(
-    dtoClass: T | Joi.AnySchema,
+// export function JoiArray<T extends RequestDto>(
+//     dtoClassOrItemSchema: T | Joi.AnySchema,
+//     schema?: Joi.ArraySchema,
+// ): PropertyDecorator {
+//     console.log();
+
+//     let itemSchema = Joi.any();
+//     let itemType: any = 'string';
+//     if (Joi.isSchema(dtoClassOrItemSchema)) {
+//         itemSchema = dtoClassOrItemSchema;
+//         itemType = dtoClassOrItemSchema.type;
+//     } else {
+//         itemSchema = (dtoClassOrItemSchema as any)?.getJoiSchema() ?? Joi.any();
+//         itemType = dtoClassOrItemSchema;
+//     }
+
+//     const joiSchema = Joi.array().items(itemSchema).concat(schema);
+//     const decorators = [
+//         JoiValidate(joiSchema),
+//         ApiProperty({ isArray: true, type: itemType }),
+//     ];
+//     return applyDecorators(...decorators);
+// }
+
+export function JoiArray<T>(
+    type: (new () => T) | any,
     schema?: Joi.ArraySchema,
 ): PropertyDecorator {
+    const typeOf = typeof type;
+
+    let validValues: any[] = [];
     let itemSchema = Joi.any();
     let itemType: any = 'string';
-    if (Joi.isSchema(dtoClass)) {
-        itemSchema = dtoClass;
-        itemType = dtoClass.type;
-    } else {
-        itemSchema = (dtoClass as any)?.getJoiSchema() ?? Joi.any();
-        itemType = dtoClass;
+
+    if (typeOf === 'function') {
+        const typeInstance = new type();
+        if (Joi.isSchema(typeInstance)) {
+            itemSchema = typeInstance;
+        } else if (typeInstance instanceof String) {
+            itemSchema = Joi.string();
+        } else if (typeInstance instanceof Number) {
+            itemSchema = Joi.number();
+        } else {
+            itemSchema =
+                typeof (type as any)?.getJoiSchema === 'function'
+                    ? (type as any)?.getJoiSchema()
+                    : Joi.any();
+        }
+    } else if (typeOf === 'object') {
+        if (Joi.isSchema(type)) {
+            itemSchema = type;
+        } else if (Object.values(type)?.length > 0) {
+            validValues = Object.values(type);
+            itemSchema = Joi.valid(...validValues);
+        }
     }
 
-    const joiSchema = Joi.array().items(itemSchema).concat(schema);
-    const decorators = [
-        JoiValidate(joiSchema),
-        ApiProperty({ isArray: true, type: itemType }),
-    ];
+    itemType = itemSchema.type;
+
+    let joiArraySchema = Joi.array().items(itemSchema);
+
+    if (schema) {
+        joiArraySchema = joiArraySchema.concat(schema);
+    }
+
+    const apiPropertyDecorator =
+        validValues.length > 0
+            ? ApiProperty({ isArray: true, type: itemType, enum: validValues })
+            : ApiProperty({ isArray: true, type: itemType });
+
+    const decorators = [JoiValidate(joiArraySchema), apiPropertyDecorator];
     return applyDecorators(...decorators);
 }
 
@@ -108,4 +172,55 @@ export function JoiEnum(
         ApiProperty({ enum: validValues }),
     ];
     return applyDecorators(...decorators);
+}
+
+export function Page(): PropertyDecorator {
+    return applyDecorators(
+        JoiOptional(
+            Joi.number().min(MIN_PAGE).max(MAX_PAGE).default(DEFAULT_PAGE),
+        ),
+    );
+}
+
+export function Limit(): PropertyDecorator {
+    return applyDecorators(
+        JoiOptional(
+            Joi.number().min(MIN_LIMIT).max(MAX_LIMIT).default(DEFAULT_LIMIT),
+        ),
+    );
+}
+
+export function SearchKeyword(): PropertyDecorator {
+    return applyDecorators(
+        JoiOptional(Joi.string().max(MAX_LENGTH_SEARCH_KEYWORD).default('')),
+    );
+}
+
+export function OrderDirection(): PropertyDecorator {
+    return applyDecorators(
+        JoiEnum(ORDER_DIRECTION, Joi.string().default(DEFAULT_ORDER_DIRECTION)),
+        JoiOptional(),
+    );
+}
+
+export type OrderByOptions = {
+    values: string[];
+    default?: string;
+};
+
+export function OrderBy(
+    options: OrderByOptions = {
+        values: ['id', DEFAULT_ORDER_BY],
+        default: DEFAULT_ORDER_BY,
+    },
+): PropertyDecorator {
+    return applyDecorators(
+        ...[
+            JoiEnum(
+                options.values,
+                Joi.string().default(options?.default ?? DEFAULT_ORDER_BY),
+            ),
+            JoiOptional(),
+        ],
+    );
 }

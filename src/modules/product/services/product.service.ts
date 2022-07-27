@@ -31,6 +31,8 @@ export class ProductService extends BaseService<
         const queryBuilder = this.repository
             .builder('product')
             .search(['name', 'description'], queryParam.keyword);
+        console.log(queryParam);
+
         if (queryParam.categoryIds.length > 0) {
             queryBuilder.whereCategoryIdIn(queryParam.categoryIds);
         }

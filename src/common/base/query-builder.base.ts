@@ -95,7 +95,7 @@ export abstract class BaseQueryBuilder<
         if (value?.length === 0) {
             return this;
         }
-        return this.where(
+        return this.andWhere(
             `${this.alias}.${columnName as string} IN (:...${columnListAlias})`,
             {
                 [columnListAlias]: value,
@@ -105,7 +105,7 @@ export abstract class BaseQueryBuilder<
 
     search(columnNames: ColumnOfEntity<T>[], keyword: string): this {
         const searchColumns = columnNames as string[];
-        return this.where(
+        return this.andWhere(
             new Brackets((qb) => {
                 qb.where(
                     searchColumns.map((searchColumn) => ({
@@ -145,5 +145,9 @@ export abstract class BaseQueryBuilder<
             `${this.alias}.${columnName as string}`,
             orderDirection,
         );
+    }
+
+    pagination(page: number, limit: number): this {
+        return this.take(limit).skip((page - 1) * limit);
     }
 }

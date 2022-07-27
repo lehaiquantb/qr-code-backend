@@ -15,7 +15,7 @@ export class ApiResponse<T> {
 export interface IMeta {
     total: number;
     limit: number;
-    lastOrderByValue: string;
+    lastOrderByValue?: string;
 }
 export class CommonListResponse<T> {
     items: T[];

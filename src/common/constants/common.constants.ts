@@ -64,6 +64,7 @@ export const MAX_LIMIT = 100;
 export const MAX_PAGE = 100;
 export const DEFAULT_PAGE = 1;
 export const DEFAULT_LIMIT = 5;
+export const MAX_LENGTH_SEARCH_KEYWORD = 255;
 
 export const BIRTHDAY_MIN_DATE = '1800-01-01';
 
@@ -132,3 +133,5 @@ export const METADATA_KEY = {
     OMIT_PROPERTY: Symbol('_omit_property_'),
     VIRTUAL_COLUMN: Symbol('VIRTUAL_COLUMN'),
 };
+
+export const SWAGGER_BEARER_AUTH_NAME = 'Bearer Token';

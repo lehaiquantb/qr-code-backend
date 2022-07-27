@@ -19,7 +19,6 @@ import {
     SuccessResponse,
     DatabaseService,
     IRequest,
-    Auth,
 } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { CategoryService } from '~category/services/category.service';
@@ -47,7 +46,7 @@ export class CategoryController extends BaseController {
     }
 
     @Get(':id')
-    @Auth(['read_category'])
+    // @Auth(['read_category'])
     async getCategory(@Param('id', ParseIntPipe) id: number) {
         try {
             const category = await this.categoryService.findById(id);

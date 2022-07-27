@@ -61,7 +61,7 @@ export class BaseService<T extends BaseEntity, R extends BaseRepository<T>>
         return this.repository.find();
     }
 
-    findById(id: EntityId): Promise<T> {
+    findById(id: EntityId): Promise<Optional<T>> {
         return this.repository.findOne(id);
     }
 

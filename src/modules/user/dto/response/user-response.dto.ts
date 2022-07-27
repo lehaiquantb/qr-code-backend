@@ -1,7 +1,6 @@
 import { ResponseDto } from './../../../../common/base/dto.base';
 import { UserGender, UserStatus } from '../../user.constant';
 import { UserEntity } from '~user/entity/user.entity';
-import { OmitProperty } from '~common';
 
 export class UserResponseDto extends ResponseDto {
     id: number;
@@ -16,12 +15,12 @@ export class UserResponseDto extends ResponseDto {
     createdBy?: number;
     updatedBy?: number;
 
-    @OmitProperty()
-    private user?: UserEntity;
+    // @OmitProperty()
+    // private user?: UserEntity;
 
     constructor(user?: UserEntity) {
         super();
-        this.user = user;
+        // this.user = user;
         this.id = user.id;
         this.email = user.email;
         this.fullName = user.fullName;
