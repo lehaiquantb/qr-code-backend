@@ -130,20 +130,13 @@ export class UserService extends BaseService<UserEntity, UserRepository> {
         }
     }
 
-    async updateUser(
-        id: number,
-        user: UpdateUserDto,
-    ): Promise<UserResponseDto> {
+    async updateUser(id: number, user: UpdateUserDto): Promise<UserEntity> {
         try {
-            const currentUser = {
-                ...user,
-            };
-
-            await this.dbManager.update(UserEntity, id, currentUser);
-
-            const savedUser = await this.getUserById(id);
-
-            return savedUser;
+            const updatedUser = await this.repository.updateAndGet(
+                { id },
+                { ...user },
+            );
+            return updatedUser;
         } catch (error) {
             throw error;
         }

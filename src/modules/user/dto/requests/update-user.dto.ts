@@ -1,5 +1,14 @@
+import { UserStatus } from './../../user.constant';
 import * as Joi from 'joi';
 import { userFields, UserGender } from '../../user.constant';
+import {
+    Birthday,
+    JoiEnum,
+    JoiOptional,
+    JoiValidate,
+    PHONE_NUMBER_REGEX,
+    RequestBodyDto,
+} from '~common';
 
 export const UpdateUserSchema = Joi.object().keys({
     ...userFields,
@@ -9,10 +18,24 @@ export const UpdateUserSchema = Joi.object().keys({
         .label('auth.fields.gender'),
 });
 
-export class UpdateUserDto {
+export class UpdateUserDto extends RequestBodyDto {
+    @JoiValidate(Joi.string().max(255).min(1))
+    @JoiOptional()
     fullName: string;
+
+    @JoiValidate(Joi.string().regex(PHONE_NUMBER_REGEX))
+    @JoiOptional()
     phoneNumber: string;
+
+    @Birthday()
+    @JoiOptional()
     birthday: Date;
+
+    @JoiEnum(UserGender)
+    @JoiOptional()
     gender: UserGender;
-    roleId: number;
+
+    @JoiEnum(UserStatus)
+    @JoiOptional()
+    status: UserStatus;
 }

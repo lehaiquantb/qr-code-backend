@@ -27,21 +27,23 @@ const translateErrorValidator = async (
 ) => {
     const errorMessages = await Promise.all(
         errors.map(async (error: ValidationErrorItem) => {
-            const { type, context, path } = error;
+            const { type, context, path, message } = error;
             const key = ['validation', type].join('.');
             // translate label
             context.label = i18n.translate(context.label);
             // translate message
-            let message = '';
+            let messageTranslated = '';
             if (context.name) {
-                message = i18n.translate(context.name, { args: context });
+                messageTranslated = i18n.translate(context.name, {
+                    args: context,
+                });
             } else {
-                message = i18n.translate(key, { args: context });
+                messageTranslated = i18n.translate(key, { args: context });
             }
             return {
                 key: path.join('.'),
                 errorCode: HttpStatus.BAD_REQUEST,
-                message,
+                message: messageTranslated,
             };
         }),
     );

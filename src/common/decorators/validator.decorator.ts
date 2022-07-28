@@ -224,3 +224,7 @@ export function OrderBy(
         ],
     );
 }
+
+export function Birthday(): PropertyDecorator {
+    return applyDecorators(JoiValidate(Joi.date().max(Date.now())));
+}

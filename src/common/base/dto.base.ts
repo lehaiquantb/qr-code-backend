@@ -17,7 +17,7 @@ export class RequestDto {
 }
 
 export class QueryParamDto extends RequestDto {}
-
+export class RequestBodyDto extends RequestDto {}
 export class ResponseDto {
     constructor() {
         console.log('');

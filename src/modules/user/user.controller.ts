@@ -23,14 +23,10 @@ import {
 
 import { UserService } from './services/user.service';
 import { CreateUserDto } from './dto/requests/create-user.dto';
-import {
-    UpdateUserDto,
-    UpdateUserSchema,
-} from './dto/requests/update-user.dto';
+import { UpdateUserDto } from './dto/requests/update-user.dto';
 import { UserList } from './dto/response/api-response.dto';
 import { DatabaseService } from '../../common/modules/database/database.service';
 import { UserListQueryStringDto } from './dto/requests/list-user.dto';
-import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
 
 import {
     ErrorResponse,
@@ -142,49 +138,26 @@ export class UserController extends BaseController {
     }
 
     @Patch(':id')
+    @Auth([`${PERMISSION_ACTION.UPDATE}_${PERMISSION_RESOURCE.USER}`])
     async updateUser(
         @Request() req,
         @Param('id') id: number,
-        @Body(new JoiValidationPipe(UpdateUserSchema)) data: UpdateUserDto,
+        @Body() data: UpdateUserDto,
     ) {
         try {
+            console.log(data);
+
             const currentUser = await this.usersService.getUserById(id);
 
             if (!currentUser) {
-                const message = await this.i18n.translate(
-                    'user.common.error.user.notFound',
-                );
                 return new ErrorResponse(
                     HttpStatus.ITEM_NOT_FOUND,
-                    message,
-                    [],
+                    'user.common.error.user.notFound',
                 );
             }
-            const promises = [
-                this.databaseService.checkItemExist(
-                    RoleEntity,
-                    'id',
-                    data.roleId,
-                ),
-            ];
-            const [role] = await Promise.all(promises);
-
-            if (!role) {
-                const message = await this.i18n.translate(
-                    'role.common.error.role.notFound',
-                );
-                return new ErrorResponse(HttpStatus.BAD_REQUEST, message, [
-                    {
-                        key: 'roleId',
-                        errorCode: HttpStatus.ITEM_NOT_FOUND,
-                        message: message,
-                    },
-                ]);
-            }
-
             const savedUser = await this.usersService.updateUser(id, data);
 
-            return new SuccessResponse(savedUser);
+            return new SuccessResponse(new UserResponseDto(savedUser));
         } catch (error) {
             throw new InternalServerErrorException(error);
         }
@@ -198,12 +171,9 @@ export class UserController extends BaseController {
         try {
             const user = await this.usersService.getUserById(id);
             if (!user) {
-                const message = await this.i18n.translate(
-                    'user.common.error.user.notFound',
-                );
                 return new ErrorResponse(
                     HttpStatus.ITEM_NOT_FOUND,
-                    message,
+                    'user.common.error.user.notFound',
                     [],
                 );
             }
