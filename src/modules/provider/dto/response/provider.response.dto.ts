@@ -1,16 +1,26 @@
-import { CommonListResponse, OmitProperty, ResponseDto } from '~common';
+import { CommonListResponse, ResponseDto } from '~common';
 import { ProviderEntity } from '~provider/entity/provider.entity';
+import { ProviderStatus } from '~provider/provider.constant';
+import { UserResponseDto } from '~user/dto/response/user-response.dto';
 
 export class ProviderResponseDto extends ResponseDto {
     id: number;
-
-    @OmitProperty()
-    private provider?: ProviderEntity;
+    name: string;
+    description: string;
+    address: string;
+    licenseImageUrl: string;
+    status: ProviderStatus;
+    owner: UserResponseDto;
 
     constructor(provider?: ProviderEntity) {
         super();
-        this.provider = provider;
         this.id = provider?.id;
+        this.name = provider?.name;
+        this.description = provider?.description;
+        this.address = provider?.address;
+        this.licenseImageUrl = provider?.licenseImage?.url;
+        this.status = provider?.status;
+        this.owner = new UserResponseDto(provider?.owner);
     }
 }
 

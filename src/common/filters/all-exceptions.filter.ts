@@ -15,6 +15,7 @@ import { BaseExceptionFilter } from '@nestjs/core';
 import { uniqueId } from 'lodash';
 import { ValidationErrorItem } from 'joi';
 import { HttpStatus, LANGUAGES } from '~common';
+import { unwrapJoiMessage } from '~plugins';
 const getLanguage = (request: Request): string => {
     const lang = request?.headers['accept-language'];
     const supportedLanguages = Object.values(LANGUAGES) as string[];
@@ -28,18 +29,25 @@ const translateErrorValidator = async (
     const errorMessages = await Promise.all(
         errors.map(async (error: ValidationErrorItem) => {
             const { type, context, path, message } = error;
-            const key = ['validation', type].join('.');
-            // translate label
-            context.label = i18n.translate(context.label);
-            // translate message
             let messageTranslated = '';
-            if (context.name) {
-                messageTranslated = i18n.translate(context.name, {
-                    args: context,
-                });
+
+            const customMessage = unwrapJoiMessage(message);
+            if (customMessage) {
+                messageTranslated = customMessage;
             } else {
-                messageTranslated = i18n.translate(key, { args: context });
+                const key = ['validation', type].join('.');
+                // translate label
+                context.label = i18n.translate(context.label);
+                // translate message
+                if (context.name) {
+                    messageTranslated = i18n.translate(context.name, {
+                        args: context,
+                    });
+                } else {
+                    messageTranslated = i18n.translate(key, { args: context });
+                }
             }
+
             return {
                 key: path.join('.'),
                 errorCode: HttpStatus.BAD_REQUEST,

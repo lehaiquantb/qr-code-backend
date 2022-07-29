@@ -1,5 +1,5 @@
 import { UserStatus } from './../../user.constant';
-import * as Joi from 'joi';
+import { Joi } from '~plugins';
 import { userFields, UserGender } from '../../user.constant';
 import {
     Birthday,

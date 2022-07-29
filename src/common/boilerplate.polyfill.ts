@@ -1,4 +1,4 @@
-import { I18Key } from './../i18n/index';
+import { I18Key } from '~i18n';
 /* eslint-disable @typescript-eslint/naming-convention */
 import 'source-map-support/register';
 
@@ -17,9 +17,12 @@ import type { BaseEntity } from './entites/BaseEntity';
 import type { KeyOfType } from './types';
 import Joi from 'joi';
 import { ColumnOfEntity } from './constants';
+import { JoiMessage } from '~plugins';
+
 declare module 'joi' {
     interface AnySchema<TSchema = any> extends Joi.SchemaInternals {
         label(name: I18Key): this;
+        messages(messages: JoiMessage): this;
     }
 }
 

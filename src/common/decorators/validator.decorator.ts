@@ -3,7 +3,7 @@ import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger';
 import { applyDecorators } from '@nestjs/common';
 import type { ValidationOptions } from 'class-validator';
 import { registerDecorator } from 'class-validator';
-import * as Joi from 'joi';
+import Joi from 'joi';
 import {
     METADATA_KEY,
     MIN_PAGE,
@@ -17,6 +17,7 @@ import {
     DEFAULT_ORDER_DIRECTION,
     DEFAULT_ORDER_BY,
 } from '~common';
+import { JoiMessage } from '~plugins';
 export function IsPassword(
     validationOptions?: ValidationOptions,
 ): PropertyDecorator {
@@ -226,5 +227,15 @@ export function OrderBy(
 }
 
 export function Birthday(): PropertyDecorator {
-    return applyDecorators(JoiValidate(Joi.date().max(Date.now())));
+    return applyDecorators(
+        JoiValidate(
+            Joi.date()
+                .max(Date.now())
+                .messages(
+                    new JoiMessage({
+                        'date.max': 'birthday must be small current day',
+                    }),
+                ),
+        ),
+    );
 }
