@@ -172,11 +172,14 @@ export class AuthService extends BaseService<UserEntity, UserRepository> {
         });
     }
 
-    public async logout(user: UserEntity): Promise<boolean> {
+    public async logout(userId: number): Promise<boolean> {
         try {
             // delete old refresh token
-            await this.dbManager.delete(UserTokenEntity, { user });
-            return true;
+            if (userId) {
+                const result = await UserTokenEntity.delete({ userId });
+                return result.affected > 0;
+            }
+            return false;
         } catch (error) {
             throw error;
         }

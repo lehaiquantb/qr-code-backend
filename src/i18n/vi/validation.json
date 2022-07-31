@@ -45,7 +45,7 @@
     "array.sparse": "{label} không được là một mục mảng thưa thớt",
     "array.unique": "{label} chứa một giá trị trùng lặp",
     "date.base": "{label} phải là một ngày hợp lệ",
-    "date.format": "{label} phải {format} định dạng",
+    "date.format": "{label} phải có định dạng {format}",
     "date.greater": "{label} phải lớn hơn {limit}",
     "date.less": "{label} phải nhỏ hơn {limit}",
     "date.max": "{label} phải nhỏ hơn hoặc bằng {limit}",

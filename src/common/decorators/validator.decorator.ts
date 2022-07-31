@@ -1,9 +1,10 @@
-import { RequestDto, convertEnumToValues } from '~common';
+import { RequestDto, convertEnumToValues, PHONE_NUMBER_REGEX } from '~common';
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger';
 import { applyDecorators } from '@nestjs/common';
 import type { ValidationOptions } from 'class-validator';
 import { registerDecorator } from 'class-validator';
 import Joi from 'joi';
+import JoiDateExtension from '@joi/date';
 import {
     METADATA_KEY,
     MIN_PAGE,
@@ -16,8 +17,13 @@ import {
     ORDER_DIRECTION,
     DEFAULT_ORDER_DIRECTION,
     DEFAULT_ORDER_BY,
+    BIRTHDAY_MIN_DATE,
+    DATE_FORMAT,
 } from '~common';
 import { JoiMessage } from '~plugins';
+
+const JoiDate = Joi.extend(JoiDateExtension);
+
 export function IsPassword(
     validationOptions?: ValidationOptions,
 ): PropertyDecorator {
@@ -229,13 +235,19 @@ export function OrderBy(
 export function Birthday(): PropertyDecorator {
     return applyDecorators(
         JoiValidate(
-            Joi.date()
+            JoiDate.date()
+                .format(DATE_FORMAT.YYYY_MM_DD_HYPHEN)
+                .min(BIRTHDAY_MIN_DATE)
                 .max(Date.now())
                 .messages(
                     new JoiMessage({
-                        'date.max': 'birthday must be small current day',
+                        'date.max': 'Birthday must be smaller than current day',
                     }),
                 ),
         ),
     );
+}
+
+export function PhoneNumber(): PropertyDecorator {
+    return applyDecorators(JoiValidate(Joi.string().regex(PHONE_NUMBER_REGEX)));
 }

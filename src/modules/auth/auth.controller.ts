@@ -54,10 +54,11 @@ export class AuthController extends BaseController {
             }
             // check if user is active?
             if (user.status !== UserStatus.ACTIVE) {
-                const message = await this.i18n.translate(
+                return new ErrorResponse(
+                    HttpStatus.BAD_REQUEST,
                     'auth.errors.user.inActive',
+                    [],
                 );
-                return new ErrorResponse(HttpStatus.BAD_REQUEST, message, []);
             }
             // check password is correct?
             if (user.password) {
@@ -111,10 +112,13 @@ export class AuthController extends BaseController {
     }
 
     @Get('profile')
-    @Auth(['read_user'])
-    async profile(@Request() req: IRequest, @AuthUser() user: IAuthUser) {
+    @Auth()
+    async profile(@Request() req: IRequest, @AuthUser() user?: IAuthUser) {
         try {
-            const profile = await this.authService.profile(req.authUser?.id);
+            const profile =
+                await this.userRepository.getUserWithAuthInfoByEmail(
+                    user?.email,
+                );
             if (!profile) {
                 return new ErrorResponse(
                     HttpStatus.BAD_REQUEST,
@@ -128,36 +132,49 @@ export class AuthController extends BaseController {
     }
 
     @Patch('profile')
-    @Auth(['read_user'])
+    @Auth()
     async updateProfile(
         @Request() req: IRequest,
         @Body() body: UpdateProfileDto,
+        @AuthUser() authUser: IAuthUser,
     ) {
         try {
-            const profile = await this.authService.profile(req.authUser?.id);
+            const profile = await this.authService.profile(authUser?.id);
             if (!profile) {
-                const message = await this.i18n.translate(
+                return new ErrorResponse(
+                    HttpStatus.BAD_REQUEST,
                     'auth.errors.user.notFound',
+                    [],
                 );
-                return new ErrorResponse(HttpStatus.BAD_REQUEST, message, []);
             }
             const result = await this.authService.updateProfile(
                 body,
-                req.authUser?.id,
+                authUser?.id,
             );
-            return new SuccessResponse(
-                result as unknown as Record<string, unknown>,
-            );
+
+            if (result.affected > 0) {
+                const profile =
+                    await this.userRepository.getUserWithAuthInfoByEmail(
+                        authUser?.email,
+                    );
+                return new SuccessResponse(profile);
+            } else {
+                return new ErrorResponse(
+                    HttpStatus.BAD_REQUEST,
+                    'auth.errors.auth.updateProfileFail',
+                    [],
+                );
+            }
         } catch (error) {
             throw new InternalServerErrorException(error);
         }
     }
 
     @Post('logout')
-    @UseGuards(JwtGuard)
-    async logout(@Request() req) {
+    @Auth()
+    async logout(@Request() req, @AuthUser() authUser: IAuthUser) {
         try {
-            const result = await this.authService.logout(req.loginUser);
+            const result = await this.authService.logout(authUser?.id);
             return new SuccessResponse(result);
         } catch (error) {
             throw new InternalServerErrorException(error);

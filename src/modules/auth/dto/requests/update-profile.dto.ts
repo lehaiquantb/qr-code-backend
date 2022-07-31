@@ -8,9 +8,13 @@ import {
     PHONE_NUMBER_REGEX,
     DATE_FORMAT,
     INPUT_PHONE_MAX_LENGTH,
+    Birthday,
+    PhoneNumber,
+    JoiEnum,
+    JoiOptional,
 } from '~common';
 import { UserGender } from '../../../user/user.constant';
-import { JoiValidate } from '~common';
+import { JoiValidate, RequestBodyDto } from '~common';
 
 export const updateProfileSchema = Joi.object({
     fullName: Joi.string()
@@ -42,10 +46,20 @@ export const updateProfileSchema = Joi.object({
         .label('auth.fields.gender'),
 });
 
-export class UpdateProfileDto {
+export class UpdateProfileDto extends RequestBodyDto {
     @JoiValidate(Joi.string())
+    @JoiOptional()
     fullName: string;
+
+    @Birthday()
+    @JoiOptional()
     birthday: Date;
-    phoneNumber: string;
-    gender!: UserGender;
+
+    @PhoneNumber()
+    @JoiOptional()
+    phoneNumber?: string;
+
+    @JoiEnum(UserGender)
+    @JoiOptional()
+    gender?: UserGender;
 }
