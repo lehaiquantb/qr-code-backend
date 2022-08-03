@@ -83,6 +83,7 @@ export class UserController extends BaseController {
     }
 
     @Get()
+    @Auth(['readAll_user'])
     async getUsers(
         @Query()
         query: UserListQueryStringDto,
@@ -145,8 +146,6 @@ export class UserController extends BaseController {
         @Body() data: UpdateUserDto,
     ) {
         try {
-            console.log(data);
-
             const currentUser = await this.usersService.getUserById(id);
 
             if (!currentUser) {

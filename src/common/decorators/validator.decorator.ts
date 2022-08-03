@@ -199,7 +199,9 @@ export function Limit(): PropertyDecorator {
 
 export function SearchKeyword(): PropertyDecorator {
     return applyDecorators(
-        JoiOptional(Joi.string().max(MAX_LENGTH_SEARCH_KEYWORD).default('')),
+        JoiOptional(
+            Joi.string().max(MAX_LENGTH_SEARCH_KEYWORD).allow('').default(''),
+        ),
     );
 }
 

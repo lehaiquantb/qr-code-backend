@@ -48,7 +48,7 @@ export class AuthController extends BaseController {
 
             if (!user) {
                 return new ErrorResponse(
-                    HttpStatus.BAD_REQUEST,
+                    HttpStatus.ITEM_NOT_FOUND,
                     'auth.errors.user.notFound',
                 );
             }
@@ -65,12 +65,18 @@ export class AuthController extends BaseController {
                 const isCorrectPassword = await user.validatePassword(
                     data.password,
                 );
+
                 if (!isCorrectPassword) {
                     return new ErrorResponse(
                         HttpStatus.BAD_REQUEST,
                         'auth.errors.user.invalidPwd',
                     );
                 }
+            } else {
+                return new ErrorResponse(
+                    HttpStatus.BAD_REQUEST,
+                    'auth.errors.user.invalidPwd',
+                );
             }
 
             // every thing ok, return success data
@@ -79,6 +85,8 @@ export class AuthController extends BaseController {
                 accessToken,
                 refreshToken,
             } = await this.authService.login(user);
+
+            delete profile?.password;
             return new SuccessResponse({ profile, accessToken, refreshToken });
         } catch (error) {
             throw new InternalServerErrorException(error);
@@ -121,10 +129,13 @@ export class AuthController extends BaseController {
                 );
             if (!profile) {
                 return new ErrorResponse(
-                    HttpStatus.BAD_REQUEST,
+                    HttpStatus.ITEM_NOT_FOUND,
                     'auth.errors.user.notFound',
                 );
             }
+
+            delete profile?.password;
+
             return new SuccessResponse(profile);
         } catch (error) {
             throw new InternalServerErrorException(error);
@@ -142,7 +153,7 @@ export class AuthController extends BaseController {
             const profile = await this.authService.profile(authUser?.id);
             if (!profile) {
                 return new ErrorResponse(
-                    HttpStatus.BAD_REQUEST,
+                    HttpStatus.ITEM_NOT_FOUND,
                     'auth.errors.user.notFound',
                     [],
                 );
@@ -157,6 +168,8 @@ export class AuthController extends BaseController {
                     await this.userRepository.getUserWithAuthInfoByEmail(
                         authUser?.email,
                     );
+                delete profile?.password;
+
                 return new SuccessResponse(profile);
             } else {
                 return new ErrorResponse(

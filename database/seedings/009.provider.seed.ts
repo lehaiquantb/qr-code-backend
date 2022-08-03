@@ -10,6 +10,15 @@ dotenv.config();
 
 export let providerList: ParamsExtend<ProviderEntity>[] = [
     {
+        id: 5,
+        name: 'Admin Provider',
+        address: 'Việt Nam',
+        description: 'Cung cấp sản phẩm bởi admin hệ thống',
+        licenseImage: () => factoryExcute(FileEntity),
+        ownerId: 1,
+        status: ProviderStatus.ACCEPT,
+    },
+    {
         id: 1,
         name: 'Nông sản Phú Cường',
         address: 'Phố Minh Khai ,HBT, Hà Nội',

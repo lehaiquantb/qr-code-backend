@@ -29,10 +29,25 @@ export class SeedingUser_1720963593420 implements MigrationInterface {
                 status: UserStatus.ACTIVE,
                 gender: UserGender.MALE,
             }),
-            factoryExcute(UserEntity, { id: 3, gender: UserGender.FEMALE }),
-            factoryExcute(UserEntity, { id: 4, gender: UserGender.OTHER }),
+            factoryExcute(UserEntity, {
+                id: 3,
+                email: 'quanlh.provider@gmail.com',
+                password: genPassword('123456'),
+                fullName: 'Quan Le Provider',
+                phoneNumber: '0987654323',
+                status: UserStatus.ACTIVE,
+                gender: UserGender.MALE,
+            }),
+            factoryExcute(UserEntity, {
+                id: 4,
+                phoneNumber: '0923432423',
+                status: UserStatus.INACTIVE,
+                gender: UserGender.FEMALE,
+            }),
             factoryExcute(UserEntity, {
                 id: 5,
+                phoneNumber: '0923432423',
+                gender: UserGender.FEMALE,
                 status: UserStatus.WAITING_FOR_APPROVAL,
             }),
         ];

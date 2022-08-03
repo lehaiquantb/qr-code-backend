@@ -22,7 +22,7 @@ export class UserRepository extends BaseRepository<UserEntity> {
 
     async getUserWithAuthInfoByEmail(email: string): Promise<UserEntity> {
         const columns = [
-            { alias: 'user', columns: usersAttributes },
+            { alias: 'user', columns: [...usersAttributes, 'password'] },
             { alias: 'role', columns: ['id', 'name', 'description'] },
             { alias: 'permission', columns: ['id'] },
             {

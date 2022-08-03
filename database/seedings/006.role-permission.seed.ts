@@ -49,6 +49,9 @@ export class RolePermission_1720963593422 implements MigrationInterface {
                 factoryExcute(PermissionResourceEntity, {
                     resource: PERMISSION_RESOURCE.CATEGORY,
                 }),
+                factoryExcute(PermissionResourceEntity, {
+                    resource: PERMISSION_RESOURCE.PROVIDER,
+                }),
             ]);
 
         // const promises = [
@@ -73,7 +76,7 @@ export class RolePermission_1720963593422 implements MigrationInterface {
         //     }),
         // ];
 
-        const permissions = await Promise.all(
+        const permissionsAdmin = await Promise.all(
             permissionResources.map(async (permissionResource) => {
                 return factoryExcute(PermissionEntity, {
                     permissionAction,
@@ -82,8 +85,21 @@ export class RolePermission_1720963593422 implements MigrationInterface {
             }),
         );
 
-        await Promise.all(
-            permissions.map(async (permission) => {
+        const permissionsProvider = await Promise.all([
+            factoryExcute(PermissionEntity, {
+                permissionAction: () =>
+                    factoryExcute(PermissionActionEntity, {
+                        action: PERMISSION_ACTION.MANAGE_ALL,
+                    }),
+                permissionResource: () =>
+                    factoryExcute(PermissionResourceEntity, {
+                        resource: PERMISSION_RESOURCE.PRODUCT,
+                    }),
+            }),
+        ]);
+
+        await Promise.all([
+            ...permissionsAdmin.map(async (permission) => {
                 return factoryExcute(RolePermissionEntity, {
                     role: await factoryExcute(RoleEntity, {
                         name: ROLE_TYPE.ADMIN,
@@ -91,10 +107,18 @@ export class RolePermission_1720963593422 implements MigrationInterface {
                     permission,
                 });
             }),
-        );
+            ...permissionsProvider.map(async (permission) => {
+                return factoryExcute(RolePermissionEntity, {
+                    role: await factoryExcute(RoleEntity, {
+                        name: ROLE_TYPE.PROVIDER,
+                    }),
+                    permission,
+                });
+            }),
+        ]);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.manager.getRepository(TABLE_NAME.ROLE_PERMISSION).clear()
+        queryRunner.manager.getRepository(TABLE_NAME.ROLE_PERMISSION).clear();
     }
 }

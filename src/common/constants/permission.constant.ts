@@ -21,4 +21,5 @@ export enum PERMISSION_ACTION {
 export enum ROLE_TYPE {
     ADMIN = 'admin',
     MEMBER = 'member',
+    PROVIDER = 'provider',
 }

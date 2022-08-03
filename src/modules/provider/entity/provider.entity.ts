@@ -36,7 +36,7 @@ export class ProviderEntity extends BaseEntity {
     @JoinColumn({ name: 'licenseImageId' })
     licenseImage!: FileEntity;
 
-    @Column({ type: 'int', nullable: false })
+    @Column({ type: 'int', nullable: true })
     licenseImageId: number;
 
     @OneToOne(() => UserEntity)
