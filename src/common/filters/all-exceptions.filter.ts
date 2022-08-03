@@ -1,3 +1,4 @@
+import { translate } from '~i18n';
 import { ValidationException } from './../exceptions/validation.exception';
 import {
     Catch,
@@ -14,7 +15,14 @@ import { I18nRequestScopeService } from 'nestjs-i18n';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { uniqueId } from 'lodash';
 import { ValidationErrorItem } from 'joi';
-import { HttpStatus, LANGUAGES } from '~common';
+import {
+    HttpStatus,
+    LANGUAGES,
+    IErrorResponse,
+    IErrorDetail,
+    NotFoundException,
+    BadRequestException as CustomBadRequestException,
+} from '~common';
 import { unwrapJoiMessage } from '~plugins';
 const getLanguage = (request: Request): string => {
     const lang = request?.headers['accept-language'];
@@ -25,7 +33,7 @@ const getLanguage = (request: Request): string => {
 const translateErrorValidator = async (
     errors: ValidationErrorItem[],
     i18n: I18nRequestScopeService,
-) => {
+): Promise<IErrorDetail[]> => {
     const errorMessages = await Promise.all(
         errors.map(async (error: ValidationErrorItem) => {
             const { type, context, path, message } = error;
@@ -63,10 +71,10 @@ const handleBadRequestException = async (
     exception: BadRequestException,
     request: Request,
     i18n: I18nRequestScopeService,
-) => {
+): Promise<IErrorResponse> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = exception.getResponse() as any;
-    let errors = [];
+    let errors: IErrorDetail[] = [];
 
     if (Array.isArray(response.errors) && response?.errors.length > 0) {
         errors = await translateErrorValidator(response.errors, i18n);
@@ -83,7 +91,7 @@ const handleInternalErrorException = async (
     request: Request,
     logger: Logger,
     i18n: I18nRequestScopeService,
-) => {
+): Promise<IErrorResponse> => {
     const logId = `${Date.now()}${uniqueId()}`;
     const message = `System error with id = ${logId}: ${exception.message}`;
     // write detail log to trace bug
@@ -120,12 +128,12 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const exceptionResponse = exception.getResponse() as any;
         const status = exception.getStatus();
-        let res = {
+        let res: IErrorResponse = {
             code: exception.getStatus(),
             message: this.i18n.translate(`errors.${status}`, {
                 lang: getLanguage(request),
             }),
-            errors: exceptionResponse?.errors || [],
+            errors: exceptionResponse?.errors ?? [],
         };
 
         console.log(exceptionResponse);
@@ -135,6 +143,7 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
             request: request.body,
             exception,
         });
+
         if (exception instanceof InternalServerErrorException) {
             res = await handleInternalErrorException(
                 exception,
@@ -154,6 +163,15 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
                 request,
                 this.i18n,
             );
+        } else if (
+            exception instanceof NotFoundException ||
+            exception instanceof CustomBadRequestException
+        ) {
+            res = {
+                errors: [],
+                message: translate(exception.message),
+                code: status,
+            };
         }
         return response.status(status).json(res);
     }

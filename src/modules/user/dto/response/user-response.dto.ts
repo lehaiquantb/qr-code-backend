@@ -21,14 +21,14 @@ export class UserResponseDto extends ResponseDto {
     constructor(user?: UserEntity) {
         super();
         // this.user = user;
-        this.id = user.id;
-        this.email = user.email;
-        this.fullName = user.fullName;
-        this.birthday = user.birthday;
-        this.phoneNumber = user.phoneNumber;
-        this.gender = user.gender;
-        this.status = user.status;
-        this.createdAt = user.createdAt;
-        this.updatedAt = user.updatedAt;
+        this.id = user?.id;
+        this.email = user?.email;
+        this.fullName = user?.fullName;
+        this.birthday = user?.birthday;
+        this.phoneNumber = user?.phoneNumber;
+        this.gender = user?.gender;
+        this.status = user?.status;
+        this.createdAt = user?.createdAt;
+        this.updatedAt = user?.updatedAt;
     }
 }

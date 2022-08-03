@@ -1,6 +1,13 @@
 import { ProviderStatus } from './../provider.constant';
 import { TABLE_NAME } from '~database/constant';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+} from 'typeorm';
 import { BaseEntity } from '~common';
 import { ProviderQueryBuilder } from '~provider/provider.builder';
 import { ProductEntity } from '~product/entity/product.entity';
@@ -39,7 +46,7 @@ export class ProviderEntity extends BaseEntity {
     @Column({ type: 'int', nullable: true })
     licenseImageId: number;
 
-    @OneToOne(() => UserEntity)
+    @ManyToOne(() => UserEntity, (user) => user.providers)
     @JoinColumn({ name: 'ownerId' })
     owner!: UserEntity;
 

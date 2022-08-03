@@ -1,7 +1,7 @@
 import { PermissionEntity } from '~role/entity/permission.entity';
 import { UserEntity } from '~user/entity/user.entity';
 import { BaseRepository } from '~common';
-import { EntityRepository } from 'typeorm';
+import { EntityRepository, FindConditions } from 'typeorm';
 import { UserQueryBuilder } from './user.builder';
 import { RoleEntity } from '~role/entity/role.entity';
 import { RolePermissionEntity } from '~role/entity/role-permission.entity';
@@ -16,6 +16,11 @@ export class UserRepository extends BaseRepository<UserEntity> {
         return new UserQueryBuilder(this.createQueryBuilder(alias));
     }
 
+    async getDetailByFindCondition(
+        findCondition: FindConditions<UserEntity>,
+    ): Promise<UserEntity> {
+        return this.findOne(findCondition);
+    }
     constructor() {
         super();
     }

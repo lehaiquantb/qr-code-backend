@@ -19,14 +19,12 @@ import {
     SuccessResponse,
     DatabaseService,
     IRequest,
+    Auth,
 } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { ProviderService } from '~provider/services/provider.service';
 
-import {
-    ProviderResponseDto,
-    ProviderListResponseDto,
-} from '~provider/dto/response/provider.response.dto';
+import { ProviderResponseDto } from '~provider/dto/response/provider.response.dto';
 import { ProviderRepository } from '~provider/provider.repository';
 import {
     QueryListProviderDto,
@@ -46,9 +44,11 @@ export class ProviderController extends BaseController {
     }
 
     @Get(':id')
+    @Auth(['read_provider'])
     async getProvider(@Param('id', ParseIntPipe) id: number) {
         try {
-            const provider = await this.providerService.findById(id);
+            const provider =
+                await this.providerService.repository.getDetailById(id);
             if (!provider) {
                 return new ErrorResponse(
                     HttpStatus.ITEM_NOT_FOUND,
@@ -62,70 +62,82 @@ export class ProviderController extends BaseController {
     }
 
     @Get()
+    @Auth(['readAll_provider'])
     async getProviderList(
         @Query()
         query: QueryListProviderDto,
     ) {
         try {
-            const providerList: ProviderListResponseDto =
+            const providerResponse =
                 await this.providerService.queryProviderList(query);
-            return new SuccessResponse(providerList);
+            return new SuccessResponse(providerResponse);
         } catch (error) {
             throw new InternalServerErrorException(error);
         }
     }
 
     @Post()
+    @Auth(['create_provider'])
     async createProvider(
         @Request() req: IRequest,
         @Body() data: CreateProviderDto,
     ) {
         try {
-            const providerExist = await this.providerRepository.isExist({});
-            if (providerExist) {
-                return new ErrorResponse(
-                    HttpStatus.BAD_REQUEST,
-                    'provider.error.exist',
-                );
-            }
+            await this.providerService.checkImageAndOwnerExist(
+                data.licenseImageId,
+                data.ownerId,
+            );
 
             const insertedProvider =
                 await this.providerService.repository.insertAndGet(data);
 
-            return new SuccessResponse(
-                new ProviderResponseDto(insertedProvider),
-            );
+            if (insertedProvider) {
+                return new SuccessResponse(
+                    new ProviderResponseDto(insertedProvider),
+                );
+            } else return new ErrorResponse();
         } catch (error) {
-            throw new InternalServerErrorException(error);
+            this.handleError(error);
         }
     }
 
     @Patch(':id')
+    @Auth(['update_provider'])
     async updateProvider(
         @Param('id', ParseIntPipe) id: number,
         @Body()
         data: UpdateProviderDto,
     ) {
         try {
+            await this.providerService.checkImageAndOwnerExist(
+                data.licenseImageId,
+                data.ownerId,
+            );
+
             const providerExist = await this.providerRepository.isExist({ id });
             if (!providerExist) {
                 return new ErrorResponse(
-                    HttpStatus.BAD_REQUEST,
+                    HttpStatus.ITEM_NOT_FOUND,
                     'provider.error.notExist',
                 );
             }
 
-            const updatedProvider = await this.providerService.update(id, data);
+            const updatedProvider =
+                await this.providerService.repository.updateAndGet(
+                    { id },
+                    data,
+                );
 
             return new SuccessResponse(
                 new ProviderResponseDto(updatedProvider),
             );
         } catch (error) {
-            throw new InternalServerErrorException(error);
+            this.handleError(error);
         }
     }
 
     @Delete(':id')
+    @Auth(['delete_provider'])
     async deleteProvider(
         @Request() req: IRequest,
         @Param('id', ParseIntPipe) id: number,

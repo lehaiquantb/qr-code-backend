@@ -7,6 +7,7 @@ import { randomEnum } from '~common';
 const userFactory: FactoryDefine<UserEntity> = async () => {
     const user = new UserEntity();
     user.fullName = faker.name.firstName() + ' ' + faker.name.lastName();
+    user.phoneNumber = faker.phone.number('09########')
     user.email = faker.internet.email();
     user.password = faker.internet.password();
     user.status = UserStatus.ACTIVE;

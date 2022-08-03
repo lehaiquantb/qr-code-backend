@@ -253,3 +253,7 @@ export function Birthday(): PropertyDecorator {
 export function PhoneNumber(): PropertyDecorator {
     return applyDecorators(JoiValidate(Joi.string().regex(PHONE_NUMBER_REGEX)));
 }
+
+export function Id(): PropertyDecorator {
+    return applyDecorators(JoiValidate(Joi.number().min(1).positive()));
+}

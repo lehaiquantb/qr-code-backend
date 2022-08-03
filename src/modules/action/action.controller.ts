@@ -21,6 +21,7 @@ import {
     IRequest,
     AuthUser,
     IAuthUser,
+    Auth,
 } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { ActionService } from '~action/services/action.service';
@@ -101,6 +102,7 @@ export class ActionController extends BaseController {
     }
 
     @Patch('/action-user/:productId')
+    @Auth()
     async updateAction(
         @Param('productId', ParseIntPipe) productId: number,
         @Body()
@@ -108,13 +110,14 @@ export class ActionController extends BaseController {
         @AuthUser() authUser: IAuthUser,
     ) {
         try {
+            const userId = authUser?.id;
             const actionExist = await this.actionRepository.isExist({
-                userId: 2,
+                userId,
                 productId,
             });
             if (actionExist) {
                 const updatedAction = await this.actionRepository.updateAndGet(
-                    { userId: 2, productId },
+                    { userId, productId },
                     data,
                 );
                 return new SuccessResponse(
@@ -123,7 +126,7 @@ export class ActionController extends BaseController {
             } else {
                 const updatedAction = await this.actionRepository.insertAndGet({
                     productId,
-                    userId: 2,
+                    userId,
                     ...data,
                 });
                 return new SuccessResponse(

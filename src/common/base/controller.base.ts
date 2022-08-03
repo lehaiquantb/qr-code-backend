@@ -1,5 +1,10 @@
 import { I18Key } from './../../i18n/index';
-import { Controller, Inject } from '@nestjs/common';
+import {
+    Controller,
+    HttpException,
+    Inject,
+    InternalServerErrorException,
+} from '@nestjs/common';
 import { I18nRequestScopeService, TranslateOptions } from 'nestjs-i18n';
 
 @Controller()
@@ -13,5 +18,12 @@ export class BaseController {
 
     constructor() {
         console.log('');
+    }
+
+    handleError(error: Error) {
+        if (error instanceof HttpException) {
+            throw error;
+        }
+        throw new InternalServerErrorException(error);
     }
 }

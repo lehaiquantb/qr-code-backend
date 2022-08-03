@@ -18,16 +18,27 @@ export abstract class BaseRepository<T extends BaseEntity>
     }
 
     abstract builder(alias: string): SelectQueryBuilder<T>;
+    abstract getDetailByFindCondition(
+        findCondition: FindConditions<T>,
+    ): Promise<T>;
 
     async isExist(where: FindConditions<T>): Promise<boolean> {
         const count = await this.count(where);
         return count > 0;
     }
 
-    public async insertAndGet(data: QueryDeepPartialEntity<T>): Promise<T> {
+    async getDetailById(id: number): Promise<T> {
+        return await this.getDetailByFindCondition({ id } as any);
+    }
+
+    public async insertAndGet(
+        data: QueryDeepPartialEntity<T>,
+    ): Promise<Optional<T>> {
         const insertResult = await this.insert(data);
         const id = insertResult?.identifiers?.[0]?.id;
-        return await this.findOne(id);
+        if (id) {
+            return await this.getDetailById(id);
+        } else return undefined;
     }
 
     public async updateAndGet(
@@ -35,8 +46,8 @@ export abstract class BaseRepository<T extends BaseEntity>
         data: QueryDeepPartialEntity<T>,
     ): Promise<Optional<T>> {
         const updateResult = await this.update(f, data);
-
-        if (updateResult?.affected > 0) return await this.findOne(f);
+        if (updateResult?.affected > 0)
+            return await this.getDetailByFindCondition(f);
         else {
             return null;
         }

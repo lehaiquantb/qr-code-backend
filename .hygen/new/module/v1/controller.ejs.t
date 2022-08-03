@@ -93,7 +93,7 @@ export class <%= ClassName %>Controller extends BaseController {
             const <%= varName %>Exist = await this.<%= varName %>Repository.isExist({});
             if (<%= varName %>Exist) {
                 return new ErrorResponse(
-                    HttpStatus.BAD_REQUEST,
+                    HttpStatus.ITEM_ALREADY_EXIST,
                     '<%= varName %>.error.exist',
                 );
             }
@@ -117,7 +117,7 @@ export class <%= ClassName %>Controller extends BaseController {
             const <%= varName %>Exist = await this.<%= varName %>Repository.isExist({ id });
             if (!<%= varName %>Exist) {
                 return new ErrorResponse(
-                    HttpStatus.BAD_REQUEST,
+                    HttpStatus.ITEM_NOT_FOUND,
                     '<%= varName %>.error.notExist',
                 );
             }
@@ -139,7 +139,7 @@ export class <%= ClassName %>Controller extends BaseController {
             const <%= varName %>Exist = await this.<%= varName %>Repository.isExist({ id });
             if (!<%= varName %>Exist) {
                 return new ErrorResponse(
-                    HttpStatus.BAD_REQUEST,
+                    HttpStatus.ITEM_NOT_FOUND,
                     '<%= varName %>.error.notExist',
                 );
             }

@@ -5,6 +5,7 @@ import { factoryExcute, ParamsExtend } from '~database/factories';
 import { TABLE_NAME } from '~database/constant';
 import { FileEntity } from '~file/entity/file.entity';
 import { ProviderStatus } from '~provider/provider.constant';
+import { UserEntity } from '~user/entity/user.entity';
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ export let providerList: ParamsExtend<ProviderEntity>[] = [
         address: 'Việt Nam',
         description: 'Cung cấp sản phẩm bởi admin hệ thống',
         licenseImage: () => factoryExcute(FileEntity),
-        ownerId: 1,
+        owner: () => factoryExcute(UserEntity, { id: 1 }),
         status: ProviderStatus.ACCEPT,
     },
     {
@@ -24,7 +25,7 @@ export let providerList: ParamsExtend<ProviderEntity>[] = [
         address: 'Phố Minh Khai ,HBT, Hà Nội',
         description: 'Cung cấp nông sản cho khu vực HBT, Hà Nội',
         licenseImage: () => factoryExcute(FileEntity),
-        ownerId: 2,
+        owner: () => factoryExcute(UserEntity, { id: 3 }),
         status: ProviderStatus.ACCEPT,
     },
     {
@@ -33,7 +34,7 @@ export let providerList: ParamsExtend<ProviderEntity>[] = [
         address: 'Ba Đình, Hà Nội',
         description: 'Nhà xuất bản sách lập trình',
         licenseImage: () => factoryExcute(FileEntity),
-        ownerId: 2,
+        owner: () => factoryExcute(UserEntity, { id: 3 }),
         status: ProviderStatus.ACCEPT,
     },
     {
@@ -42,7 +43,7 @@ export let providerList: ParamsExtend<ProviderEntity>[] = [
         address: 'Số 2, Phường 15, quận Tân Bình, TP Hồ Chí Minh, Việt Nam',
         description: 'Công ty chuyên phân phối dầu thực vật khu vực phía nam',
         licenseImage: () => factoryExcute(FileEntity),
-        ownerId: 2,
+        owner: () => factoryExcute(UserEntity, { id: 3 }),
         status: ProviderStatus.ACCEPT,
     },
     {
@@ -51,7 +52,7 @@ export let providerList: ParamsExtend<ProviderEntity>[] = [
         address: 'Hà Nội, Việt Name',
         description: 'Công ty Cổ phần nước đóng chai Pepsi tại Việt Nam',
         licenseImage: () => factoryExcute(FileEntity),
-        ownerId: 2,
+        owner: () => factoryExcute(UserEntity, { id: 3 }),
         status: ProviderStatus.ACCEPT,
     },
 ];

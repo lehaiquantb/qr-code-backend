@@ -9,6 +9,7 @@ import { genPassword, KeyOfType, ResourceWithActions } from '~common';
 import { UserQueryBuilder } from '~user/user.builder';
 import { Exclude } from 'class-transformer';
 import { ActionEntity } from '~action/entity/action.entity';
+import { ProviderEntity } from '~provider/entity/provider.entity';
 
 const NAME = TABLE_NAME.USER;
 @Entity({ name: NAME })
@@ -49,6 +50,9 @@ export class UserEntity extends BaseEntity {
     @OneToMany(() => ActionEntity, (action) => action.user)
     actions!: ActionEntity[];
 
+    @OneToMany(() => ProviderEntity, (provider) => provider.owner)
+    providers: ProviderEntity;
+
     @BeforeInsert()
     @BeforeUpdate()
     hashPassword() {
@@ -58,6 +62,8 @@ export class UserEntity extends BaseEntity {
     }
 
     async validatePassword(password: string): Promise<boolean> {
+        console.log(genPassword(password));
+
         return await bcrypt.compare(password, this.password);
     }
 

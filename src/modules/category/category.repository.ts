@@ -1,4 +1,4 @@
-import { EntityRepository } from 'typeorm';
+import { EntityRepository, FindConditions } from 'typeorm';
 import { BaseRepository } from '~common';
 import { CategoryEntity } from '~category/entity/category.entity';
 import { CategoryQueryBuilder } from '~category/category.builder';
@@ -9,6 +9,11 @@ export class CategoryRepository extends BaseRepository<CategoryEntity> {
         return new CategoryQueryBuilder(this.createQueryBuilder(alias));
     }
 
+    async getDetailByFindCondition(
+        findCondition: FindConditions<CategoryEntity>,
+    ): Promise<CategoryEntity> {
+        return this.findOne(findCondition);
+    }
     constructor() {
         super();
     }
