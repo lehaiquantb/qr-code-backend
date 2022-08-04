@@ -21,7 +21,8 @@ export type IErrorResponse = ApiResponse<IErrorDetail[]>;
 export interface IMeta {
     total: number;
     limit: number;
-    lastOrderByValue?: string;
+    lastOrderByValue?: string | number;
+    lastOrderId?: number;
 }
 export class CommonListResponse<T> {
     items: T[];

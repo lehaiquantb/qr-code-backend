@@ -10,6 +10,7 @@ import {
     Query,
     ParseIntPipe,
     Request,
+    UnauthorizedException,
 } from '@nestjs/common';
 
 import {
@@ -35,18 +36,67 @@ import {
     QueryListProductDto,
     CreateProductDto,
     UpdateProductDto,
+    QueryListLazyLoadProductDto,
+    QueryListOwnerProductDto,
 } from '~product/dto/request/product.request.dto';
 import { ActionResponseDto } from '~action/dto/response/action.response.dto';
+import { ProviderService } from '~provider/services/provider.service';
 
 @Controller('product')
 @ApiTags('Product')
 export class ProductController extends BaseController {
     constructor(
         private readonly productService: ProductService,
+        private readonly providerService: ProviderService,
         private readonly databaseService: DatabaseService,
         private readonly productRepository: ProductRepository,
     ) {
         super();
+    }
+
+    @Get('/lazy')
+    async getProductListLazyLoad(
+        @Query()
+        query: QueryListLazyLoadProductDto,
+    ) {
+        try {
+            const productList: ProductListResponseDto =
+                await this.productService.queryProductListLazyLoad(query);
+            return new SuccessResponse(productList);
+        } catch (error) {
+            throw new InternalServerErrorException(error);
+        }
+    }
+
+    @Get('/owner/:providerId')
+    @Auth()
+    async getProductListOwner(
+        @Param('providerId', ParseIntPipe) providerId: number,
+        @Query()
+        query: QueryListOwnerProductDto,
+        @AuthUser() authUser: IAuthUser,
+    ) {
+        try {
+            // check if user own provider
+            const isOwner = await this.providerService.repository.isExist({
+                id: providerId,
+                ownerId: authUser.id,
+            });
+
+            if (!isOwner) {
+                throw new UnauthorizedException();
+            }
+
+            const newQuery: QueryListProductDto = {
+                ...query,
+                providerIds: [providerId],
+            };
+            const productList: ProductListResponseDto =
+                await this.productService.queryProductList(newQuery);
+            return new SuccessResponse(productList);
+        } catch (error) {
+            this.handleError(error);
+        }
     }
 
     @Get(':id')
@@ -74,7 +124,7 @@ export class ProductController extends BaseController {
         }
     }
 
-    @Get('scan/:qrCode')
+    @Get('/scan/:qrCode')
     @Auth([], { isPublic: true })
     async scanProductByQrCode(
         @Param('qrCode') qrCode: string,
@@ -103,6 +153,7 @@ export class ProductController extends BaseController {
     }
 
     @Get()
+    @Auth(['readAll_product'])
     async getProductList(
         @Query()
         query: QueryListProductDto,
@@ -117,6 +168,7 @@ export class ProductController extends BaseController {
     }
 
     @Post()
+    @Auth(['create_product'])
     async createProduct(
         @Request() req: IRequest,
         @Body() data: CreateProductDto,
@@ -140,6 +192,7 @@ export class ProductController extends BaseController {
     }
 
     @Patch(':id')
+    @Auth(['update_product'])
     async updateProduct(
         @Param('id', ParseIntPipe) id: number,
         @Body()
