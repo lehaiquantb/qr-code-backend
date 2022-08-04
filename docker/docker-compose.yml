@@ -15,6 +15,7 @@ services:
       MYSQL_PASSWORD: Quan@1999
     networks:
       - quanlh-network
+    command: --sql_mode=""
   # phpmyadmin
   phpmyadmin:
     depends_on:

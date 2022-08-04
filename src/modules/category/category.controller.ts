@@ -64,6 +64,7 @@ export class CategoryController extends BaseController {
     }
 
     @Get()
+    @Auth(['readAll_category'])
     async getCategoryList(
         @Query()
         query: QueryListCategoryDto,
@@ -78,12 +79,15 @@ export class CategoryController extends BaseController {
     }
 
     @Post()
+    @Auth(['create_category'])
     async createCategory(
         @Request() req: IRequest,
         @Body() data: CreateCategoryDto,
     ) {
         try {
-            const categoryExist = await this.categoryRepository.isExist({});
+            const categoryExist = await this.categoryRepository.isExist({
+                name: data.name,
+            });
             if (categoryExist) {
                 return new ErrorResponse(
                     HttpStatus.BAD_REQUEST,
@@ -103,6 +107,7 @@ export class CategoryController extends BaseController {
     }
 
     @Patch(':id')
+    @Auth(['update_category'])
     async updateCategory(
         @Param('id', ParseIntPipe) id: number,
         @Body()
@@ -117,7 +122,11 @@ export class CategoryController extends BaseController {
                 );
             }
 
-            const updatedCategory = await this.categoryService.update(id, data);
+            const updatedCategory =
+                await this.categoryService.repository.updateAndGet(
+                    { id },
+                    data,
+                );
 
             return new SuccessResponse(
                 new CategoryResponseDto(updatedCategory),

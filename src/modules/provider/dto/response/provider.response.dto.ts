@@ -11,9 +11,13 @@ export class ProviderResponseDto extends ResponseDto {
     licenseImageUrl: string;
     status: ProviderStatus;
     owner: UserResponseDto;
+    updatedAt: Date;
+    createdAt: Date;
 
     constructor(provider?: ProviderEntity) {
         super();
+        this.updatedAt = provider?.updatedAt;
+        this.createdAt = provider?.createdAt;
         this.id = provider?.id;
         this.name = provider?.name;
         this.description = provider?.description;

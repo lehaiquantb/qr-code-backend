@@ -25,8 +25,18 @@ export class CategoryService extends BaseService<
     async queryCategoryList(
         queryParam: QueryListCategoryDto,
     ): Promise<CategoryListResponseDto> {
-        const categoryEntities: CategoryEntity[] = [];
+        const qb = this.repository
+            .builder('category')
+            .search(['name', 'description'], queryParam.keyword)
+            .orderByColumn(queryParam.orderBy, queryParam.orderDirection)
+            .pagination(queryParam.page, queryParam.limit);
 
-        return new CategoryListResponseDto(categoryEntities);
+        const [items, totalItems] = await qb.getManyAndCount();
+        const res = new CategoryListResponseDto(items);
+        res.meta = {
+            total: totalItems,
+            limit: queryParam?.limit,
+        };
+        return res;
     }
 }
