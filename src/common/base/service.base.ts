@@ -4,11 +4,11 @@ import { I18nService } from 'nestjs-i18n';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EntityId } from 'typeorm/repository/EntityId';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, FindConditions } from 'typeorm';
 import { BaseEntity } from '../entites/BaseEntity';
 import { BaseRepository } from './repository.base';
 export interface IBaseService<T> {
-    index(): Promise<T[]>;
+    findAll(): Promise<T[]>;
 
     findById(id: EntityId): Promise<T>;
 
@@ -57,8 +57,8 @@ export class BaseService<T extends BaseEntity, R extends BaseRepository<T>>
     //     );
     // }
 
-    index(): Promise<T[]> {
-        return this.repository.find();
+    async findAll(conditions?: FindConditions<T>): Promise<T[]> {
+        return await this.repository.find(conditions);
     }
 
     findById(id: EntityId): Promise<Optional<T>> {

@@ -2,7 +2,7 @@ import { FindConditions, SelectQueryBuilder } from 'typeorm';
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { Repository as TypeormRepository } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { Optional } from '~common';
+import { Optional, ContextProvider } from '~common';
 import { BaseEntity } from '../entites/BaseEntity';
 
 interface IRepository<T extends BaseEntity> {
@@ -34,7 +34,11 @@ export abstract class BaseRepository<T extends BaseEntity>
     public async insertAndGet(
         data: QueryDeepPartialEntity<T>,
     ): Promise<Optional<T>> {
-        const insertResult = await this.insert(data);
+        const authUser = ContextProvider.getAuthUser();
+        const insertResult = await this.insert({
+            ...data,
+            createdBy: authUser?.id,
+        });
         const id = insertResult?.identifiers?.[0]?.id;
         if (id) {
             return await this.getDetailById(id);
@@ -45,7 +49,12 @@ export abstract class BaseRepository<T extends BaseEntity>
         f: FindConditions<T>,
         data: QueryDeepPartialEntity<T>,
     ): Promise<Optional<T>> {
-        const updateResult = await this.update(f, data);
+        const authUser = ContextProvider.getAuthUser();
+
+        const updateResult = await this.update(f, {
+            ...data,
+            updatedBy: authUser?.id,
+        });
         if (updateResult?.affected > 0)
             return await this.getDetailByFindCondition(f);
         else {

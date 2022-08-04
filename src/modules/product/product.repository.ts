@@ -8,7 +8,11 @@ export class ProductRepository extends BaseRepository<ProductEntity> {
     async getDetailByFindCondition(
         findCondition: FindConditions<ProductEntity>,
     ): Promise<ProductEntity> {
-        return this.findOne(findCondition);
+        const product = await this.builder('product')
+            .where(findCondition)
+            .queryDetail()
+            .getOneEntity();
+        return product;
     }
 
     builder(alias: string): ProductQueryBuilder {

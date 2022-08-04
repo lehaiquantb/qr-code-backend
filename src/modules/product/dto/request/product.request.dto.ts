@@ -11,6 +11,9 @@ import {
     Limit,
     Page,
     SearchKeyword,
+    JoiRequired,
+    INPUT_TEXT_MAX_LENGTH,
+    TEXTAREA_MAX_LENGTH,
 } from '~common';
 import * as Joi from 'joi';
 import { PRODUCT_ORDER_BY } from '~product/product.constant';
@@ -18,7 +21,56 @@ export const ProductSchema = {
     id: Joi.number(),
 };
 
-export class CreateProductDto extends RequestDto {}
+export class CreateProductDto extends RequestDto {
+    @JoiRequired(Joi.string().max(INPUT_TEXT_MAX_LENGTH))
+    qrCode: string;
+
+    @JoiRequired(Joi.string().max(INPUT_TEXT_MAX_LENGTH))
+    name: string;
+
+    @JoiRequired(Joi.number())
+    price: number;
+
+    @JoiRequired(Joi.string().max(TEXTAREA_MAX_LENGTH))
+    description: string;
+
+    @JoiOptional(Joi.boolean().default(false))
+    verified: boolean;
+
+    @JoiRequired()
+    @Id()
+    categoryId!: number;
+
+    @JoiRequired()
+    @Id()
+    imageId!: number;
+
+    @JoiRequired()
+    @Id()
+    providerId!: number;
+}
+
+export class UpdateProductDto extends RequestDto {
+    @JoiOptional(Joi.string().max(INPUT_TEXT_MAX_LENGTH))
+    name: string;
+
+    @JoiOptional(Joi.number())
+    price: number;
+
+    @JoiOptional(Joi.string().max(TEXTAREA_MAX_LENGTH))
+    description: string;
+
+    @JoiOptional(Joi.boolean().default(false))
+    verified: boolean;
+
+    @JoiOptional()
+    @Id()
+    categoryId?: number;
+
+    @JoiOptional()
+    @Id()
+    imageId?: number;
+}
 
 export class QueryProductDto extends QueryParamDto {}
 
@@ -88,6 +140,8 @@ export class QueryListOwnerProductDto extends QueryParamDto {
     @JoiArray(Joi.number(), Joi.array().default([]))
     @JoiOptional()
     categoryIds: number[];
-}
 
-export class UpdateProductDto extends RequestDto {}
+    @JoiArray(Joi.number(), Joi.array().default([]))
+    @JoiOptional()
+    providerIds?: number[];
+}

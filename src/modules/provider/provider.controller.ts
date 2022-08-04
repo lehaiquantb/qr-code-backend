@@ -20,6 +20,8 @@ import {
     DatabaseService,
     IRequest,
     Auth,
+    AuthUser,
+    IAuthUser,
 } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { ProviderService } from '~provider/services/provider.service';
@@ -41,6 +43,23 @@ export class ProviderController extends BaseController {
         private readonly providerRepository: ProviderRepository,
     ) {
         super();
+    }
+
+    @Get('/owner')
+    @Auth()
+    async getProviderListWithOwner(
+        @Query()
+        query: QueryListProviderDto,
+        @AuthUser() authUser: IAuthUser,
+    ) {
+        try {
+            query.ownerIds = [authUser.id];
+            const providerResponse =
+                await this.providerService.queryProviderList(query);
+            return new SuccessResponse(providerResponse);
+        } catch (error) {
+            throw new InternalServerErrorException(error);
+        }
     }
 
     @Get(':id')

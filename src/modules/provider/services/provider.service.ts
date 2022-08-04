@@ -47,8 +47,13 @@ export class ProviderService extends BaseService<
             )
             .search(['name', 'description'], queryParam.keyword)
             .orderByColumn(queryParam.orderBy, queryParam.orderDirection)
-            .whereIn('status', queryParam.statuses)
-            .pagination(queryParam.page, queryParam.limit);
+            .whereIn('status', queryParam.statuses);
+
+        if (queryParam.ownerIds.length > 0) {
+            qb.whereIn('ownerId', queryParam.ownerIds);
+        }
+
+        qb.pagination(queryParam.page, queryParam.limit);
 
         const [items, totalItems] = await qb.getManyAndCount();
         const res = new ProviderListResponseDto(items);

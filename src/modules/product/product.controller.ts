@@ -23,6 +23,7 @@ import {
     AuthUser,
     IAuthUser,
     Auth,
+    userIsAdministrator,
 } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { ProductService } from '~product/services/product.service';
@@ -54,6 +55,7 @@ export class ProductController extends BaseController {
         super();
     }
 
+    // api for app load list product
     @Get('/lazy')
     async getProductListLazyLoad(
         @Query()
@@ -68,28 +70,38 @@ export class ProductController extends BaseController {
         }
     }
 
-    @Get('/owner/:providerId')
-    @Auth()
+    @Get('/owner')
+    @Auth(['readAll_product'])
     async getProductListOwner(
-        @Param('providerId', ParseIntPipe) providerId: number,
         @Query()
         query: QueryListOwnerProductDto,
         @AuthUser() authUser: IAuthUser,
     ) {
         try {
             // check if user own provider
-            const isOwner = await this.providerService.repository.isExist({
-                id: providerId,
-                ownerId: authUser.id,
-            });
+            const providerId = query.providerIds?.[0];
+            let providerIds = [];
 
-            if (!isOwner) {
-                throw new UnauthorizedException();
+            if (providerId) {
+                providerIds = [providerId];
+                const isOwner = await this.providerService.repository.isExist({
+                    id: providerId,
+                    ownerId: authUser.id,
+                });
+
+                if (!isOwner) {
+                    throw new UnauthorizedException();
+                }
+            } else {
+                const providers = await this.providerService.findAll({
+                    ownerId: authUser.id,
+                });
+                providerIds = providers.map((p) => p.id);
             }
 
             const newQuery: QueryListProductDto = {
                 ...query,
-                providerIds: [providerId],
+                providerIds,
             };
             const productList: ProductListResponseDto =
                 await this.productService.queryProductList(newQuery);
@@ -170,16 +182,27 @@ export class ProductController extends BaseController {
     @Post()
     @Auth(['create_product'])
     async createProduct(
-        @Request() req: IRequest,
         @Body() data: CreateProductDto,
+        @AuthUser() authUser: IAuthUser,
     ) {
         try {
-            const productExist = await this.productRepository.isExist({});
+            const productExist = await this.productRepository.isExist({
+                qrCode: data?.qrCode,
+            });
             if (productExist) {
                 return new ErrorResponse(
-                    HttpStatus.BAD_REQUEST,
-                    'product.error.exist',
+                    HttpStatus.ITEM_ALREADY_EXIST,
+                    'product.error.dupplicateQrCode',
                 );
+            }
+
+            await this.productService.checkCategoryAndImageExist(
+                data.categoryId,
+                data.imageId,
+            );
+
+            if (!userIsAdministrator(authUser)) {
+                delete data.verified;
             }
 
             const insertedProduct =
@@ -187,7 +210,7 @@ export class ProductController extends BaseController {
 
             return new SuccessResponse(new ProductResponseDto(insertedProduct));
         } catch (error) {
-            throw new InternalServerErrorException(error);
+            this.handleError(error);
         }
     }
 
@@ -197,6 +220,7 @@ export class ProductController extends BaseController {
         @Param('id', ParseIntPipe) id: number,
         @Body()
         data: UpdateProductDto,
+        @AuthUser() authUser: IAuthUser,
     ) {
         try {
             const productExist = await this.productRepository.isExist({ id });
@@ -207,11 +231,21 @@ export class ProductController extends BaseController {
                 );
             }
 
-            const updatedProduct = await this.productService.update(id, data);
+            await this.productService.checkCategoryAndImageExist(
+                data.categoryId,
+                data.imageId,
+            );
+
+            if (!userIsAdministrator(authUser)) {
+                delete data.verified;
+            }
+
+            const updatedProduct =
+                await this.productService.repository.updateAndGet({ id }, data);
 
             return new SuccessResponse(new ProductResponseDto(updatedProduct));
         } catch (error) {
-            throw new InternalServerErrorException(error);
+            this.handleError(error);
         }
     }
 

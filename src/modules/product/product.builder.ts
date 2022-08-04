@@ -1,6 +1,7 @@
 import { QueryBuilder } from 'typeorm';
 import { ActionEntity } from '~action/entity/action.entity';
 import { BaseQueryBuilder } from '~common';
+import { ProviderEntity } from '~provider/entity/provider.entity';
 import { ProductEntity } from './entity/product.entity';
 
 export class ProductQueryBuilder extends BaseQueryBuilder<ProductEntity> {
@@ -19,6 +20,12 @@ export class ProductQueryBuilder extends BaseQueryBuilder<ProductEntity> {
     public queryDetail(): this {
         return this.leftJoinAndSelect('product.category', 'category')
             .leftJoinAndSelect('product.image', 'image')
+            .leftJoinAndMapOne(
+                'product.provider',
+                ProviderEntity,
+                'provider',
+                'provider.id = product.providerId',
+            )
             .leftJoinAndMapMany(
                 'product.actions',
                 ActionEntity,

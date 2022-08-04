@@ -1,4 +1,6 @@
+import { ROLE_TYPE } from '~common';
 import { camelCase, isArray, isPlainObject, mapKeys, snakeCase } from 'lodash';
+import { IAuthUser } from '~base/interface.base';
 export function generateHashToken(userId: number): string {
     const random = Math.floor(Math.random() * (10000 - 1000) + 1000);
     return `${userId}-${Date.now()}-${random}`;
@@ -45,4 +47,10 @@ export function parseToSnakeCase(data: any) {
     }
     parse(data);
     return JSON.parse(dataString);
+}
+
+export function userIsAdministrator(authUser: IAuthUser) {
+    const roles = authUser?.roles ?? [];
+
+    return !!roles.find((r) => r?.name === ROLE_TYPE.ADMIN);
 }

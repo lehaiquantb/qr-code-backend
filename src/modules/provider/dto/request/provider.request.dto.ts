@@ -66,6 +66,10 @@ export class QueryListProviderDto extends QueryParamDto {
         Joi.array().default(Object.values(ProviderStatus)),
     )
     statuses?: ProviderStatus[];
+
+    @JoiArray(Joi.number(), Joi.array().default([]))
+    @JoiOptional()
+    ownerIds?: number[];
 }
 
 export class UpdateProviderDto extends CreateProviderDto {}
