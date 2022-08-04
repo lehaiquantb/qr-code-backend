@@ -1,16 +1,20 @@
-import { CommonListResponse, OmitProperty, ResponseDto } from '~common';
+import { CommonListResponse, ResponseDto } from '~common';
 import { FileEntity } from '~file/entity/file.entity';
 
 export class FileResponseDto extends ResponseDto {
     id: number;
-
-    @OmitProperty()
-    private file?: FileEntity;
+    fileName: string;
+    url: string;
+    size: number;
+    mimeType: string;
 
     constructor(file?: FileEntity) {
         super();
-        this.file = file;
         this.id = file?.id;
+        this.fileName = file?.fileName;
+        this.url = file?.url;
+        this.size = file?.size;
+        this.mimeType = file?.mimeType;
     }
 }
 

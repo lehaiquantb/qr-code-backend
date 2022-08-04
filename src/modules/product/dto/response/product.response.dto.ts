@@ -3,6 +3,7 @@ import { ActionResponseDto } from '~action/dto/response/action.response.dto';
 import { CategoryResponseDto } from '~category/dto/response/category.response.dto';
 import { CommonListResponse, IMeta, ResponseDto } from '~common';
 import { ProductEntity } from '~product/entity/product.entity';
+import { FileResponseDto } from '~file/dto/response/file.response.dto';
 
 export class ProductResponseDto extends ResponseDto {
     id: number;
@@ -14,6 +15,7 @@ export class ProductResponseDto extends ResponseDto {
     description: string;
     verified: boolean;
     urlImage: string;
+    image: FileResponseDto;
     category: CategoryResponseDto;
     averageRate: number;
     actions: ActionResponseDto[];
@@ -33,6 +35,7 @@ export class ProductResponseDto extends ResponseDto {
         this.averageRate = product?.averageRate;
         this.category = new CategoryResponseDto(product?.category);
         this.provider = new ProviderResponseDto(product?.provider);
+        this.image = new FileResponseDto(product?.image);
         this.actions =
             product?.actions?.map((a) => new ActionResponseDto(a)) ?? [];
     }
