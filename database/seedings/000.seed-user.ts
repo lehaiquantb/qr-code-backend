@@ -14,7 +14,7 @@ export class SeedingUser_1720963593420 implements MigrationInterface {
             factoryExcute(UserEntity, {
                 id: 1,
                 email: 'quanlh.admin@gmail.com',
-                password: genPassword('123456'),
+                password: '123456',
                 fullName: 'Quan Le Admin',
                 phoneNumber: '0987654321',
                 status: UserStatus.ACTIVE,
@@ -23,7 +23,7 @@ export class SeedingUser_1720963593420 implements MigrationInterface {
             factoryExcute(UserEntity, {
                 id: 2,
                 email: 'quanlh.member@gmail.com',
-                password: genPassword('123456'),
+                password: '123456',
                 fullName: 'Quan Le Member',
                 phoneNumber: '0987654322',
                 status: UserStatus.ACTIVE,
@@ -32,7 +32,7 @@ export class SeedingUser_1720963593420 implements MigrationInterface {
             factoryExcute(UserEntity, {
                 id: 3,
                 email: 'quanlh.provider@gmail.com',
-                password: genPassword('123456'),
+                password: '123456',
                 fullName: 'Quan Le Provider',
                 phoneNumber: '0987654323',
                 status: UserStatus.ACTIVE,

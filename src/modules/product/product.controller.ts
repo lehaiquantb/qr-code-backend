@@ -5,11 +5,9 @@ import {
     Body,
     Patch,
     Param,
-    Delete,
     InternalServerErrorException,
     Query,
     ParseIntPipe,
-    Request,
     UnauthorizedException,
 } from '@nestjs/common';
 
@@ -18,8 +16,6 @@ import {
     BaseController,
     ErrorResponse,
     SuccessResponse,
-    DatabaseService,
-    IRequest,
     AuthUser,
     IAuthUser,
     Auth,
@@ -49,7 +45,6 @@ export class ProductController extends BaseController {
     constructor(
         private readonly productService: ProductService,
         private readonly providerService: ProviderService,
-        private readonly databaseService: DatabaseService,
         private readonly productRepository: ProductRepository,
     ) {
         super();
@@ -249,25 +244,25 @@ export class ProductController extends BaseController {
         }
     }
 
-    @Delete(':id')
-    async deleteProduct(
-        @Request() req: IRequest,
-        @Param('id', ParseIntPipe) id: number,
-    ) {
-        try {
-            const productExist = await this.productRepository.isExist({ id });
-            if (!productExist) {
-                return new ErrorResponse(
-                    HttpStatus.BAD_REQUEST,
-                    'product.error.notExist',
-                );
-            }
+    // @Delete(':id')
+    // async deleteProduct(
+    //     @Request() req: IRequest,
+    //     @Param('id', ParseIntPipe) id: number,
+    // ) {
+    //     try {
+    //         const productExist = await this.productRepository.isExist({ id });
+    //         if (!productExist) {
+    //             return new ErrorResponse(
+    //                 HttpStatus.BAD_REQUEST,
+    //                 'product.error.notExist',
+    //             );
+    //         }
 
-            const deleteResult = await this.productService.softDelete(id);
+    //         const deleteResult = await this.productService.softDelete(id);
 
-            return new SuccessResponse({ id }, 'product.success.delete');
-        } catch (error) {
-            throw new InternalServerErrorException(error);
-        }
-    }
+    //         return new SuccessResponse({ id }, 'product.success.delete');
+    //     } catch (error) {
+    //         throw new InternalServerErrorException(error);
+    //     }
+    // }
 }
