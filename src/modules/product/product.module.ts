@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { DatabaseService } from '~common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductService } from '~product/services/product.service';
 import { ProductController } from '~product/product.controller';
@@ -16,7 +15,7 @@ import { FileModule } from '~file/file.module';
         FileModule,
     ],
     controllers: [ProductController],
-    providers: [ProductService, DatabaseService],
+    providers: [ProductService],
     exports: [ProductService],
 })
 export class ProductModule {}

@@ -1,5 +1,6 @@
 import { CommonListResponse, ResponseDto } from '~common';
 import { ActionEntity } from '~action/entity/action.entity';
+import { UserResponseDto } from '~user/dto/response/user-response.dto';
 
 export class ActionResponseDto extends ResponseDto {
     id: number;
@@ -10,6 +11,7 @@ export class ActionResponseDto extends ResponseDto {
     comment: string;
     userId: number;
     productId: number;
+    user: UserResponseDto;
 
     constructor(action?: ActionEntity) {
         super();
@@ -21,6 +23,7 @@ export class ActionResponseDto extends ResponseDto {
         this.updatedAt = action?.updatedAt;
         this.userId = action?.userId;
         this.productId = action?.productId;
+        this.user = new UserResponseDto(action?.user);
     }
 }
 

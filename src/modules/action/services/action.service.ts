@@ -8,6 +8,7 @@ import { ActionEntity } from '~action/entity/action.entity';
 import { ActionRepository } from '~action/action.repository';
 import { ActionListResponseDto } from '~action/dto/response/action.response.dto';
 import _ from 'lodash';
+import { UserEntity } from '~user/entity/user.entity';
 
 @Injectable()
 export class ActionService extends BaseService<ActionEntity, ActionRepository> {
@@ -32,6 +33,12 @@ export class ActionService extends BaseService<ActionEntity, ActionRepository> {
         builder
             .orderByColumn('id', 'ASC')
             .greaterThan('id', queryParam.lastActionId)
+            .leftJoinAndMapOne(
+                'action.user',
+                UserEntity,
+                'user',
+                'action.userId = user.id',
+            )
             .limit(queryParam.limit);
         const actionEntities: ActionEntity[] = await builder.getManyEntity();
 

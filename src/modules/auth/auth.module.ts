@@ -1,40 +1,24 @@
 import {
-    Global,
+    forwardRef,
     MiddlewareConsumer,
     Module,
     NestModule,
     RequestMethod,
 } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './services/auth.service';
-import { JwtGuard } from '../../common/guards/jwt.guard';
 import { AuthController } from './auth.controller';
 import { RefreshTokenMiddleware } from './auth.middleware';
-import ConfigKey from '../../../src/common/config/config-key';
-import { ConfigService } from '@nestjs/config';
-import { DatabaseService } from 'src/common/modules/database/database.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from '~user/user.repository';
-
-@Global()
+import { UserModule } from '~user/user.module';
 @Module({
     imports: [
-        JwtModule.registerAsync({
-            inject: [ConfigService],
-            useFactory: (configService: ConfigService) => ({
-                secret: configService.get(
-                    ConfigKey.JWT_SECRET_ACCESS_TOKEN_KEY,
-                ),
-                signOptions: {
-                    expiresIn: configService.get(ConfigKey.TOKEN_EXPIRED_IN),
-                },
-            }),
-        }),
         TypeOrmModule.forFeature([UserRepository]),
+        forwardRef(() => UserModule),
     ],
-    providers: [AuthService, JwtGuard, DatabaseService],
+    providers: [AuthService],
     controllers: [AuthController],
-    exports: [AuthService, JwtModule, JwtGuard],
+    exports: [AuthService],
 })
 export class AuthModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {

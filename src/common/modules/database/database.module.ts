@@ -4,7 +4,7 @@ import { FileLogger } from 'typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import ConfigKey from '../../config/config-key';
 import { DatabaseConfig } from 'database/config';
-import { NODE_ENV } from '~common';
+import { NODE_ENV, DatabaseService } from '~common';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
 @Global()
@@ -51,7 +51,7 @@ import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOpti
             },
         }),
     ],
-    providers: [],
-    exports: [],
+    providers: [DatabaseService],
+    exports: [DatabaseService],
 })
 export class DatabaseModule {}

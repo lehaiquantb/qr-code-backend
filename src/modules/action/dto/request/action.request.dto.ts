@@ -29,7 +29,7 @@ export class QueryListActionDto extends QueryParamDto {
 }
 
 export class UpdateActionDto extends RequestDto {
-    @JoiValidate(Joi.number().min(0).max(5))
+    @JoiValidate(Joi.number().min(1).max(5).default(1))
     @JoiOptional()
     rate: number;
 

@@ -1,3 +1,4 @@
+import { RegisteredUserDto } from './dto/requests/registered.dto';
 import { UserRepository } from './../user/user.repository';
 import { Auth, AuthUser, BaseController, IAuthUser, IRequest } from '~common';
 import {
@@ -26,6 +27,7 @@ import {
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { HttpStatus } from '~common';
 import { ApiTags } from '@nestjs/swagger';
+import { UserService } from '~user/services/user.service';
 @ApiTags('auth')
 @Controller({
     path: 'auth',
@@ -34,8 +36,28 @@ export class AuthController extends BaseController {
     constructor(
         private readonly authService: AuthService,
         private readonly userRepository: UserRepository,
+        readonly userService: UserService,
     ) {
         super();
+    }
+
+    @Post('register')
+    async register(@Body() data: RegisteredUserDto) {
+        try {
+            // const user = await this
+            // // check if user exists?
+
+            // if (!user) {
+            //     return new ErrorResponse(
+            //         HttpStatus.ITEM_NOT_FOUND,
+            //         'auth.errors.user.notFound',
+            //     );
+            // }
+
+            return new SuccessResponse({});
+        } catch (error) {
+            throw new InternalServerErrorException(error);
+        }
     }
 
     @Post('login')
