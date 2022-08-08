@@ -1,6 +1,13 @@
 import { RegisteredUserDto } from './dto/requests/registered.dto';
 import { UserRepository } from './../user/user.repository';
-import { Auth, AuthUser, BaseController, IAuthUser, IRequest } from '~common';
+import {
+    Auth,
+    AuthUser,
+    BaseController,
+    genPassword,
+    IAuthUser,
+    IRequest,
+} from '~common';
 import {
     Body,
     Controller,
@@ -28,6 +35,7 @@ import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { HttpStatus } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserService } from '~user/services/user.service';
+import { UserResponseDto } from '~user/dto/response/user-response.dto';
 @ApiTags('auth')
 @Controller({
     path: 'auth',
@@ -44,17 +52,27 @@ export class AuthController extends BaseController {
     @Post('register')
     async register(@Body() data: RegisteredUserDto) {
         try {
-            // const user = await this
-            // // check if user exists?
+            const user = await this.userService.repository.isExist({
+                email: data.email,
+            });
+            // check if user exists?
+            if (user) {
+                return new ErrorResponse(
+                    HttpStatus.ITEM_ALREADY_EXIST,
+                    'auth.errors.user.emailIsExist',
+                );
+            }
 
-            // if (!user) {
-            //     return new ErrorResponse(
-            //         HttpStatus.ITEM_NOT_FOUND,
-            //         'auth.errors.user.notFound',
-            //     );
-            // }
+            const newUser = await this.userService.repository.insertAndGet({
+                email: data.email,
+                fullName: data.fullName,
+                password: genPassword(data.password),
+                phoneNumber: data.phoneNumber,
+                birthday: data.birthday,
+                gender: data.gender,
+            });
 
-            return new SuccessResponse({});
+            return new SuccessResponse(new UserResponseDto(newUser));
         } catch (error) {
             throw new InternalServerErrorException(error);
         }
