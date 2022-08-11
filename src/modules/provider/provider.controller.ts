@@ -1,3 +1,4 @@
+import { AuthenticatedUser } from '~common';
 import {
     Controller,
     Get,
@@ -10,6 +11,7 @@ import {
     Query,
     ParseIntPipe,
     Request,
+    UnauthorizedException,
 } from '@nestjs/common';
 
 import {
@@ -22,6 +24,7 @@ import {
     Auth,
     AuthUser,
     IAuthUser,
+    NotFoundException,
 } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { ProviderService } from '~provider/services/provider.service';
@@ -32,7 +35,10 @@ import {
     QueryListProviderDto,
     CreateProviderDto,
     UpdateProviderDto,
+    CreateProviderOwnerDto,
+    UpdateProviderOwnerDto,
 } from '~provider/dto/request/provider.request.dto';
+import { FileService } from '~file/services/file.service';
 
 @Controller('provider')
 @ApiTags('Provider')
@@ -41,6 +47,7 @@ export class ProviderController extends BaseController {
         private readonly providerService: ProviderService,
         private readonly databaseService: DatabaseService,
         private readonly providerRepository: ProviderRepository,
+        private readonly fileService: FileService,
     ) {
         super();
     }
@@ -95,13 +102,56 @@ export class ProviderController extends BaseController {
         }
     }
 
+    @Post('/owner')
+    @Auth()
+    async createProviderOwner(
+        @Request() req: IRequest,
+        @Body() data: CreateProviderOwnerDto,
+        @AuthUser() authUser: AuthenticatedUser,
+    ) {
+        try {
+            const licenseImageIdExist = this.fileService.checkExist({
+                id: data?.licenseImageId,
+            });
+            if (!licenseImageIdExist) {
+                throw new NotFoundException('file.error.notExist');
+            }
+
+            await this.providerService.checkImageAndOwnerExist(
+                data.licenseImageId,
+            );
+
+            const insertedProvider =
+                await this.providerService.repository.insertAndGet({
+                    ...data,
+                    ownerId: authUser.id,
+                });
+
+            if (insertedProvider) {
+                return new SuccessResponse(
+                    new ProviderResponseDto(insertedProvider),
+                );
+            } else return new ErrorResponse();
+        } catch (error) {
+            this.handleError(error);
+        }
+    }
+
     @Post()
     @Auth(['create_provider'])
     async createProvider(
         @Request() req: IRequest,
         @Body() data: CreateProviderDto,
+        @AuthUser() authUser: AuthenticatedUser,
     ) {
         try {
+            const licenseImageIdExist = this.fileService.checkExist({
+                id: data?.licenseImageId,
+            });
+            if (!licenseImageIdExist) {
+                throw new NotFoundException('file.error.notExist');
+            }
+
             await this.providerService.checkImageAndOwnerExist(
                 data.licenseImageId,
                 data.ownerId,
@@ -115,6 +165,49 @@ export class ProviderController extends BaseController {
                     new ProviderResponseDto(insertedProvider),
                 );
             } else return new ErrorResponse();
+        } catch (error) {
+            this.handleError(error);
+        }
+    }
+
+    @Patch('/owner/:id')
+    @Auth()
+    async updateProviderOwner(
+        @Param('id', ParseIntPipe) id: number,
+        @Body()
+        data: UpdateProviderOwnerDto,
+        @AuthUser() authUser: AuthenticatedUser,
+    ) {
+        try {
+            await this.providerService.checkImageAndOwnerExist(
+                data.licenseImageId,
+            );
+
+            const providerExist = await this.providerRepository.isExist({ id });
+            if (!providerExist) {
+                return new ErrorResponse(
+                    HttpStatus.ITEM_NOT_FOUND,
+                    'provider.error.notExist',
+                );
+            }
+
+            const userOwnProvider = await this.providerService.checkExist({
+                id,
+                ownerId: authUser.id,
+            });
+            if (!userOwnProvider) {
+                throw new UnauthorizedException();
+            }
+
+            const updatedProvider =
+                await this.providerService.repository.updateAndGet(
+                    { id },
+                    { ...data },
+                );
+
+            return new SuccessResponse(
+                new ProviderResponseDto(updatedProvider),
+            );
         } catch (error) {
             this.handleError(error);
         }

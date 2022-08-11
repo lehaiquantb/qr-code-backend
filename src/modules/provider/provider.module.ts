@@ -5,6 +5,7 @@ import { ProviderService } from '~provider/services/provider.service';
 import { ProviderController } from '~provider/provider.controller';
 import { ProviderRepository } from '~provider/provider.repository';
 import { FileRepository } from '~file/file.repository';
+import { FileModule } from '~file/file.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { FileRepository } from '~file/file.repository';
             UserRepository,
             FileRepository,
         ]),
+        FileModule,
     ],
     controllers: [ProviderController],
     providers: [ProviderService],

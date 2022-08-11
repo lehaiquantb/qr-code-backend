@@ -43,6 +43,24 @@ export class CreateProviderDto extends RequestBodyDto {
     ownerId?: number;
 }
 
+export class CreateProviderOwnerDto extends RequestBodyDto {
+    @JoiRequired(Joi.string().max(INPUT_TEXT_MAX_LENGTH))
+    name: string;
+
+    @JoiRequired(Joi.string().max(TEXTAREA_MAX_LENGTH))
+    address: string;
+
+    @JoiRequired(Joi.string().max(TEXTAREA_MAX_LENGTH))
+    description: string;
+
+    @JoiEnum(ProviderStatus)
+    status: ProviderStatus;
+
+    @JoiOptional()
+    @Id()
+    licenseImageId?: number;
+}
+
 export class QueryProviderDto extends QueryParamDto {}
 
 export class QueryListProviderDto extends QueryParamDto {
@@ -73,3 +91,5 @@ export class QueryListProviderDto extends QueryParamDto {
 }
 
 export class UpdateProviderDto extends CreateProviderDto {}
+
+export class UpdateProviderOwnerDto extends CreateProviderOwnerDto {}

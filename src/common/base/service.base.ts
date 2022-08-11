@@ -46,6 +46,10 @@ export class BaseService<T extends BaseEntity, R extends BaseRepository<T>>
         return ContextProvider.getAuthUser();
     }
 
+    async checkExist(where: FindConditions<T>): Promise<boolean> {
+        return await this.repository.isExist(where);
+    }
+
     // async onModuleInit() {
     //     // this.commonService = this.moduleRef.resolve(CommonService);
     //     const contextId = ContextIdFactory.create();

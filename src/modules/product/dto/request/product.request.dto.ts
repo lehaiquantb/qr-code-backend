@@ -22,7 +22,7 @@ export const ProductSchema = {
 };
 
 export class CreateProductDto extends RequestDto {
-    @JoiOptional(Joi.string().max(INPUT_TEXT_MAX_LENGTH))
+    @JoiOptional(Joi.string().max(INPUT_TEXT_MAX_LENGTH).allow(''))
     qrCode: string;
 
     @JoiRequired(Joi.string().max(INPUT_TEXT_MAX_LENGTH))
