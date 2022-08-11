@@ -181,6 +181,13 @@ export class ProductController extends BaseController {
         @AuthUser() authUser: IAuthUser,
     ) {
         try {
+            // generate qrCode
+            if (!data?.qrCode) {
+                const lastItem =
+                    await this.productService.repository.getLastItem();
+                data.qrCode = `${8900000000001 + lastItem.id}`;
+            }
+
             const productExist = await this.productRepository.isExist({
                 qrCode: data?.qrCode,
             });

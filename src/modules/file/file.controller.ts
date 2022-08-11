@@ -78,7 +78,9 @@ export class FileController extends BaseController {
     @Post()
     async createFile(@Request() req: IRequest, @Body() data: CreateFileDto) {
         try {
-            const fileExist = await this.fileRepository.isExist({});
+            const fileExist = await this.fileRepository.isExist({
+                url: data.url,
+            });
             if (fileExist) {
                 return new ErrorResponse(
                     HttpStatus.BAD_REQUEST,

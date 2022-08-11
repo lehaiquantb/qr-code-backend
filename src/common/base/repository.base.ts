@@ -1,8 +1,8 @@
-import { FindConditions, SelectQueryBuilder } from 'typeorm';
+import { FindConditions } from 'typeorm';
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { Repository as TypeormRepository } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { Optional, ContextProvider } from '~common';
+import { Optional, ContextProvider, BaseQueryBuilder } from '~common';
 import { BaseEntity } from '../entites/BaseEntity';
 
 interface IRepository<T extends BaseEntity> {
@@ -17,7 +17,11 @@ export abstract class BaseRepository<T extends BaseEntity>
         super();
     }
 
-    abstract builder(alias: string): SelectQueryBuilder<T>;
+    get tableName() {
+        return this.metadata.tableName;
+    }
+
+    abstract builder(alias: string): BaseQueryBuilder<T>;
     abstract getDetailByFindCondition(
         findCondition: FindConditions<T>,
     ): Promise<T>;
@@ -29,6 +33,13 @@ export abstract class BaseRepository<T extends BaseEntity>
 
     async getDetailById(id: number): Promise<T> {
         return await this.getDetailByFindCondition({ id } as any);
+    }
+
+    async getLastItem(): Promise<T> {
+        return await this.builder(this.tableName)
+            .orderByColumn('id', 'DESC')
+            .limit(1)
+            .getOneEntity();
     }
 
     public async insertAndGet(
