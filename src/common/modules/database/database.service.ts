@@ -6,7 +6,7 @@ import { EntityManager, EntityTarget, Not } from 'typeorm';
 export class DatabaseService {
     constructor(
         @InjectEntityManager()
-        private readonly dbManager: EntityManager,
+        readonly dbManager: EntityManager,
     ) {}
 
     async checkItemExist<Entity>(

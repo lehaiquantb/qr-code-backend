@@ -64,7 +64,7 @@ export class CategoryController extends BaseController {
     }
 
     @Get()
-    @Auth(['readAll_category'])
+    @Auth()
     async getCategoryList(
         @Query()
         query: QueryListCategoryDto,

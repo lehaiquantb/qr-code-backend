@@ -69,6 +69,31 @@ export class ProviderController extends BaseController {
         }
     }
 
+    @Get('owner/:id')
+    @Auth()
+    async getProviderOwner(
+        @Param('id', ParseIntPipe) id: number,
+        @AuthUser() authUser: AuthenticatedUser,
+    ) {
+        try {
+            //check owner
+            const provider =
+                await this.providerService.repository.getDetailByFindCondition({
+                    id,
+                    ownerId: authUser.id,
+                });
+            if (!provider) {
+                return new ErrorResponse(
+                    HttpStatus.ITEM_NOT_FOUND,
+                    'provider.error.notFound',
+                );
+            }
+            return new SuccessResponse(new ProviderResponseDto(provider));
+        } catch (error) {
+            throw new InternalServerErrorException(error);
+        }
+    }
+
     @Get(':id')
     @Auth(['read_provider'])
     async getProvider(@Param('id', ParseIntPipe) id: number) {

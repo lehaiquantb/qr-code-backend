@@ -1,9 +1,11 @@
+import { ROLE_TYPE } from './../../../../common/constants/permission.constant';
 import {
     Birthday,
     EMAIL_REGEX,
     INPUT_PHONE_MAX_LENGTH,
     INPUT_TEXT_MAX_LENGTH,
     JoiEnum,
+    JoiOptional,
     JoiRequired,
     JoiValidate,
     Password,
@@ -45,4 +47,11 @@ export class RegisteredUserDto extends RequestBodyDto {
     @JoiEnum(UserGender)
     @JoiRequired()
     gender?: UserGender;
+
+    @JoiEnum(
+        [ROLE_TYPE.MEMBER, ROLE_TYPE.PROVIDER],
+        Joi.string().default(ROLE_TYPE.MEMBER),
+    )
+    @JoiOptional()
+    role?: ROLE_TYPE;
 }

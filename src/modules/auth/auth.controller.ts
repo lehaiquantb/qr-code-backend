@@ -4,9 +4,11 @@ import {
     Auth,
     AuthUser,
     BaseController,
+    DatabaseService,
     genPassword,
     IAuthUser,
     IRequest,
+    ROLE_TYPE,
 } from '~common';
 import {
     Body,
@@ -36,6 +38,8 @@ import { HttpStatus } from '~common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserService } from '~user/services/user.service';
 import { UserResponseDto } from '~user/dto/response/user-response.dto';
+import { RoleService } from '~role/services/role.service';
+import { UserRoleEntity } from '~role/entity/user-role.entity';
 @ApiTags('auth')
 @Controller({
     path: 'auth',
@@ -45,6 +49,8 @@ export class AuthController extends BaseController {
         private readonly authService: AuthService,
         private readonly userRepository: UserRepository,
         readonly userService: UserService,
+        readonly roleService: RoleService,
+        readonly databaseService: DatabaseService,
     ) {
         super();
     }
@@ -72,6 +78,27 @@ export class AuthController extends BaseController {
                 gender: data.gender,
                 status: UserStatus.ACTIVE,
             });
+
+            //asign role
+            const roleMember = await this.roleService.repository.findOne({
+                where: { name: ROLE_TYPE.MEMBER },
+            });
+
+            await this.databaseService.dbManager.insert(UserRoleEntity, {
+                user: newUser,
+                role: roleMember,
+            });
+
+            if (data.role === ROLE_TYPE.PROVIDER) {
+                const roleProvider = await this.roleService.repository.findOne({
+                    where: { name: data.role },
+                });
+
+                await this.databaseService.dbManager.insert(UserRoleEntity, {
+                    user: newUser,
+                    role: roleProvider,
+                });
+            }
 
             return new SuccessResponse(new UserResponseDto(newUser));
         } catch (error) {

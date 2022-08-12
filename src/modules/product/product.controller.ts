@@ -82,6 +82,7 @@ export class ProductController extends BaseController {
                 const isOwner = await this.providerService.repository.isExist({
                     id: providerId,
                     ownerId: authUser.id,
+                    // status: ProviderStatus.ACCEPT,
                 });
 
                 if (!isOwner) {
@@ -90,8 +91,20 @@ export class ProductController extends BaseController {
             } else {
                 const providers = await this.providerService.findAll({
                     ownerId: authUser.id,
+                    // status: ProviderStatus.ACCEPT,
                 });
                 providerIds = providers.map((p) => p.id);
+
+                //note
+
+                if (providerIds?.length === 0) {
+                    return new SuccessResponse(
+                        new ProductListResponseDto([], {
+                            total: 0,
+                            limit: query.limit,
+                        }),
+                    );
+                }
             }
 
             const newQuery: QueryListProductDto = {

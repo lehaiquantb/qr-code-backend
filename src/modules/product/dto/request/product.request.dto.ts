@@ -70,6 +70,10 @@ export class UpdateProductDto extends RequestDto {
     @JoiOptional()
     @Id()
     imageId?: number;
+
+    @JoiRequired()
+    @Id()
+    providerId!: number;
 }
 
 export class QueryProductDto extends QueryParamDto {}

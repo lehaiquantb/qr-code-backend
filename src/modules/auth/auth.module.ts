@@ -11,10 +11,12 @@ import { RefreshTokenMiddleware } from './auth.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from '~user/user.repository';
 import { UserModule } from '~user/user.module';
+import { RoleModule } from '~role/role.module';
 @Module({
     imports: [
         TypeOrmModule.forFeature([UserRepository]),
         forwardRef(() => UserModule),
+        RoleModule,
     ],
     providers: [AuthService],
     controllers: [AuthController],
