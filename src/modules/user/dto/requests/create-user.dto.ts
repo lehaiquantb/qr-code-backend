@@ -1,6 +1,12 @@
 import { userFields, UserGender } from '../../user.constant';
 
-import { JoiEnum, JoiValidate, RequestDto } from '~common';
+import {
+    JoiEnum,
+    JoiOptional,
+    JoiValidate,
+    Password,
+    RequestDto,
+} from '~common';
 export class CreateUserDto extends RequestDto {
     @JoiValidate(userFields.email)
     email: string;
@@ -8,7 +14,8 @@ export class CreateUserDto extends RequestDto {
     @JoiValidate(userFields.fullName)
     fullName: string;
 
-    @JoiValidate(userFields.password)
+    @Password()
+    @JoiOptional()
     password: string;
 
     @JoiValidate(userFields.phoneNumber)

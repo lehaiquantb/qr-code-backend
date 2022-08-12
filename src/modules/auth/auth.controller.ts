@@ -70,6 +70,7 @@ export class AuthController extends BaseController {
                 phoneNumber: data.phoneNumber,
                 birthday: data.birthday,
                 gender: data.gender,
+                status: UserStatus.ACTIVE,
             });
 
             return new SuccessResponse(new UserResponseDto(newUser));

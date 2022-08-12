@@ -1,10 +1,11 @@
 import * as Joi from 'joi';
-import { RequestDto, JoiValidate } from '~common';
+import { RequestDto, JoiValidate, Password, JoiRequired } from '~common';
 
 export class LoginDto extends RequestDto {
     @JoiValidate(Joi.string().email().required().label('auth.fields.email'))
     readonly email: string;
 
-    @JoiValidate(Joi.string().required().label('auth.fields.password'))
+    @Password()
+    @JoiRequired()
     readonly password: string;
 }

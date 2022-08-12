@@ -19,6 +19,7 @@ import {
     DEFAULT_ORDER_BY,
     BIRTHDAY_MIN_DATE,
     DATE_FORMAT,
+    INPUT_TEXT_MAX_LENGTH,
 } from '~common';
 import { JoiMessage } from '~plugins';
 
@@ -201,6 +202,17 @@ export function SearchKeyword(): PropertyDecorator {
     return applyDecorators(
         JoiOptional(
             Joi.string().max(MAX_LENGTH_SEARCH_KEYWORD).allow('').default(''),
+        ),
+    );
+}
+
+export function Password(): PropertyDecorator {
+    return applyDecorators(
+        JoiValidate(
+            Joi.string()
+                .min(6)
+                .max(INPUT_TEXT_MAX_LENGTH)
+                .label('user.fields.password'),
         ),
     );
 }

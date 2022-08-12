@@ -6,6 +6,7 @@ import {
     JoiEnum,
     JoiRequired,
     JoiValidate,
+    Password,
     PHONE_NUMBER_REGEX,
     RequestBodyDto,
 } from '~common';
@@ -24,12 +25,8 @@ export class RegisteredUserDto extends RequestBodyDto {
     @JoiValidate(userFields.fullName)
     fullName: string;
 
-    @JoiRequired(
-        Joi.string()
-            .min(6)
-            .max(INPUT_TEXT_MAX_LENGTH)
-            .label('user.fields.password'),
-    )
+    @Password()
+    @JoiRequired()
     password: string;
 
     @JoiRequired(
