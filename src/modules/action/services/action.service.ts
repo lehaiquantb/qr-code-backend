@@ -31,8 +31,8 @@ export class ActionService extends BaseService<ActionEntity, ActionRepository> {
         const total = await builder.getCount();
 
         builder
-            .orderByColumn('id', 'ASC')
-            .greaterThan('id', queryParam.lastActionId)
+            .orderByColumn('id', 'DESC')
+            .lessThan('id', queryParam.lastActionId)
             .leftJoinAndMapOne(
                 'action.user',
                 UserEntity,

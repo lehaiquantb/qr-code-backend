@@ -6,6 +6,7 @@ import { ProductRepository } from '~product/product.repository';
 import { ProviderModule } from '~provider/provider.module';
 import { CategoryModule } from '~category/category.module';
 import { FileModule } from '~file/file.module';
+import { ActionModule } from '~action/action.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { FileModule } from '~file/file.module';
         ProviderModule,
         CategoryModule,
         FileModule,
+        ActionModule,
     ],
     controllers: [ProductController],
     providers: [ProductService],

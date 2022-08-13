@@ -38,6 +38,7 @@ import {
 } from '~product/dto/request/product.request.dto';
 import { ActionResponseDto } from '~action/dto/response/action.response.dto';
 import { ProviderService } from '~provider/services/provider.service';
+import { ActionService } from '~action/services/action.service';
 
 @Controller('product')
 @ApiTags('Product')
@@ -46,6 +47,7 @@ export class ProductController extends BaseController {
         private readonly productService: ProductService,
         private readonly providerService: ProviderService,
         private readonly productRepository: ProductRepository,
+        private readonly actionService: ActionService,
     ) {
         super();
     }
@@ -163,8 +165,14 @@ export class ProductController extends BaseController {
             }
 
             const response = new ProductResponseDto(product);
+            const currentActionOfUser =
+                await this.actionService.repository.getDetailByFindCondition({
+                    userId: authUser?.id,
+                    productId: product.id,
+                });
+
             response.currentActionOfUser = new ActionResponseDto(
-                product?.actions?.find((a) => a.userId === authUser?.id),
+                currentActionOfUser,
             );
             return new SuccessResponse(response);
         } catch (error) {
