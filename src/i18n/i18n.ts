@@ -17,10 +17,10 @@ export type ValidationKey = keyof typeof validation;
 /*eslint-disable-next-line @typescript-eslint/ban-types*/
 export type I18Key = RecursiveKeyOf<DefaultLocale> | String;
 
-// @ts-ignore
 type RecursiveKeyOf<TObj extends Record<string, any>> = {
     [TKey in keyof TObj & string]: TObj[TKey] extends Record<string, any>
-        ? `${TKey}` | `${TKey}.${RecursiveKeyOf<TObj[TKey]>}`
+        ? // @ts-ignore
+          `${TKey}` | `${TKey}.${RecursiveKeyOf<TObj[TKey]>}`
         : `${TKey}`;
 }[keyof TObj & string];
 
