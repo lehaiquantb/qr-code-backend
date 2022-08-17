@@ -39,7 +39,6 @@ services:
     command: yarn run start:debug
     ports:
         - 2022:2022
-        - 9229:9229
     networks:
         - quanlh-network
     volumes:
@@ -55,8 +54,7 @@ services:
         dockerfile: ./Dockerfile
     command: yarn run start:prod
     ports:
-        - 2022:2022
-        - 9229:9229
+        - 2023:2023
     networks:
         - quanlh-network
     volumes:
