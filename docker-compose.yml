@@ -45,22 +45,6 @@ services:
         - .:/usr/src/app
         - /usr/src/app/node_modules
     restart: unless-stopped
-  prod:
-    container_name: nestjs_api_prod
-    image: nestjs-api-prod:1.0.0
-    build:
-        context: .
-        target: production
-        dockerfile: ./Dockerfile
-    command: yarn run start:prod
-    ports:
-        - 2023:2023
-    networks:
-        - quanlh-network
-    volumes:
-        - .:/usr/src/app
-        - /usr/src/app/node_modules
-    restart: unless-stopped
 networks:
   quanlh-network:
 volumes:

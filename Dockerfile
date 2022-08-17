@@ -2,11 +2,11 @@ FROM node:16.17-alpine as development
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json ./
 
 RUN yarn add glob rimraf
 
-RUN yarn install --only=development
+RUN yarn install
 
 COPY . .
 
