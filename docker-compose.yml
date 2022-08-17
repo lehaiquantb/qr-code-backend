@@ -41,7 +41,7 @@ services:
         - 2022:2022
         - 9229:9229
     networks:
-        - nesjs-network
+        - quanlh-network
     volumes:
         - .:/usr/src/app
         - /usr/src/app/node_modules
@@ -58,7 +58,7 @@ services:
         - 2022:2022
         - 9229:9229
     networks:
-        - nesjs-network
+        - quanlh-network
     volumes:
         - .:/usr/src/app
         - /usr/src/app/node_modules
