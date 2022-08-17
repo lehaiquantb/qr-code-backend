@@ -1,3 +1,4 @@
+/* eslint-disable */
 import i18n from 'i18n-js';
 import en from './en';
 import vi from './vi';
@@ -16,6 +17,7 @@ export type ValidationKey = keyof typeof validation;
 /*eslint-disable-next-line @typescript-eslint/ban-types*/
 export type I18Key = RecursiveKeyOf<DefaultLocale> | String;
 
+// @ts-ignore
 type RecursiveKeyOf<TObj extends Record<string, any>> = {
     [TKey in keyof TObj & string]: TObj[TKey] extends Record<string, any>
         ? `${TKey}` | `${TKey}.${RecursiveKeyOf<TObj[TKey]>}`
