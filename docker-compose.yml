@@ -29,22 +29,6 @@ services:
       MYSQL_ROOT_PASSWORD: Quan@1999
     networks:
       - quanlh-network
-  dev:
-    container_name: nestjs_api_dev
-    image: nestjs-api-dev:1.0.0
-    build:
-        context: .
-        target: development
-        dockerfile: ./Dockerfile
-    command: yarn run start:dev
-    ports:
-        - 2022:2022
-    networks:
-        - quanlh-network
-    volumes:
-        - .:/usr/src/app
-        - /usr/src/app/node_modules
-    restart: unless-stopped
 networks:
   quanlh-network:
 volumes:
